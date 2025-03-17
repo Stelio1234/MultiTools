@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YT Downloader</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        input, select, button {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.2s ease;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: #2c2c2c;
+            color: #ffffff;
+        }
+
+        button {
+            background-color: #4caf50;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+
+        .error-message {
+            color: #ff4c4c;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none;
+            margin: 10px auto;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <input id="urlInput" type="text" placeholder="Enter YouTube link..." />
+    
+    <select id="qualitySelect">
+        <option value="highest">Highest Quality</option>
+        <option value="1080p">1080p</option>
+        <option value="720p">720p</option>
+        <option value="480p">480p</option>
+    </select>
+
+    <select id="formatSelect">
+        <option value="mp4">MP4</option>
+        <option value="mp3">MP3 (Audio Only)</option>
+    </select>
+
+    <button onclick="downloadVideo()">Download</button>
+
+    <!-- Loading spinner -->
+    <div id="loadingSpinner" class="loading-spinner"></div>
+
+    <!-- Error message -->
+    <div id="errorMessage" class="error-message"></div>
+</div>
+
+<script>
+       async function downloadVideo() {
+        const url = document.getElementById('urlInput').value;
+        const quality = document.getElementById('qualitySelect').value;
+        const format = document.getElementById('formatSelect').value;
+        const spinner = document.getElementById('loadingSpinner');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Reset previous errors
+        errorMessage.textContent = '';
+        if (!url) {
+            errorMessage.textContent = 'Please enter a valid URL.';
+            return;
+        }
+
+        // Show loading spinner
+        spinner.style.display = 'block';
+
+        try {
+            const response = await fetch(
+                'http://192.168.1.43:5000/download?url=' + encodeURIComponent(url) + '&quality=' + encodeURIComponent(quality) + '&format=' + encodeURIComponent(format)
+            );
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to download');
+            }
+
+            const blob = await response.blob();
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = format === 'mp3' ? 'audio.mp3' : 'video.mp4';
+            link.click();
+
+            alert('Download started successfully!');
+        } catch (error) {
+            errorMessage.textContent = error.message;
+        } finally {
+            // Hide loading spinner
+            spinner.style.display = 'none';
+        }
+    }
+</script>
+
+
+</body>
+</html>
