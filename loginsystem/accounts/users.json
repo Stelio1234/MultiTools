@@ -1,0 +1,16 @@
+
+{
+    "users": [
+      {
+        "username": "admin",
+        "password": "admin123",
+        "account_type": "admin"
+      },
+      {
+        "username": "user1",
+        "password": "user123",
+        "account_type": "user"
+      }
+    ]
+  }
+  
