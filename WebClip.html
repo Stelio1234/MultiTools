@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iOS Web Clip Generator</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        input, button, label {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.2s ease;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: #2c2c2c;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        button {
+            background-color: #4caf50;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+
+        .error-message {
+            color: #ff4c4c;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        .back-button {
+        padding: 12px 20px;
+        border-radius: 8px;
+        border: none;
+        background-color: #4caf50;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        width: 120px;
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        margin-top: 20px;
+        transition: all 0.2s ease;
+        animation: fadeInUp 1s ease-out;
+    }
+
+    /* Keyframe animation to make the button fade in and move up */
+    @keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .back-button:hover {
+        background-color: #45a049;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+    }
+        #preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            object-fit: cover;
+            background-color: #2c2c2c;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <input id="nameInput" type="text" placeholder="Enter Web Clip Name..." />
+    <input id="urlInput" type="text" placeholder="Enter Web Clip URL..." />
+
+    <!-- Icon upload -->
+    <input type="file" id="iconInput" accept="image/*" />
+    <img id="preview" alt="Icon Preview" />
+
+    <!-- Fullscreen Checkbox -->
+    <div class="checkbox-container">
+        <input type="checkbox" id="fullscreenCheckbox" />
+        <label for="fullscreenCheckbox">Enable Fullscreen</label>
+    </div>
+
+    <button onclick="generateWebClip()">Generate Web Clip</button>
+    
+    <!-- Download button -->
+    <a id="downloadLink" download="webclip.xml" style="display:none;">
+        <button>Download Web Clip</button>
+    </a>
+
+    <!-- Error message -->
+    <div id="errorMessage" class="error-message"></div>
+</div>
+
+<!-- Back button -->
+<button class="back-button" onclick="window.history.back()">← Back</button>
+
+<script>
+    let iconBase64 = "";
+
+    // Preview uploaded icon and convert to Base64
+    document.getElementById('iconInput').addEventListener('change', (event) => {
+        const file = event.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                iconBase64 = e.target.result;
+                const preview = document.getElementById('preview');
+                preview.src = iconBase64;
+                preview.style.display = 'block';
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+
+    function generateWebClip() {
+        const name = document.getElementById('nameInput').value;
+        const url = document.getElementById('urlInput').value;
+        const fullscreen = document.getElementById('fullscreenCheckbox').checked;
+        const errorMessage = document.getElementById('errorMessage');
+        const downloadLink = document.getElementById('downloadLink');
+
+        errorMessage.textContent = '';
+
+        if (!name || !url || !iconBase64) {
+            errorMessage.textContent = 'Please fill in all fields.';
+            return;
+        }
+
+        // Generate XML content with Base64 icon and fullscreen option
+        const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>${name}</string>
+    <key>URL</key>
+    <string>${url}</string>
+    <key>Icon</key>
+    <data>${iconBase64.split(',')[1]}</data>
+    <key>IsFullScreen</key>
+    <${fullscreen ? 'true' : 'false'}/>
+  </dict>
+</plist>`;
+
+        // Create a Blob and download link
+        const blob = new Blob([xmlContent], { type: 'application/xml' });
+        const urlObject = URL.createObjectURL(blob);
+        downloadLink.href = urlObject;
+        downloadLink.style.display = 'block';
+        downloadLink.click();
+
+        // Reset form
+        document.getElementById('nameInput').value = '';
+        document.getElementById('urlInput').value = '';
+        document.getElementById('iconInput').value = '';
+        document.getElementById('fullscreenCheckbox').checked = false;
+        iconBase64 = "";
+        document.getElementById('preview').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>

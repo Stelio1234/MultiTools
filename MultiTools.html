@@ -21,18 +21,26 @@
             flex-direction: column;
             gap: 20px;
             background-color: #1e1e1e;
-            padding: 40px;
+            padding: 130px;
             border-radius: 16px;
             box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
             width: 100%;
             max-width: 500px;
             text-align: center;
+            height: 100%;
         }
 
         h1 {
             font-size: 32px;
             font-weight: bold;
             color: #ffffff;
+            margin: 0; /* Removed margin to eliminate space */
+        }
+
+        p {
+            font-size: 18px;
+            color: #cccccc;
+            margin: 0; /* Removed margin to eliminate space */
         }
 
         .navbar {
@@ -97,11 +105,7 @@
 
 <div class="container">
     <h1>MultiTools</h1>
-    <div class="navbar">
-        <a href="YT Downloader\YT Downloader.html">YouTube Downloader</a>
-        <a href="TikTok Downloader\TikTok Downloader.html">TikTok Downloader</a>
-        <!-- Add more tools here -->
-    </div>
+    <p>The Site with many tools</p>
 
     <div class="tool-card">
         <h2>YouTube Downloader</h2>
@@ -115,7 +119,11 @@
         <button onclick="window.location.href='TikTok Downloader\\TikTok Downloader.html'">Go to TikTok Downloader</button>
     </div>
 
-    <!-- Add more tool cards here -->
+    <div class="tool-card">
+        <h2>IOS Web clip Generator</h2>
+        <p>Generates an IOS webclip.</p>
+        <button onclick="window.location.href='WebClip.html'">Go to Web Clip Generator</button>
+    </div>
 </div>
 
 </body>
