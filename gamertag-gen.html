@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gamer Tag Generator</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        input, button, select {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background-color: #2c2c2c;
+            color: #ffffff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+
+        .name-display {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .back-button {
+        padding: 12px 20px;
+        border-radius: 8px;
+        border: none;
+        background-color: #4caf50;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        width: 120px;
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        margin-top: 20px;
+        transition: all 0.2s ease;
+        animation: fadeInUp 1s ease-out;
+    }
+
+    /* Keyframe animation to make the button fade in and move up */
+    @keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .back-button:hover {
+        background-color: #45a049;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+    }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Gamer Tag Generator</h2>
+    <input type="text" id="inputName" placeholder="Enter your name or text..." />
+    
+    <select id="symbolSelect">
+        <option value="none">Choose a symbol</option>
+        <option value="_">_</option>
+        <option value="-">-</option>
+        <option value=".">.</option>
+        <option value="x">x</option>
+        <option value="@">@</option>
+    </select>
+    
+    <select id="numberSelect">
+        <option value="none">Choose a number option</option>
+        <option value="true">Add a random number</option>
+        <option value="false">No number</option>
+    </select>
+    
+    <button onclick="generateGamerTag()">Generate Gamer Tag</button>
+    <div id="gamerTag" class="name-display">Your generated gamer tag will appear here</div>
+</div>
+
+<button class="back-button" onclick="window.history.back()">← Back</button>
+
+<script>
+    function generateGamerTag() {
+        const userInput = document.getElementById('inputName').value.trim();
+        const symbol = document.getElementById('symbolSelect').value;
+        const addNumber = document.getElementById('numberSelect').value === "true";
+        
+        if (!userInput) {
+            document.getElementById('gamerTag').textContent = 'Please enter a name or text to generate a gamer tag.';
+            return;
+        }
+
+        let gamerTag = userInput;
+        
+        // Add symbol if selected
+        if (symbol !== 'none') {
+            gamerTag += symbol;
+        }
+        
+        // Add random number if selected
+        if (addNumber) {
+            const randomNumber = Math.floor(Math.random() * 1000); // Random number between 0 and 999
+            gamerTag += randomNumber;
+        }
+
+        document.getElementById('gamerTag').textContent = gamerTag;
+    }
+</script>
+
+</body>
+</html>
