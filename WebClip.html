@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>iOS Web Clip Generator</title>
     <style>
+        /* Your existing styles */
         body {
             background-color: #121212;
             color: #ffffff;
@@ -14,6 +15,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            flex-direction: column;
         }
 
         .container {
@@ -25,10 +27,10 @@
             border-radius: 16px;
             box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
         }
 
-        input, button, label {
+        input, button, label, textarea {
             padding: 12px;
             border-radius: 8px;
             border: none;
@@ -131,14 +133,59 @@
             height: 20px;
             cursor: pointer;
         }
+
+        /* Back Button Styling */
+        .back-button {
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            background-color: #4caf50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            width: 120px;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            margin-top: 20px;
+            transition: all 0.2s ease;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        /* Keyframe animation to make the button fade in and move up */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <input id="nameInput" type="text" placeholder="Enter Web Clip Name..." />
-    <input id="urlInput" type="text" placeholder="Enter Web Clip URL..." />
+    <!-- Payload Display Name -->
+    <input id="displayNameInput" type="text" placeholder="Enter Display Name..." />
+    
+    <!-- Link for Web Clip -->
+    <input id="linkInput" type="url" placeholder="Enter URL..." />
 
+    <!-- Payload Description -->
+    <textarea id="descriptionInput" placeholder="Enter Description..." rows="3"></textarea>
+
+    <!-- Payload Version -->
+    <input id="versionInput" type="number" placeholder="Enter Version Number..." value="1" />
+    
     <!-- Icon upload -->
     <input type="file" id="iconInput" accept="image/*" />
     <div id="preview-container">
@@ -146,11 +193,17 @@
         <span class="delete-icon" onclick="deleteIcon()">×</span>
     </div>
 
-    <!-- Fullscreen Checkbox -->
+    <!-- Removal Passcode -->
+    <input id="removalPasscode" type="text" placeholder="Enter Removal Passcode (Optional)" />
+
+    <!-- Removal Date -->
     <div class="checkbox-container">
-        <input type="checkbox" id="fullscreenCheckbox" />
-        <label for="fullscreenCheckbox">Enable Fullscreen</label>
+        <input type="checkbox" id="removalDateCheckbox" onclick="toggleRemovalDate()" />
+        <label for="removalDateCheckbox">Include Removal Date</label>
     </div>
+
+    <!-- Removal Date (Visible if checkbox is true) -->
+    <input id="removalDateInput" type="date" placeholder="Enter Removal Date..." style="display:none;"/>
 
     <button onclick="generateWebClip()">Generate Web Clip</button>
 
@@ -168,8 +221,12 @@
     <div id="errorMessage" class="error-message"></div>
 </div>
 
+<!-- Back Button -->
+<button class="back-button" onclick="window.history.back()">Back</button>
+
 <script>
     let iconBase64 = "";
+    let randomUUID = generateUUID();
 
     // Preview uploaded icon and convert to Base64
     document.getElementById('iconInput').addEventListener('change', (event) => {
@@ -200,15 +257,33 @@
         setTimeout(() => errorMessage.classList.remove('show'), 3000);
     }
 
+    function generateUUID() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0,
+                v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    function toggleRemovalDate() {
+        const removalDateInput = document.getElementById('removalDateInput');
+        const removalDateCheckbox = document.getElementById('removalDateCheckbox');
+        removalDateInput.style.display = removalDateCheckbox.checked ? 'block' : 'none';
+    }
+
     function generateWebClip() {
-        const name = document.getElementById('nameInput').value;
-        const url = document.getElementById('urlInput').value;
-        const fullscreen = document.getElementById('fullscreenCheckbox').checked;
+        const displayName = document.getElementById('displayNameInput').value;
+        const linkInput = document.getElementById('linkInput').value;
+        const description = document.getElementById('descriptionInput').value;
+        const version = document.getElementById('versionInput').value;
+        const removalPasscode = document.getElementById('removalPasscode').value;
+        const removalDateCheckbox = document.getElementById('removalDateCheckbox').checked;
+        const removalDate = document.getElementById('removalDateInput').value;
         const progress = document.getElementById('progress');
         const progressBar = document.getElementById('progressBar');
 
-        if (!name || !url || !iconBase64) {
-            showError('Please fill in all fields.');
+        if (!displayName || !linkInput || !iconBase64) {
+            showError('Please fill in all required fields.');
             return;
         }
 
@@ -218,30 +293,55 @@
         setTimeout(() => {
             progress.style.width = '100%';
 
-            // Generate mobileconfig file
+            // Generate mobileconfig file with custom payload
+            let removalDateContent = '';
+            if (removalDateCheckbox && removalDate) {
+                removalDateContent = `
+                <key>PayloadRemovalDate</key>
+                <date>${removalDate}</date>`;
+            }
+
             const content = `<?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
   <dict>
+    <key>PayloadContent</key>
+    <array>
+      <dict>
+        <key>URL</key>
+        <string>${linkInput}</string>
+        <key>Icon</key>
+        <data>${iconBase64.split(',')[1]}</data>
+        <key>PayloadDisplayName</key>
+        <string>${displayName}</string>
+        <key>PayloadDescription</key>
+        <string>${description}</string>
+        <key>PayloadVersion</key>
+        <integer>${version}</integer>
+        <key>PayloadRemovalPasscode</key>
+        <string>${removalPasscode}</string>
+        ${removalDateContent}
+      </dict>
+    </array>
     <key>PayloadType</key>
     <string>com.apple.webClip.managed</string>
-    <key>Label</key>
-    <string>${name}</string>
-    <key>URL</key>
-    <string>${url}</string>
-    <key>Icon</key>
-    <data>${iconBase64.split(',')[1]}</data>
-    <key>IsFullScreen</key>
-    <${fullscreen ? 'true' : 'false'}/>
+    <key>PayloadUUID</key>
+    <string>${randomUUID}</string>
+    <key>PayloadDisplayName</key>
+    <string>${displayName}</string>
+    <key>PayloadIdentifier</key>
+    <string>com.example.webclip.${randomUUID}</string>
+    <key>PayloadOrganization</key>
+    <string>Your Organization</string>
+    <key>PayloadRemovalDate</key>
+    <date>${removalDate || 'None'}</date>
   </dict>
 </plist>`;
 
             const blob = new Blob([content], { type: 'application/xml' });
-            const link = document.getElementById('downloadLink');
-            link.href = URL.createObjectURL(blob);
-            link.style.display = 'block';
-            link.click();
-
-            progressBar.style.display = 'none';
+            const downloadLink = document.getElementById('downloadLink');
+            const url = URL.createObjectURL(blob);
+            downloadLink.href = url;
+            downloadLink.style.display = 'inline-block';
         }, 1000);
     }
 </script>
