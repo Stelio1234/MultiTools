@@ -55,52 +55,68 @@
 
         .error-message {
             color: #ff4c4c;
-            margin-top: 8px;
             font-size: 14px;
-        }
-
-        .back-button {
-        padding: 12px 20px;
-        border-radius: 8px;
-        border: none;
-        background-color: #4caf50;
-        color: white;
-        font-size: 16px;
-        cursor: pointer;
-        width: 120px;
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        margin-top: 20px;
-        transition: all 0.2s ease;
-        animation: fadeInUp 1s ease-out;
-    }
-
-    /* Keyframe animation to make the button fade in and move up */
-    @keyframes fadeInUp {
-        0% {
             opacity: 0;
-            transform: translateY(30px);
+            transition: opacity 0.3s ease;
         }
-        100% {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
 
-    .back-button:hover {
-        background-color: #45a049;
-        transform: translateY(-2px);
-        box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-    }
-        #preview {
+        .error-message.show {
+            opacity: 1;
+        }
+
+        #preview-container {
+            position: relative;
+            display: inline-block;
             width: 80px;
             height: 80px;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        #preview {
+            width: 100%;
+            height: 100%;
             border-radius: 16px;
             object-fit: cover;
             background-color: #2c2c2c;
-            margin-bottom: 10px;
+        }
+
+        .delete-icon {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background-color: #ff4c4c;
+            color: #fff;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .delete-icon:hover {
+            background-color: #ff3333;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: #2c2c2c;
+            border-radius: 6px;
+            overflow: hidden;
             display: none;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #4caf50;
+            width: 0%;
+            transition: width 0.4s ease;
         }
 
         .checkbox-container {
@@ -125,7 +141,10 @@
 
     <!-- Icon upload -->
     <input type="file" id="iconInput" accept="image/*" />
-    <img id="preview" alt="Icon Preview" />
+    <div id="preview-container">
+        <img id="preview" alt="Icon Preview" />
+        <span class="delete-icon" onclick="deleteIcon()">×</span>
+    </div>
 
     <!-- Fullscreen Checkbox -->
     <div class="checkbox-container">
@@ -134,18 +153,20 @@
     </div>
 
     <button onclick="generateWebClip()">Generate Web Clip</button>
-    
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar">
+        <div class="progress" id="progress"></div>
+    </div>
+
     <!-- Download button -->
-    <a id="downloadLink" download="webclip.xml" style="display:none;">
+    <a id="downloadLink" download="webclip.mobileconfig" style="display:none;">
         <button>Download Web Clip</button>
     </a>
 
     <!-- Error message -->
     <div id="errorMessage" class="error-message"></div>
 </div>
-
-<!-- Back button -->
-<button class="back-button" onclick="window.history.back()">← Back</button>
 
 <script>
     let iconBase64 = "";
@@ -159,33 +180,50 @@
 
             reader.onload = function(e) {
                 iconBase64 = e.target.result;
-                const preview = document.getElementById('preview');
-                preview.src = iconBase64;
-                preview.style.display = 'block';
+                document.getElementById('preview').src = iconBase64;
+                document.getElementById('preview-container').style.display = 'block';
             };
 
             reader.readAsDataURL(file);
         }
     });
 
+    function deleteIcon() {
+        iconBase64 = "";
+        document.getElementById('preview-container').style.display = 'none';
+    }
+
+    function showError(message) {
+        const errorMessage = document.getElementById('errorMessage');
+        errorMessage.textContent = message;
+        errorMessage.classList.add('show');
+        setTimeout(() => errorMessage.classList.remove('show'), 3000);
+    }
+
     function generateWebClip() {
         const name = document.getElementById('nameInput').value;
         const url = document.getElementById('urlInput').value;
         const fullscreen = document.getElementById('fullscreenCheckbox').checked;
-        const errorMessage = document.getElementById('errorMessage');
-        const downloadLink = document.getElementById('downloadLink');
-
-        errorMessage.textContent = '';
+        const progress = document.getElementById('progress');
+        const progressBar = document.getElementById('progressBar');
 
         if (!name || !url || !iconBase64) {
-            errorMessage.textContent = 'Please fill in all fields.';
+            showError('Please fill in all fields.');
             return;
         }
 
-        // Generate XML content with Base64 icon and fullscreen option
-        const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
+        progressBar.style.display = 'block';
+        progress.style.width = '0%';
+
+        setTimeout(() => {
+            progress.style.width = '100%';
+
+            // Generate mobileconfig file
+            const content = `<?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
   <dict>
+    <key>PayloadType</key>
+    <string>com.apple.webClip.managed</string>
     <key>Label</key>
     <string>${name}</string>
     <key>URL</key>
@@ -197,20 +235,14 @@
   </dict>
 </plist>`;
 
-        // Create a Blob and download link
-        const blob = new Blob([xmlContent], { type: 'application/xml' });
-        const urlObject = URL.createObjectURL(blob);
-        downloadLink.href = urlObject;
-        downloadLink.style.display = 'block';
-        downloadLink.click();
+            const blob = new Blob([content], { type: 'application/xml' });
+            const link = document.getElementById('downloadLink');
+            link.href = URL.createObjectURL(blob);
+            link.style.display = 'block';
+            link.click();
 
-        // Reset form
-        document.getElementById('nameInput').value = '';
-        document.getElementById('urlInput').value = '';
-        document.getElementById('iconInput').value = '';
-        document.getElementById('fullscreenCheckbox').checked = false;
-        iconBase64 = "";
-        document.getElementById('preview').style.display = 'none';
+            progressBar.style.display = 'none';
+        }, 1000);
     }
 </script>
 

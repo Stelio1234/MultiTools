@@ -11,9 +11,12 @@
             font-family: Arial, Helvetica, sans-serif;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: center;    
             height: 100vh;
             margin: 0;
+        }
+        html {
+            height: 100%;
         }
 
         .container {
@@ -21,15 +24,23 @@
             flex-direction: column;
             gap: 20px;
             background-color: #1e1e1e;
-            padding: 130px;
+            padding: 200px;
             border-radius: 16px;
             box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
             width: 100%;
             max-width: 500px;
             text-align: center;
-            height: 600px; /* Adjust this value to make it longer */
-    }
-
+            height: 100%; /* Adjust this value to make it longer */
+            top: 1px
+        }
+        .leFadeInRight span { animation-name: leFadeInRight }
+            @keyframes leFadeInRight {
+                from {
+                    opacity: 0;
+                    transform: translateX(60px);
+                }
+                to { opacity: 1 }
+            }
 
         h1 {
             font-size: 32px;
@@ -129,6 +140,11 @@
         <h2>Gamertag Generator</h2>
         <p>Generates a Gamertag based off of a Name, Number, and Chacter. </p>
         <button onclick="window.location.href='gamertag-gen.html'">Go to Gamertag Generator</button>
+    </div>
+    <div class="tool-card">
+        <h2>Qr-Code Generator</h2>
+        <p>Lets you enter a link to turn into a qr code Generator.</p>
+        <button onclick="window.location.href='qr-code-gen.html'">Go to Qr-Code Generator</button>
     </div>
 </div>
 
