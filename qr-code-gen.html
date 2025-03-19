@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Qr-Code Generator</title>
-</head>
-<style>
 
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code Generator</title>
+
+    <style>
         body {
             background-color: #121212;
             color: #ffffff;
@@ -16,9 +16,10 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            flex-direction: column;
         }
 
-        .container {
+        .container-fluid {
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -27,9 +28,65 @@
             border-radius: 16px;
             box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
             width: 100%;
-            max-width: 400px;
+            max-width: 600px;
             text-align: center;
         }
+
+        .qr-code {
+            max-width: 200px;
+            margin: 10px;
+            background-color: #2c2c2c;
+            border-radius: 16px;
+            padding: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-horizontal {
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .control-label {
+            font-size: 16px;
+            color: #ffffff;
+            text-align: left;
+        }
+
+        .form-control {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background-color: #2c2c2c;
+            color: #ffffff;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            box-shadow: 0 0 4px 2px #4caf50;
+        }
+
+        .btn {
+            background-color: #4caf50;
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+
         .back-button {
             padding: 12px 20px;
             border-radius: 8px;
@@ -44,42 +101,6 @@
             right: 30px;
             margin-top: 20px;
             transition: all 0.2s ease;
-            animation: fadeInUp 1s ease-out;
-        }
-    
-
-        /* Keyframe animation to make the button fade in and move up */
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        input, button, select {
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            background-color: #2c2c2c;
-            color: #ffffff;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        button {
-            background-color: #4caf50;
-        }
-
-        button:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
         }
 
         .back-button:hover {
@@ -87,12 +108,63 @@
             transform: translateY(-2px);
             box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
         }
-</style>
+    </style>
+</head>
+
 <body>
-    <div class="container">
-        <h>This site is curently Unavalible</h>
-        <p>Please come back at a later time</p>
+
+    <div class="container-fluid">
+        <div class="text-center">
+            <!-- Initial Placeholder image that will change once content is entered -->
+            <img id="qr-code-img" src="https://chart.googleapis.com/chart?cht=qr&chl=Hello+World&chs=160x160&chld=L|0" class="qr-code img-thumbnail img-responsive" />
+        </div>
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="content">Content:</label>
+                <div class="col-sm-10">
+                    <input type="text" size="60" maxlength="60" class="form-control" id="content" placeholder="Enter content" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn" id="generate">Generate</button>
+                </div>
+            </div>
+        </div>
     </div>
-    <button class="back-button" onclick="window.history.back()">← Back</button>
+
+    <!-- Back Button -->
+    <button class="back-button" onclick="window.history.back()">Back</button>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <script>
+        // Function to HTML encode the text
+        function htmlEncode(value) {
+            return $('<div/>').text(value).html();
+        }
+
+        $(function () {
+            // Click handler for the "Generate" button
+            $('#generate').click(function () {
+                // Get the input content and encode it properly
+                var content = $('#content').val();
+                
+                if (content.trim() === "") {
+                    alert("Please enter some content!");
+                    return;
+                }
+
+                // Generate the QR code URL
+                var qrCodeURL = 'https://chart.googleapis.com/chart?cht=qr&chl=' + encodeURIComponent(content) + '&chs=160x160&chld=L|0';
+
+                // Update the QR code image source with the generated QR code
+                $('#qr-code-img').attr('src', qrCodeURL);
+            });
+        });
+    </script>
+
 </body>
+
 </html>
