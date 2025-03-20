@@ -78,40 +78,39 @@
                 transform: rotate(360deg);
             }
         }
+
         .back-button {
-        padding: 12px 20px;
-        border-radius: 8px;
-        border: none;
-        background-color: #4caf50;
-        color: white;
-        font-size: 16px;
-        cursor: pointer;
-        width: 120px;
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        margin-top: 20px;
-        transition: all 0.2s ease;
-        animation: fadeInUp 1s ease-out;
-    }
-
-    /* Keyframe animation to make the button fade in and move up */
-    @keyframes fadeInUp {
-        0% {
-            opacity: 0;
-            transform: translateY(30px);
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            background-color: #4caf50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            width: 120px;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            transition: all 0.2s ease;
+            animation: fadeInUp 1s ease-out;
         }
-        100% {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
 
-    .back-button:hover {
-        background-color: #45a049;
-        transform: translateY(-2px);
-        box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-    }
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -126,11 +125,6 @@
         <option value="480p">480p</option>
     </select>
 
-    <select id="formatSelect">
-        <option value="mp4">MP4</option>
-        <option value="mp3">MP3 (Audio Only)</option>
-    </select>
-
     <button onclick="downloadVideo()">Download</button>
 
     <!-- Loading spinner -->
@@ -139,13 +133,13 @@
     <!-- Error message -->
     <div id="errorMessage" class="error-message"></div>
 </div>
+
 <button class="back-button" onclick="window.history.back()">Back</button>
 
 <script>    
-       async function downloadVideo() {
+    async function downloadVideo() {
         const url = document.getElementById('urlInput').value;
         const quality = document.getElementById('qualitySelect').value;
-        const format = document.getElementById('formatSelect').value;
         const spinner = document.getElementById('loadingSpinner');
         const errorMessage = document.getElementById('errorMessage');
 
@@ -161,7 +155,8 @@
 
         try {
             const response = await fetch(
-                'http://192.168.1.43:5000/download?url=' + encodeURIComponent(url) + '&quality=' + encodeURIComponent(quality) + '&format=' + encodeURIComponent(format)
+                'https://151f-2a09-bac5-9e79-188c-00-272-10b.ngrok-free.app/download?url=' + 
+                encodeURIComponent(url) + '&quality=' + encodeURIComponent(quality)
             );
 
             if (!response.ok) {
@@ -172,7 +167,7 @@
             const blob = await response.blob();
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = format === 'mp3' ? 'audio.mp3' : 'video.mp4';
+            link.download = 'video.mp4';
             link.click();
 
             alert('Download started successfully!');
@@ -184,7 +179,6 @@
         }
     }
 </script>
-
 
 </body>
 </html>
