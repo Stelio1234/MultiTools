@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gamer Tag Generator</title>
+    <title>Advanced Gamer Tag Generator</title>
     <style>
         body {
             background-color: #121212;
@@ -19,14 +19,21 @@
         .container {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
             background-color: #1e1e1e;
             padding: 20px;
             border-radius: 16px;
             box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
             text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 24px;
+            color: #45a049;
         }
 
         input, button, select {
@@ -37,9 +44,13 @@
             color: #ffffff;
             font-size: 16px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             width: 100%;
             box-sizing: border-box;
+        }
+
+        input::placeholder {
+            color: #888;
         }
 
         button {
@@ -53,100 +64,166 @@
         }
 
         .name-display {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             margin-top: 20px;
+            color: #ffffff;
         }
 
         .back-button {
-        padding: 12px 20px;
-        border-radius: 8px;
-        border: none;
-        background-color: #4caf50;
-        color: white;
-        font-size: 16px;
-        cursor: pointer;
-        width: 120px;
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        margin-top: 20px;
-        transition: all 0.2s ease;
-        animation: fadeInUp 1s ease-out;
-    }
-
-    /* Keyframe animation to make the button fade in and move up */
-    @keyframes fadeInUp {
-        0% {
-            opacity: 0;
-            transform: translateY(30px);
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            background-color: #4caf50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            width: 120px;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            transition: all 0.2s ease;
+            animation: fadeInUp 1s ease-out;
         }
-        100% {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
 
-    .back-button:hover {
-        background-color: #45a049;
-        transform: translateY(-2px);
-        box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-    }
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+
+        .copy-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .copy-button:hover {
+            background-color: #4caf50;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Gamer Tag Generator</h2>
-    <input type="text" id="inputName" placeholder="Enter your name or text..." />
+    <h2>Advanced Gamer Tag Generator</h2>
+    <p>Answer a few questions to create a unique gamer tag!</p>
     
+    <label for="favoriteColor">What is your favorite color?</label>
+    <input type="text" id="favoriteColor" placeholder="e.g., Red, Blue" />
+
+    <label for="favoriteAnimal">What is your favorite animal?</label>
+    <input type="text" id="favoriteAnimal" placeholder="e.g., Tiger, Wolf" />
+
+    <label for="favoriteHobby">What is your favorite hobby?</label>
+    <input type="text" id="favoriteHobby" placeholder="e.g., Gaming, Painting" />
+
+    <label for="favoriteGame">What is your favorite game?</label>
+    <input type="text" id="favoriteGame" placeholder="e.g., Fortnite, GTA" />
+
+    <label for="symbolSelect">Choose a symbol for your tag:</label>
     <select id="symbolSelect">
-        <option value="none">Choose a symbol</option>
+        <option value="none">None</option>
         <option value="_">_</option>
         <option value="-">-</option>
         <option value=".">.</option>
         <option value="x">x</option>
         <option value="@">@</option>
-        <option value="">No Symbol</option>
     </select>
-    
-    <select id="numberSelect">
-        <option value="none">Choose a number option</option>
-        <option value="true">Add a random number</option>
-        <option value="false">No number</option>
-    </select>
-    
+
     <button onclick="generateGamerTag()">Generate Gamer Tag</button>
+
     <div id="gamerTag" class="name-display">Your generated gamer tag will appear here</div>
+
+    <button class="copy-button" id="copyButton" onclick="copyGamerTag()">Copy Gamer Tag</button>
 </div>
 
 <button class="back-button" onclick="window.history.back()">← Back</button>
 
 <script>
     function generateGamerTag() {
-        const userInput = document.getElementById('inputName').value.trim();
+        const favoriteColor = document.getElementById('favoriteColor').value.trim().toLowerCase();
+        const favoriteAnimal = document.getElementById('favoriteAnimal').value.trim().toLowerCase();
+        const favoriteHobby = document.getElementById('favoriteHobby').value.trim().toLowerCase();
+        const favoriteGame = document.getElementById('favoriteGame').value.trim().toLowerCase();
         const symbol = document.getElementById('symbolSelect').value;
-        const addNumber = document.getElementById('numberSelect').value === "true";
-        
-        if (!userInput) {
-            document.getElementById('gamerTag').textContent = 'Please enter a name or text to generate a gamer tag.';
+
+        if (!favoriteColor || !favoriteAnimal || !favoriteHobby || !favoriteGame) {
+            document.getElementById('gamerTag').textContent = 'Please fill in all fields to generate a gamer tag!';
             return;
         }
 
-        let gamerTag = userInput;
-        
-        // Add symbol if selected
-        if (symbol !== 'none') {
-            gamerTag += symbol;
+        // Related words for each category
+        const colorSynonyms = {
+            red: ['crimson', 'scarlet', 'ruby', 'cherry'],
+            blue: ['azure', 'navy', 'cobalt', 'sky'],
+            green: ['emerald', 'forest', 'lime', 'mint'],
+            yellow: ['golden', 'lemon', 'sun', 'dandelion']
+        };
+
+        const animalSynonyms = {
+            tiger: ['puma', 'lion', 'cheetah', 'jaguar'],
+            wolf: ['fox', 'coyote', 'husky', 'beast'],
+            eagle: ['hawk', 'falcon', 'vulture', 'condor'],
+            dragon: ['wyvern', 'serpent', 'reptile', 'tornado']
+        };
+
+        // Function to generate a random word from a set of related words
+        function getRelatedWords(category, word) {
+            const synonyms = category[word] || [word];
+            return synonyms[Math.floor(Math.random() * synonyms.length)];
         }
-        
-        // Add random number if selected
-        if (addNumber) {
-            const randomNumber = Math.floor(Math.random() * 1000); // Random number between 0 and 999
-            gamerTag += randomNumber;
+
+        // Choose random related words
+        const randomColor = getRelatedWords(colorSynonyms, favoriteColor);
+        const randomAnimal = getRelatedWords(animalSynonyms, favoriteAnimal);
+
+        // Combine words with the option to add a symbol
+        let gamerTag = randomColor + (symbol !== 'none' ? symbol : '') + randomAnimal;
+
+        // Add a random number between 100 and 999
+        const randomNumber = Math.floor(Math.random() * 1000);
+        gamerTag += randomNumber;
+
+        // Ensure the tag is between 12-15 characters long
+        if (gamerTag.length > 15) {
+            gamerTag = gamerTag.slice(0, 15);
         }
 
         document.getElementById('gamerTag').textContent = gamerTag;
+    }
+
+    function copyGamerTag() {
+        const gamerTag = document.getElementById('gamerTag').textContent;
+
+        if (gamerTag === 'Your generated gamer tag will appear here') {
+            alert("Please generate a gamer tag first!");
+            return;
+        }
+
+        navigator.clipboard.writeText(gamerTag).then(() => {
+            alert('Gamer Tag copied to clipboard!');
+        }).catch(err => {
+            alert('Failed to copy: ' + err);
+        });
     }
 </script>
 
