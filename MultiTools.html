@@ -5,18 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Multi Tools Hub</title>
     <style>
-        body {
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden; /* Prevents horizontal scrolling */
             background-color: #121212;
-            color: #ffffff;
             font-family: Arial, Helvetica, sans-serif;
             display: flex;
             justify-content: center;
-            align-items: center;    
-            height: 100%;
-            margin: 0;
-        }
-        html {
-            height: 100%;
+            align-items: center;
         }
 
         .container {
@@ -24,34 +27,24 @@
             flex-direction: column;
             gap: 20px;
             background-color: #1e1e1e;
-            padding: 200px;
+            padding: 50px;
             border-radius: 16px;
             box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
             width: 100%;
             max-width: 500px;
             text-align: center;
-            height: 200%; /* Adjust this value to make it longer */
+            min-height: 100vh; /* Makes sure it's at least the height of the viewport */
         }
-        .leFadeInRight span { animation-name: leFadeInRight }
-            @keyframes leFadeInRight {
-                from {
-                    opacity: 0;
-                    transform: translateX(60px);
-                }
-                to { opacity: 1 }
-            }
 
         h1 {
             font-size: 32px;
             font-weight: bold;
             color: #ffffff;
-            margin: 0; /* Removed margin to eliminate space */
         }
 
         p {
             font-size: 18px;
             color: #cccccc;
-            margin: 0; /* Removed margin to eliminate space */
         }
 
         .navbar {
@@ -121,29 +114,31 @@
     <div class="tool-card">
         <h2>YouTube Downloader</h2>
         <p>Download YouTube videos with ease in various qualities and formats.</p>
-        <button onclick="window.location.href='YT Downloader\\YT Downloader.html'">Go to YouTube Downloader</button>
+        <button onclick="window.location.href='YT Downloader/YT Downloader.html'">Go to YouTube Downloader</button>
     </div>
 
     <div class="tool-card">
         <h2>TikTok Downloader</h2>
         <p>Download TikTok videos without watermarks.</p>
-        <button onclick="window.location.href='TikTok Downloader\\TikTok Downloader.html'">Go to TikTok Downloader</button>
+        <button onclick="window.location.href='TikTok Downloader/TikTok Downloader.html'">Go to TikTok Downloader</button>
     </div>
 
     <div class="tool-card">
-        <h2>IOS Web clip Generator</h2>
-        <p>Generates an IOS webclip.</p>
+        <h2>IOS Web Clip Generator</h2>
+        <p>Generates an iOS webclip.</p>
         <button onclick="window.location.href='WebClip.html'">Go to Web Clip Generator</button>
     </div>
+
     <div class="tool-card">
         <h2>Gamertag Generator</h2>
-        <p>Generates a Gamertag based off of a Name, Number, and Chacter. </p>
+        <p>Generates a Gamertag based on a name, number, and character.</p>
         <button onclick="window.location.href='gamertag-gen.html'">Go to Gamertag Generator</button>
     </div>
+
     <div class="tool-card">
-        <h2>Qr-Code Generator</h2>
-        <p>Lets you enter a link to turn into a qr code Generator.</p>
-        <button onclick="window.location.href='qr-code-gen.html'">Go to Qr-Code Generator</button>
+        <h2>QR-Code Generator</h2>
+        <p>Enter a link to generate a QR code.</p>
+        <button onclick="window.location.href='qr-code-gen.html'">Go to QR-Code Generator</button>
     </div>
 </div>
 
