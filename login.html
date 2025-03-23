@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login & Register</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #1e1e1e;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            width: 80%;
+            padding: 14px;
+            margin: 12px 0;
+            background-color: #2c2c2c;
+            border: none;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 16px;
+            transition: background-color 0.2s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border: 2px solid #4caf50;
+            background-color: #333333;
+        }
+
+        .btn {
+            padding: 14px;
+            border-radius: 8px;
+            background-color: #4caf50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            width: 60%;
+            margin-top: 12px;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+
+        .message {
+            color: #4caf50;
+            font-size: 14px;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="container">
+    <!-- Login Form (Visible by default) -->
+    <div id="loginForm">
+        <h1>Login</h1>
+        <input type="text" id="username" class="input-field" placeholder="Username" required />
+        <input type="password" id="password" class="input-field" placeholder="Password" required />
+        <button class="btn" onclick="login()">Login</button>
+        <p class="message">Don't have an account? <a href="#" onclick="showRegister()">Sign Up</a></p>
+    </div>
+
+    <!-- Register Form (Initially hidden) -->
+    <div id="registerForm" style="display:none;">
+        <h1>Sign Up</h1>
+        <input type="text" id="regUsername" class="input-field" placeholder="Username" required />
+        <input type="password" id="regPassword" class="input-field" placeholder="Password" required />
+        <button class="btn" onclick="register()">Register</button>
+        <p class="message">Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+    </div>
+</div>
+
+<script>
+    const API_URL = "http://localhost:5000";  // Update with your Ngrok URL if using Ngrok
+
+    // Show Register Form
+    function showRegister() {
+        document.getElementById("loginForm").style.display = "none"; // Hide Login form
+        document.getElementById("registerForm").style.display = "block"; // Show Register form
+    }
+
+    // Show Login Form
+    function showLogin() {
+        document.getElementById("registerForm").style.display = "none"; // Hide Register form
+        document.getElementById("loginForm").style.display = "block"; // Show Login form
+    }
+
+    // Login function
+    async function login() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        const response = await fetch(`${API_URL}/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert(data.message);
+            // Redirect if login is successful
+            window.location.href = "dashboard.html";  // Redirect user after login
+        } else {
+            alert(data.error);
+        }
+    }
+
+    // Register function
+    async function register() {
+        const username = document.getElementById("regUsername").value;
+        const password = document.getElementById("regPassword").value;
+
+        const response = await fetch(`${API_URL}/register`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert(data.message);
+            showLogin();  // Switch back to login form after successful registration
+        } else {
+            alert(data.error);
+        }
+    }
+</script>
+
+</body>
+</html>
