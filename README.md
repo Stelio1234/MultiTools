@@ -10,7 +10,7 @@ how to download on iPhone/iPad/Mac.
 4. Go to settings. Once in settings go to General than VPN & Device Management
 5. Once there you will see Somthing that says MultiTools install. Click on it
 6. Press install than endter you device password. Than press install angin. than press install one final time.
-The App is now installed. If you have any questions email multitools@gmail.com
+The App is now installed. If you have any questions email themultitools@gmail.com
 
 
 Adnroid
