@@ -194,7 +194,7 @@
 
         // Choose random related words
         const randomColor = getRelatedWords(colorSynonyms, favoriteColor);
-        const randomAnimal = getRelatedWords(animalSynonyms, favoriteAnimal);
+        const randomAnimal = getRelatedWords(animalSynonyms, favoriteAnimal)
 
         // Combine words with the option to add a symbol
         let gamerTag = randomColor + (symbol !== 'none' ? symbol : '') + randomAnimal;

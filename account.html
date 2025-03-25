@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Account</title>
+</head>
+<style>
+     body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        h2 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: bold;
+            color: white;
+            font-size: large;
+            text-align: center;
+        }
+        .grid-item button {
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #4caf50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .grid-item button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+                /* Grid layout for buttons */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 columns */
+            gap: 15px; /* Spacing between buttons */
+            justify-content: center;
+            align-items: center;
+        }
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            text-align: left;
+            }
+            .back-button {
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            background-color: #4caf50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            width: 120px;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            margin-top: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+
+
+</style>
+<body>
+    <div class="container">
+            <h2>Manage Account</h2>
+
+            <div class="grid-container">
+                <div class="grid-item"><button onclick="window.location.href='YT Downloader\\YT Downloader.html'">Manage Subscription</button></div>
+                <div class="grid-item"><button onclick="window.location.href='TikTok Downloader\\TikTok Downloader.html'">Log Out</button></div>                
+            </div>
+            <ul>
+                <li>Name: </li>
+                <li>Email:</li>
+                <li>Next billing date:</li>
+            </ul>
+    </div>
+    <button class="back-button" onclick="window.history.back()">Back</button>
+
+    
+</body>
+</html>

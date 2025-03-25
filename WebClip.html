@@ -302,40 +302,40 @@
             }
 
             const content = `<?xml version="1.0" encoding="UTF-8"?>
-<plist version="1.0">
-  <dict>
-    <key>PayloadContent</key>
-    <array>
-      <dict>
-        <key>URL</key>
-        <string>${linkInput}</string>
-        <key>Icon</key>
-        <data>${iconBase64.split(',')[1]}</data>
-        <key>PayloadDisplayName</key>
-        <string>${displayName}</string>
-        <key>PayloadDescription</key>
-        <string>${description}</string>
-        <key>PayloadVersion</key>
-        <integer>${version}</integer>
-        <key>PayloadRemovalPasscode</key>
-        <string>${removalPasscode}</string>
-        ${removalDateContent}
-      </dict>
-    </array>
-    <key>PayloadType</key>
-    <string>com.apple.webClip.managed</string>
-    <key>PayloadUUID</key>
-    <string>${randomUUID}</string>
-    <key>PayloadDisplayName</key>
-    <string>${displayName}</string>
-    <key>PayloadIdentifier</key>
-    <string>com.example.webclip.${randomUUID}</string>
-    <key>PayloadOrganization</key>
-    <string>Your Organization</string>
-    <key>PayloadRemovalDate</key>
-    <date>${removalDate || 'None'}</date>
-  </dict>
-</plist>`;
+                <plist version="1.0">
+                <dict>
+                    <key>PayloadContent</key>
+                    <array>
+                    <dict>
+                        <key>URL</key>
+                        <string>${linkInput}</string>
+                        <key>Icon</key>
+                        <data>${iconBase64.split(',')[1]}</data>
+                        <key>PayloadDisplayName</key>
+                        <string>${displayName}</string>
+                        <key>PayloadDescription</key>
+                        <string>${description}</string>
+                        <key>PayloadVersion</key>
+                        <integer>${version}</integer>
+                        <key>PayloadRemovalPasscode</key>
+                        <string>${removalPasscode}</string>
+                        ${removalDateContent}
+                    </dict>
+                        </array>
+                        <key>PayloadType</key>
+                        <string>com.apple.webClip.managed</string>
+                        <key>PayloadUUID</key>
+                        <string>${randomUUID}</string>
+                        <key>PayloadDisplayName</key>
+                        <string>${displayName}</string>
+                        <key>PayloadIdentifier</key>
+                        <string>com.example.webclip.${randomUUID}</string>
+                        <key>PayloadOrganization</key>
+                        <string>Your Organization</string>
+                        <key>PayloadRemovalDate</key>
+                        <date>${removalDate || 'None'}</date>
+                    </dict>
+                    </plist>`;
 
             const blob = new Blob([content], { type: 'application/xml' });
             const downloadLink = document.getElementById('downloadLink');

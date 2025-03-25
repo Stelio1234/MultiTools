@@ -115,7 +115,6 @@
 
     <div class="container-fluid">
         <div class="text-center">
-            <!-- Initial Placeholder image that will change once content is entered -->
             <img id="qr-code-img" src="https://chart.googleapis.com/chart?cht=qr&chl=Hello+World&chs=160x160&chld=L|0" class="qr-code img-thumbnail img-responsive" />
         </div>
 
@@ -134,13 +133,12 @@
         </div>
     </div>
 
-    <!-- Back Button -->
+ 
     <button class="back-button" onclick="window.history.back()">Back</button>
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
     <script>
-        // Function to HTML encode the text
         function htmlEncode(value) {
             return $('<div/>').text(value).html();
         }
