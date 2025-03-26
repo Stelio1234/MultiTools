@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login & Register</title>
+    <title>Login</title>
     <style>
+        /* Your existing styles */
         body {
             background-color: #121212;
             color: #ffffff;
@@ -67,13 +68,16 @@
             margin-top: 12px;
         }
     </style>
+    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 </head>
 <body>
 
 <div class="container" id="container">
     <div id="loginForm">
         <h1>Login</h1>
-        <input type="text" id="username" class="input-field" placeholder="Username" required>
+        <input type="text" id="username" class="input-field" placeholder="Email" required>
         <input type="password" id="password" class="input-field" placeholder="Password" required>
         <button class="btn" onclick="login()">Login</button>
         <p class="message">Don't have an account? <a href="#" onclick="showRegister()">Sign Up</a></p>
@@ -81,7 +85,7 @@
 
     <div id="registerForm" style="display:none;">
         <h1>Sign Up</h1>
-        <input type="text" id="regUsername" class="input-field" placeholder="Username" required>
+        <input type="text" id="regUsername" class="input-field" placeholder="Email" required>
         <input type="password" id="regPassword" class="input-field" placeholder="Password" required>
         <button class="btn" onclick="register()">Register</button>
         <p class="message">Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
@@ -89,80 +93,103 @@
 </div>
 
 <script>
-    const API_URL = "http://192.168.1.21:5000";  // Replace with your actual URL
+// Import the functions you need from the SDKs you need
 
-    // Check if user is already logged in
-    window.onload = function () {
-        const token = localStorage.getItem("token");
-        if (token) {
-            window.location.href = "dashboard.html";  // Redirect to dashboard if logged in
-        }
-    };
+import { initializeApp } from "firebase/app";
 
-    function showRegister() {
-        document.getElementById("loginForm").style.display = "none";
-        document.getElementById("registerForm").style.display = "block";
+import { getAnalytics } from "firebase/analytics";
+
+// TODO: Add SDKs for Firebase products that you want to use
+
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+
+// Your web app's Firebase configuration
+
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyBlQhUMpsxWVq_jAucPS6Eof1DoIxogJsc",
+
+  authDomain: "multitools-70a78.firebaseapp.com",
+
+  projectId: "multitools-70a78",
+
+  storageBucket: "multitools-70a78.firebasestorage.app",
+
+  messagingSenderId: "100413923207",
+
+  appId: "1:100413923207:web:1bdec5e2f7cb2a99a5fd22",
+
+  measurementId: "G-BKW4NBKDTF"
+
+};
+
+
+// Initialize Firebase
+
+const app = initializeApp(firebaseConfig);
+
+const analytics = getAnalytics(app);
+
+// Check if user is already logged in (using cookies)
+window.onload = function () {
+    const user = Cookies.get('user');
+    if (user) {
+        window.location.href = "MultiTools.html";  // Redirect to dashboard if logged in
     }
+};
 
-    function showLogin() {
-        document.getElementById("registerForm").style.display = "none";
-        document.getElementById("loginForm").style.display = "block";
+function showRegister() {
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("registerForm").style.display = "block";
+}
+
+function showLogin() {
+    document.getElementById("registerForm").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+}
+
+async function login() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    try {
+        const userCredential = await auth.signInWithEmailAndPassword(username, password);
+        const user = userCredential.user;
+
+        // Store session in cookies with expiration time of 1 hour
+        const expirationTime = new Date();
+        expirationTime.setHours(expirationTime.getHours() + 1); // 1 hour expiration
+        Cookies.set('user', JSON.stringify(user), { expires: expirationTime });
+
+        alert("Login successful!");
+        window.location.href = "MultiTools.html";  // Redirect after login
+    } catch (error) {
+        alert("Login failed: " + error.message);
     }
+}
 
-    async function login() {
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
+async function register() {
+    const username = document.getElementById("regUsername").value;
+    const password = document.getElementById("regPassword").value;
 
-        try {
-            const response = await fetch(`${API_URL}/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ username, password })
-            });
+    try {
+        const userCredential = await auth.createUserWithEmailAndPassword(username, password);
+        const user = userCredential.user;
 
-            const data = await response.json();
+        // Store user data in cookies with expiration time of 1 hour
+        const expirationTime = new Date();
+        expirationTime.setHours(expirationTime.getHours() + 1); // 1 hour expiration
+        Cookies.set('user', JSON.stringify(user), { expires: expirationTime });
 
-            if (response.ok) {
-                localStorage.setItem("token", data.token); // Store session token
-                alert("Login successful!");
-                window.location.href = "MultiTools.html";
-            } else {
-                alert(data.error);
-            }
-        } catch (error) {
-            console.error("Error logging in:", error);
-            alert("Something went wrong. Please try again.");
-        }
+        alert("Registration successful! Please log in.");
+        showLogin();
+    } catch (error) {
+        alert("Registration failed: " + error.message);
     }
-
-    async function register() {
-        const username = document.getElementById("regUsername").value;
-        const password = document.getElementById("regPassword").value;
-
-        try {
-            const response = await fetch(`${API_URL}/register`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ username, password })
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                alert("Registration successful! Please log in.");
-                showLogin();
-            } else {
-                alert(data.error);
-            }
-        } catch (error) {
-            console.error("Error registering:", error);
-            alert("Something went wrong. Please try again.");
-        }
-    }
+}
 </script>
 
 </body>

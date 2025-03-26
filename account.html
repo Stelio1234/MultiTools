@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Account</title>
     <style>
+        /* Your existing styles */
         body {
             background-color: #121212;
             color: #ffffff;
@@ -29,7 +30,7 @@
             text-align: center;
             transition: all 0.3s ease;
         }
-        
+
         h2 {
             font-family: Arial, Helvetica, sans-serif;
             font-weight: bold;
@@ -56,11 +57,10 @@
             box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
         }
 
-        /* Grid layout for buttons */
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2 columns */
-            gap: 15px; /* Spacing between buttons */
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
             justify-content: center;
             align-items: center;
         }
@@ -102,7 +102,7 @@
 
         <div class="grid-container">
             <div class="grid-item"><button onclick="manageSubscription()">Manage Subscription</button></div>
-            <div class="grid-item"><button onclick="logout()">Log Out</button></div>                
+            <div class="grid-item"><button onclick="logout()">Log Out</button></div>
         </div>
 
         <ul id="userInfo">
@@ -114,53 +114,59 @@
 
     <button class="back-button" onclick="window.history.back()">Back</button>
 
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script>
+
     <script>
-        const API_URL = "http://192.168.1.21:5000";  // Replace with your actual URL
-        const token = localStorage.getItem("token");
+        // Firebase configuration (Replace with your Firebase project credentials)
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID",
+            measurementId: "YOUR_MEASUREMENT_ID"
+        };
 
-        if (!token) {
-            window.location.href = "login.html";  // Redirect to login if not logged in
-        }
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
 
-        // Fetch user account data
-        async function fetchUserData() {
-            try {
-                const response = await fetch(`${API_URL}/get_user_data`, {
-                    method: "GET",
-                    headers: {
-                        "Authorization": `Bearer ${token}`,  // Include the token for authentication
-                        "Content-Type": "application/json"
-                    }
-                });
-                const data = await response.json();
-
-                if (response.ok) {
-                    // Update the user info with the fetched data
-                    document.getElementById("userName").textContent = data.name || "N/A";
-                    document.getElementById("userEmail").textContent = data.email || "N/A";
-                    document.getElementById("billingDate").textContent = data.billing_date || "N/A";
+        // Check if the user is logged in
+        window.onload = function () {
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    // If logged in, update user data
+                    fetchUserData(user);
                 } else {
-                    alert(data.error || "Failed to fetch user data.");
+                    // If not logged in, redirect to login page
+                    window.location.href = "login.html";
                 }
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-                alert("Something went wrong. Please try again.");
-            }
+            });
+        };
+
+        // Fetch user data from Firebase
+        function fetchUserData(user) {
+            document.getElementById("userName").textContent = user.displayName || "N/A";
+            document.getElementById("userEmail").textContent = user.email || "N/A";
+            document.getElementById("billingDate").textContent = "N/A"; // Firebase doesn't store billing date
         }
 
         // Logout function
         function logout() {
-            localStorage.removeItem("token");  // Remove the token from localStorage
-            window.location.href = "login.html";  // Redirect to login page
+            auth.signOut().then(() => {
+                window.location.href = "login.html"; // Redirect to login page after logout
+            }).catch(error => {
+                console.error("Error signing out:", error);
+            });
         }
 
-        // Placeholder function for managing subscription (can be customized)
+        // Manage Subscription Placeholder
         function manageSubscription() {
             alert("Subscription management not implemented yet.");
         }
-
-        // Load user data on page load
-        window.onload = fetchUserData;
     </script>
 </body>
 </html>

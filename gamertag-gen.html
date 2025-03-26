@@ -159,41 +159,6 @@
 <button class="back-button" onclick="window.history.back()">← Back</button>
 
 <script>
-    // Function to check if user is logged in
-async function checkLogin() {
-    const token = localStorage.getItem("token"); // Get JWT token from localStorage
-
-    if (!token) {
-        // If token doesn't exist, redirect to login page
-        window.location.href = "login.html";
-    } else {
-        try {
-            const response = await fetch('http://192.168.1.21:5000/check_session', {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${token}`, // Pass the token in the Authorization header
-                    "Content-Type": "application/json"
-                }
-            });
-
-            const data = await response.json();
-
-            if (!data.logged_in) {
-                // If the server responds that the user is not logged in, redirect to login page
-                window.location.href = "login.html";
-            }
-        } catch (error) {
-            console.error("Error checking session:", error);
-            // If an error occurs, redirect to login page
-            window.location.href = "login.html";
-        }
-    }
-}
-
-// Call the checkLogin function when the page loads
-window.onload = checkLogin;
-
-    
     function generateGamerTag() {
         const favoriteColor = document.getElementById('favoriteColor').value.trim().toLowerCase();
         const favoriteAnimal = document.getElementById('favoriteAnimal').value.trim().toLowerCase();
@@ -262,5 +227,43 @@ window.onload = checkLogin;
     }
 </script>
 
+
 </body>
 </html>
+<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script>
+
+<script>
+    // Firebase configuration (replace with your actual Firebase project credentials)
+    const firebaseConfig = {
+
+        apiKey: "AIzaSyBlQhUMpsxWVq_jAucPS6Eof1DoIxogJsc",
+
+        authDomain: "multitools-70a78.firebaseapp.com",
+
+        projectId: "multitools-70a78",
+
+        storageBucket: "multitools-70a78.firebasestorage.app",
+
+        messagingSenderId: "100413923207",
+
+        appId: "1:100413923207:web:1bdec5e2f7cb2a99a5fd22",
+
+        measurementId: "G-BKW4NBKDTF"
+
+};
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Check if the user is logged in
+    window.onload = function () {
+        auth.onAuthStateChanged(user => {
+            if (!user) {
+                // If the user is not logged in, redirect to login page
+                window.location.href = "login.html";
+            }
+        });
+    };
+</script>

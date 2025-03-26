@@ -84,6 +84,37 @@
                 transform: translateY(0);
             }
         }
+        .back-button {
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            background-color: #4caf50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            width: 120px;
+            position: relative;
+            transition: all 0.2s ease;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+
     </style>
 </head>
 <body>
@@ -97,7 +128,7 @@
             <p>Please come back later.</p>
         </div>		
         <section class="footer">
-            <a href="MultiTools.html" target="_blank">Go Back</a>
+            <button class="back-button" onclick="window.history.back()">Back</button>
         </section>
     </div>
 </body>
