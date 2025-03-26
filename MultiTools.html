@@ -100,8 +100,8 @@
     <p>The Site with Many Tools</p>
 
     <div class="grid-container">
-        <div class="grid-item"><button onclick="window.location.href='YT Downloader\\YT Downloader.html'">YouTube Downloader</button></div>
-        <div class="grid-item"><button onclick="window.location.href='TikTok Downloader\\TikTok Downloader.html'">TikTok Downloader</button></div>
+        <div class="grid-item"><button onclick="window.location.href='YT Downloader.html'">YouTube Downloader</button></div>
+        <div class="grid-item"><button onclick="window.location.href='TikTok Downloader.html'">TikTok Downloader</button></div>
         <div class="grid-item"><button onclick="window.location.href='WebClip.html'">WebClip Generator</button></div>
         <div class="grid-item"><button onclick="window.location.href='gamertag-gen.html'">Gamertag Generator</button></div>
         <div class="grid-item"><button onclick="window.location.href='qr-code-gen.html'">QR Code Generator</button></div>
@@ -111,11 +111,47 @@
         <div class="grid-item"><button onclick="window.location.href='construction.html '">Unit Converter</button></div>
         <div class="grid-item"><button onclick="window.location.href='construction.html'">Weather Checker</button></div>
         <div class="grid-item"><button onclick="window.location.href='construction.html'">Useful Links</button></div>
-        <div class="grid-item"><button onclick="window.location.href='construction.html'">Manage Account</button></div>
+        <div class="grid-item"><button onclick="window.location.href='account.html'">Manage Account</button></div>
     </div>
     <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
 
 </div>
 
 </body>
+<script>
+    // Function to check if user is logged in
+async function checkLogin() {
+    const token = localStorage.getItem("token"); // Get JWT token from localStorage
+
+    if (!token) {
+        // If token doesn't exist, redirect to login page
+        window.location.href = "login.html";
+    } else {
+        try {
+            const response = await fetch('http://192.168.1.21:5000/check_session', {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`, // Pass the token in the Authorization header
+                    "Content-Type": "application/json"
+                }
+            });
+
+            const data = await response.json();
+
+            if (!data.logged_in) {
+                // If the server responds that the user is not logged in, redirect to login page
+                window.location.href = "login.html";
+            }
+        } catch (error) {
+            console.error("Error checking session:", error);
+            // If an error occurs, redirect to login page
+            window.location.href = "login.html";
+        }
+    }
+}
+
+// Call the checkLogin function when the page loads
+window.onload = checkLogin;
+
+</script>
 </html>

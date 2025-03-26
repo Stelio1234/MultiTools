@@ -133,6 +133,12 @@
             height: 20px;
             cursor: pointer;
         }
+        .title {
+            text-align: center;
+            font-weight: bold;
+            font-size: large;
+            margin-bottom: 20px; /* Space between title and container */
+        }
 
         /* Back Button Styling */
         .back-button {
@@ -174,6 +180,9 @@
 <body>
 
 <div class="container">
+    <div class="title">
+        <h1>WebClip Generator</h1>
+    </div>
     <!-- Payload Display Name -->
     <input id="displayNameInput" type="text" placeholder="Enter Display Name..." />
     
@@ -344,6 +353,41 @@
             downloadLink.style.display = 'inline-block';
         }, 1000);
     }
+
+    // Function to check if user is logged in
+async function checkLogin() {
+    const token = localStorage.getItem("token"); // Get JWT token from localStorage
+
+    if (!token) {
+        // If token doesn't exist, redirect to login page
+        window.location.href = "login.html";
+    } else {
+        try {
+            const response = await fetch('http://192.168.1.21:5000/check_session', {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`, // Pass the token in the Authorization header
+                    "Content-Type": "application/json"
+                }
+            });
+
+            const data = await response.json();
+
+            if (!data.logged_in) {
+                // If the server responds that the user is not logged in, redirect to login page
+                window.location.href = "login.html";
+            }
+        } catch (error) {
+            console.error("Error checking session:", error);
+            // If an error occurs, redirect to login page
+            window.location.href = "login.html";
+        }
+    }
+}
+
+// Call the checkLogin function when the page loads
+window.onload = checkLogin;
+
 </script>
 
 </body>

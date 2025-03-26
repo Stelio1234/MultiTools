@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login & Register</title>
     <style>
         body {
@@ -15,7 +15,6 @@
             height: 100vh;
             margin: 0;
         }
-
         .container {
             background-color: #1e1e1e;
             padding: 40px;
@@ -25,13 +24,10 @@
             max-width: 400px;
             text-align: center;
         }
-
         h1 {
             font-size: 32px;
-            color: #ffffff;
             margin-bottom: 20px;
         }
-
         .input-field {
             width: 80%;
             padding: 14px;
@@ -43,13 +39,11 @@
             font-size: 16px;
             transition: background-color 0.2s ease;
         }
-
         .input-field:focus {
             outline: none;
             border: 2px solid #4caf50;
             background-color: #333333;
         }
-
         .btn {
             padding: 14px;
             border-radius: 8px;
@@ -62,135 +56,111 @@
             transition: all 0.2s ease;
             border: none;
         }
-
         .btn:hover {
             background-color: #45a049;
             transform: translateY(-2px);
             box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
         }
-
         .message {
             color: #4caf50;
             font-size: 14px;
             margin-top: 12px;
-        }
-        .back-button {
-            padding: 12px 20px;
-            border-radius: 8px;
-            border: none;
-            background-color: #4caf50;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            width: 120px;
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            margin-top: 20px;
-            transition: all 0.2s ease;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        /* Keyframe animation to make the button fade in and move up */
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .back-button:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
         }
     </style>
 </head>
 <body>
 
 <div class="container" id="container">
-    <!-- Login Form (Visible by default) -->
     <div id="loginForm">
         <h1>Login</h1>
-        <input type="text" id="username" class="input-field" placeholder="Username" required />
-        <input type="password" id="password" class="input-field" placeholder="Password" required />
+        <input type="text" id="username" class="input-field" placeholder="Username" required>
+        <input type="password" id="password" class="input-field" placeholder="Password" required>
         <button class="btn" onclick="login()">Login</button>
         <p class="message">Don't have an account? <a href="#" onclick="showRegister()">Sign Up</a></p>
     </div>
 
-    <!-- Register Form (Initially hidden) -->
     <div id="registerForm" style="display:none;">
         <h1>Sign Up</h1>
-        <input type="text" id="regUsername" class="input-field" placeholder="Username" required />
-        <input type="password" id="regPassword" class="input-field" placeholder="Password" required />
+        <input type="text" id="regUsername" class="input-field" placeholder="Username" required>
+        <input type="password" id="regPassword" class="input-field" placeholder="Password" required>
         <button class="btn" onclick="register()">Register</button>
         <p class="message">Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
     </div>
 </div>
-<button class="back-button" onclick="window.history.back()">Back</button>
+
 <script>
-    const API_URL = "http://localhost:5000";  // Update with your Ngrok URL if using Ngrok
+    const API_URL = "http://192.168.1.21:5000";  // Replace with your actual URL
 
-    // Show Register Form
+    // Check if user is already logged in
+    window.onload = function () {
+        const token = localStorage.getItem("token");
+        if (token) {
+            window.location.href = "dashboard.html";  // Redirect to dashboard if logged in
+        }
+    };
+
     function showRegister() {
-        document.getElementById("loginForm").style.display = "none"; // Hide Login form
-        document.getElementById("registerForm").style.display = "block"; // Show Register form
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("registerForm").style.display = "block";
     }
 
-    // Show Login Form
     function showLogin() {
-        document.getElementById("registerForm").style.display = "none"; // Hide Register form
-        document.getElementById("loginForm").style.display = "block"; // Show Login form
+        document.getElementById("registerForm").style.display = "none";
+        document.getElementById("loginForm").style.display = "block";
     }
 
-    // Login function
     async function login() {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
-        const response = await fetch(`${API_URL}/login`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ username, password })
-        });
+        try {
+            const response = await fetch(`${API_URL}/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ username, password })
+            });
 
-        const data = await response.json();
+            const data = await response.json();
 
-        if (response.ok) {
-            alert(data.message);
-            // Redirect if login is successful
-            window.location.href = "dashboard.html";  // Redirect user after login
-        } else {
-            alert(data.error);
+            if (response.ok) {
+                localStorage.setItem("token", data.token); // Store session token
+                alert("Login successful!");
+                window.location.href = "MultiTools.html";
+            } else {
+                alert(data.error);
+            }
+        } catch (error) {
+            console.error("Error logging in:", error);
+            alert("Something went wrong. Please try again.");
         }
     }
 
-    // Register function
     async function register() {
         const username = document.getElementById("regUsername").value;
         const password = document.getElementById("regPassword").value;
 
-        const response = await fetch(`${API_URL}/register`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ username, password })
-        });
+        try {
+            const response = await fetch(`${API_URL}/register`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ username, password })
+            });
 
-        const data = await response.json();
+            const data = await response.json();
 
-        if (response.ok) {
-            alert(data.message);
-            showLogin();  
-        } else {
-            alert(data.error);
+            if (response.ok) {
+                alert("Registration successful! Please log in.");
+                showLogin();
+            } else {
+                alert(data.error);
+            }
+        } catch (error) {
+            console.error("Error registering:", error);
+            alert("Something went wrong. Please try again.");
         }
     }
 </script>

@@ -3,17 +3,25 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TikTok Downloader</title>
+    <title>YT Downloader</title>
     <style>
         body {
             background-color: #121212;
             color: #ffffff;
             font-family: Arial, Helvetica, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+        }
+
+        .title {
+            text-align: center;
+            font-weight: bold;
+            font-size: large;
+            margin-bottom: 20px; /* Space between title and container */
         }
 
         .container {
@@ -71,53 +79,56 @@
         }
 
         @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
+
         .back-button {
-        padding: 12px 20px;
-        border-radius: 8px;
-        border: none;
-        background-color: #4caf50;
-        color: white;
-        font-size: 16px;
-        cursor: pointer;
-        width: 120px;
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        margin-top: 20px;
-        transition: all 0.2s ease;
-        animation: fadeInUp 1s ease-out;
-    }
-
-    /* Keyframe animation to make the button fade in and move up */
-    @keyframes fadeInUp {
-        0% {
-            opacity: 0;
-            transform: translateY(30px);
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            background-color: #4caf50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            width: 120px;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            transition: all 0.2s ease;
+            animation: fadeInUp 1s ease-out;
         }
-        100% {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
 
-    .back-button:hover {
-        background-color: #45a049;
-        transform: translateY(-2px);
-        box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-    }
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
     </style>
 </head>
 <body>
 
+<!-- Title moved above the container -->
+<div class="title">
+    <h1>YT Downloader</h1>
+</div>
+
+<!-- Downloader container -->
 <div class="container">
-    <input id="urlInput" type="text" placeholder="Enter TikTok link..." />
+    <input id="urlInput" type="text" placeholder="Enter YouTube link..." />
+    
+    <select id="qualitySelect">
+        <option value="highest">Highest Quality</option>
+        <option value="1080p">1080p</option>
+        <option value="720p">720p</option>
+        <option value="480p">480p</option>
+    </select>
+
     <button onclick="downloadVideo()">Download</button>
 
     <!-- Loading spinner -->
@@ -126,12 +137,13 @@
     <!-- Error message -->
     <div id="errorMessage" class="error-message"></div>
 </div>
+
 <button class="back-button" onclick="window.history.back()">Back</button>
 
-
-<script>
+<script>    
     async function downloadVideo() {
         const url = document.getElementById('urlInput').value;
+        const quality = document.getElementById('qualitySelect').value;
         const spinner = document.getElementById('loadingSpinner');
         const errorMessage = document.getElementById('errorMessage');
 
@@ -146,7 +158,10 @@
         spinner.style.display = 'block';
 
         try {
-            const response = await fetch(`http://192.168.1.43:5000/download?tiktok_url=${encodeURIComponent(url)}`);
+            const response = await fetch(
+                'http://192.168.1.21/download?url=' + 
+                encodeURIComponent(url) + '&quality=' + encodeURIComponent(quality)
+            );
 
             if (!response.ok) {
                 const errorData = await response.json();
@@ -156,7 +171,7 @@
             const blob = await response.blob();
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = 'tiktok_video.mp4';
+            link.download = 'video.mp4';
             link.click();
 
             alert('Download started successfully!');
@@ -167,6 +182,43 @@
             spinner.style.display = 'none';
         }
     }
+
+// Function to check if user is logged in
+async function checkLogin() {
+    const token = localStorage.getItem("token"); // Get JWT token from localStorage
+
+    if (!token) {
+        // If token doesn't exist, redirect to login page
+        window.location.href = "login.html";
+    } else {
+        try {
+            const response = await fetch('http://192.168.1.21:5000/check_session', {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`, // Pass the token in the Authorization header
+                    "Content-Type": "application/json"
+                }
+            });
+
+            const data = await response.json();
+
+            if (!data.logged_in) {
+                // If the server responds that the user is not logged in, redirect to login page
+                window.location.href = "login.html";
+            }
+        } catch (error) {
+            console.error("Error checking session:", error);
+            // If an error occurs, redirect to login page
+            window.location.href = "login.html";
+        }
+    }
+}
+
+// Call the checkLogin function when the page loads
+window.onload = checkLogin;
+
+
 </script>
+
 </body>
 </html>

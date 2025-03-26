@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Account</title>
-</head>
-<style>
-     body {
+    <style>
+        body {
             background-color: #121212;
             color: #ffffff;
             font-family: Arial, Helvetica, sans-serif;
@@ -30,13 +29,15 @@
             text-align: center;
             transition: all 0.3s ease;
         }
+        
         h2 {
             font-family: Arial, Helvetica, sans-serif;
-            font-size: bold;
+            font-weight: bold;
             color: white;
             font-size: large;
             text-align: center;
         }
+
         .grid-item button {
             width: 100%;
             padding: 15px;
@@ -54,7 +55,8 @@
             transform: translateY(-2px);
             box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
         }
-                /* Grid layout for buttons */
+
+        /* Grid layout for buttons */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr); /* 2 columns */
@@ -62,14 +64,16 @@
             justify-content: center;
             align-items: center;
         }
+
         ul {
             list-style-type: none;
             margin: 0;
             padding: 0;
             overflow: hidden;
             text-align: left;
-            }
-            .back-button {
+        }
+
+        .back-button {
             padding: 12px 20px;
             border-radius: 8px;
             border: none;
@@ -90,25 +94,73 @@
             transform: translateY(-2px);
             box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
         }
-
-
-</style>
+    </style>
+</head>
 <body>
     <div class="container">
-            <h2>Manage Account</h2>
+        <h2>Manage Account</h2>
 
-            <div class="grid-container">
-                <div class="grid-item"><button onclick="window.location.href='YT Downloader\\YT Downloader.html'">Manage Subscription</button></div>
-                <div class="grid-item"><button onclick="window.location.href='TikTok Downloader\\TikTok Downloader.html'">Log Out</button></div>                
-            </div>
-            <ul>
-                <li>Name: </li>
-                <li>Email:</li>
-                <li>Next billing date:</li>
-            </ul>
+        <div class="grid-container">
+            <div class="grid-item"><button onclick="manageSubscription()">Manage Subscription</button></div>
+            <div class="grid-item"><button onclick="logout()">Log Out</button></div>                
+        </div>
+
+        <ul id="userInfo">
+            <li><strong>Name:</strong> <span id="userName">Loading...</span></li>
+            <li><strong>Email:</strong> <span id="userEmail">Loading...</span></li>
+            <li><strong>Next Billing Date:</strong> <span id="billingDate">Loading...</span></li>
+        </ul>
     </div>
+
     <button class="back-button" onclick="window.history.back()">Back</button>
 
-    
+    <script>
+        const API_URL = "http://192.168.1.21:5000";  // Replace with your actual URL
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            window.location.href = "login.html";  // Redirect to login if not logged in
+        }
+
+        // Fetch user account data
+        async function fetchUserData() {
+            try {
+                const response = await fetch(`${API_URL}/get_user_data`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,  // Include the token for authentication
+                        "Content-Type": "application/json"
+                    }
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Update the user info with the fetched data
+                    document.getElementById("userName").textContent = data.name || "N/A";
+                    document.getElementById("userEmail").textContent = data.email || "N/A";
+                    document.getElementById("billingDate").textContent = data.billing_date || "N/A";
+                } else {
+                    alert(data.error || "Failed to fetch user data.");
+                }
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                alert("Something went wrong. Please try again.");
+            }
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem("token");  // Remove the token from localStorage
+            window.location.href = "login.html";  // Redirect to login page
+        }
+
+        // Placeholder function for managing subscription (can be customized)
+        function manageSubscription() {
+            alert("Subscription management not implemented yet.");
+        }
+
+        // Load user data on page load
+        window.onload = fetchUserData;
+    </script>
 </body>
 </html>
