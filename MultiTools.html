@@ -44,6 +44,13 @@
             color: #cccccc;
             margin-bottom: 20px;
         }
+        .p1 {
+            font-size: 18px;
+            color: #cccccc;
+            margin-bottom: 20px;
+            text-align: center
+
+        }
 
         /* Grid layout for buttons */
         .grid-container {
@@ -99,7 +106,10 @@
     <h1>MultiTools</h1>
     <p>The Site with Many Tools</p>
 
+
     <div class="grid-container">
+        <div class="grid-item"><button onclick="window.location.href='YT Downloader.html'">YT Downloader</button></div>
+        <div class="grid-item"><button onclick="window.location.href='TikTok Downloader.html'">TikTok Downloader</button></div>
         <div class="grid-item"><button onclick="window.location.href='WebClip.html'">WebClip Generator</button></div>
         <div class="grid-item"><button onclick="window.location.href='gamertag-gen.html'">Gamertag Generator</button></div>
         <div class="grid-item"><button onclick="window.location.href='qr-code-gen.html'">QR Code Generator</button></div>
@@ -111,6 +121,7 @@
         <div class="grid-item"><button onclick="window.location.href='construction.html'">Useful Links</button></div>
         <div class="grid-item"><button onclick="window.location.href='account.html'">Manage Account</button></div>
     </div>
+    <p1>Accounts are not currently online</p1>
     <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
 
 </div>
@@ -124,17 +135,11 @@
     const firebaseConfig = {
 
         apiKey: "AIzaSyBlQhUMpsxWVq_jAucPS6Eof1DoIxogJsc",
-
         authDomain: "multitools-70a78.firebaseapp.com",
-
         projectId: "multitools-70a78",
-
         storageBucket: "multitools-70a78.firebasestorage.app",
-
         messagingSenderId: "100413923207",
-
         appId: "1:100413923207:web:1bdec5e2f7cb2a99a5fd22",
-
         measurementId: "G-BKW4NBKDTF"
 
 };

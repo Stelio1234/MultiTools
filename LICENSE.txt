@@ -1,0 +1,20 @@
+## Proprietary License
+
+Copyright (c) [Year] MultiTools
+
+All rights reserved.
+
+### Terms:
+1. **No Redistribution** - You may not distribute, sell, sublicense, or share any part of this code or project. Only the original author may distribute it.
+2. **No Modification** - You may not modify, adapt, or create derivative works based on this project.
+3. **Personal Use Only** - This project is provided solely for personal, non-commercial use. Any commercial use is strictly prohibited.
+   - **Personal Use**: Use by an individual for private purposes without financial gain.
+   - **Commercial Use**: Any use intended for profit, business operations, advertising revenue, or any activity that generates money.
+4. **Advertising Allowed** - Users may advertise or promote this project, but they may not earn money from doing so.
+5. **No Warranty** - This project is provided "as is" without any warranties or guarantees of any kind.
+6. **Restrictions** - Any attempt to bypass, remove, or alter these restrictions is strictly forbidden.
+
+By accessing or using this project, you agree to these terms. Unauthorized use may result in legal action.
+
+For inquiries, contact: themultitools@gmail.com
+
