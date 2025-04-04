@@ -1,7 +1,9 @@
 Welcome To MultiTools
 
 To go to website on without downloading.
-https://stelio1234.github.io/MultiTools/MultiTools.html
+[link](http://themultitools.xyz)
+
+You can only get to the site on chrome and edge.
 
 how to download on iPhone/iPad/Mac.
 1. click [Here](./MultiTools.mobileconfig) to download the prfile.
@@ -15,3 +17,8 @@ The App is now installed. If you have any questions email themultitools@gmail.co
 
 Adnroid
 N/A
+
+
+Security
+As of now we do not own a sll certificate. An sll cert lets you browswe know the site is secure. our site is secure but
+we dont own the cert. Note to our privicy policy 

@@ -67,6 +67,24 @@
             font-size: 14px;
             margin-top: 12px;
         }
+        .google-login {
+            padding: 14px;
+            border-radius: 8px;
+            background-color: #4caf50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            width: 60%;
+            margin-top: 12px;
+            transition: all 0.2s ease;
+            border: none; 
+        }
+        .google-login img {
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+        }
+
     </style>
     <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js"></script>
@@ -80,6 +98,7 @@
         <input type="text" id="username" class="input-field" placeholder="Email" required>
         <input type="password" id="password" class="input-field" placeholder="Password" required>
         <button class="btn" onclick="login()">Login</button>
+        <button class="google-login">Login With Google</button>
         <p class="message">Don't have an account? <a href="#" onclick="showRegister()">Sign Up</a></p>
     </div>
 
@@ -88,6 +107,7 @@
         <input type="text" id="regUsername" class="input-field" placeholder="Email" required>
         <input type="password" id="regPassword" class="input-field" placeholder="Password" required>
         <button class="btn" onclick="register()">Register</button>
+        <button class="google-login">Login With Google</button>
         <p class="message">Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
     </div>
 </div>
