@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;    
+            height: 100vh;
+            margin: 0;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background-color: #1e1e1e;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        p {
+            font-size: 18px;
+            color: #cccccc;
+            margin-bottom: 20px;
+        }
+
+        .download-btn {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .download-btn:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>iOS Configuration Profile</h1>
+        <p>Click the button below to download the profile for your iOS device.</p>
+        <button class="download-btn" onclick="downloadConfig()">Download For iOS</button>
+    </div>
+
+    <script>
+        function downloadConfig() {
+            window.location.href = 'MultiTools.mobileconfig';
+        }
+    </script>
+</body>
+</html>
