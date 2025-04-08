@@ -114,59 +114,7 @@
 
     <button class="back-button" onclick="window.history.back()">Back</button>
 
-    <!-- Add Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script>
-
-    <script>
-        // Firebase configuration (Replace with your Firebase project credentials)
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID",
-            measurementId: "YOUR_MEASUREMENT_ID"
-        };
-
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-
-        // Check if the user is logged in
-        window.onload = function () {
-            auth.onAuthStateChanged(user => {
-                if (user) {
-                    // If logged in, update user data
-                    fetchUserData(user);
-                } else {
-                    // If not logged in, redirect to login page
-                    window.location.href = "login.html";
-                }
-            });
-        };
-
-        // Fetch user data from Firebase
-        function fetchUserData(user) {
-            document.getElementById("userName").textContent = user.displayName || "N/A";
-            document.getElementById("userEmail").textContent = user.email || "N/A";
-            document.getElementById("billingDate").textContent = "N/A"; // Firebase doesn't store billing date
-        }
-
-        // Logout function
-        function logout() {
-            auth.signOut().then(() => {
-                window.location.href = "login.html"; // Redirect to login page after logout
-            }).catch(error => {
-                console.error("Error signing out:", error);
-            });
-        }
-
-        // Manage Subscription Placeholder
-        function manageSubscription() {
-            alert("Subscription management not implemented yet.");
-        }
+    
     </script>
 </body>
 </html>
