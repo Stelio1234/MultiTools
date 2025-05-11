@@ -145,32 +145,6 @@
         });
     </script>
 
-    <!-- Firebase Authentication -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script>
-
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyBlQhUMpsxWVq_jAucPS6Eof1DoIxogJsc",
-            authDomain: "multitools-70a78.firebaseapp.com",
-            projectId: "multitools-70a78",
-            storageBucket: "multitools-70a78.appspot.com",
-            messagingSenderId: "100413923207",
-            appId: "1:100413923207:web:1bdec5e2f7cb2a99a5fd22",
-            measurementId: "G-BKW4NBKDTF"
-        };
-
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-
-        window.onload = function () {
-            auth.onAuthStateChanged(user => {
-                if (!user) {
-                    window.location.href = "login.html";
-                }
-            });
-        };
-    </script>
 
 </body>
 
