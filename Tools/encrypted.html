@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Text Encrypter/Decrypter</title>
+
+  <style>
+    body {
+      background-color: #121212;
+      color: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      flex-direction: column;
+    }
+
+    .container {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      background-color: #1e1e1e;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-control {
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      background-color: #2c2c2c;
+      color: #ffffff;
+      width: 80%;
+      font-size: 16px;
+    }
+
+    .form-control:focus {
+      outline: none;
+      box-shadow: 0 0 4px 2px #4caf50;
+    }
+
+    .btn, .copy-btn {
+      background-color: #4caf50;
+      border: none;
+      color: white;
+      padding: 12px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover, .copy-btn:hover {
+      background-color: #45a049;
+      transform: translateY(-2px);
+      box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #45a049;
+    }
+
+    #result, #encryptResult, #decryptResult {
+      background-color: #2c2c2c;
+      padding: 12px;
+      border-radius: 8px;
+      word-break: break-word;
+      color: #aaffaa;
+    }
+
+    code {
+      word-wrap: break-word;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    select.form-control {
+      width: 85%;
+    }
+
+    #menu {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      background-color: #1e1e1e;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
+    }
+            .back-button {
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            background-color: #4caf50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            width: 120px;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            transition: all 0.2s ease;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+  </style>
+</head>
+<body>
+
+  <div id="menu">
+    <h1>Select Tool</h1>
+    <button class="btn" onclick="showSection('encrypt')">Encrypt</button>
+    <button class="btn" onclick="showSection('decrypt')">Decrypt</button>
+    <button class="back-button" onclick="window.history.back()">Back</button>
+  </div>
+
+  <div class="container" id="encrypt-container">
+    <h1>Encrypt Text</h1>
+    <div class="form-group">
+      <input type="text" class="form-control" id="encryptText" placeholder="Enter text to encrypt" />
+    </div>
+    <div class="form-group">
+      <input type="password" class="form-control" id="encryptPassword" placeholder="Enter password (AES only)" />
+    </div>
+    <div class="form-group">
+      <select class="form-control" id="encryptType">
+        <option value="base64">Base64</option>
+        <option value="aes">AES</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <button class="btn" onclick="encrypt()">Encrypt</button>
+    </div>
+    <div class="form-group" id="encryptResult" style="display: none;"></div>
+    <button class="back-button" onclick="goBack()">Back</button>
+  </div>
+
+  <div class="container" id="decrypt-container">
+    <h1>Decrypt Text</h1>
+    <div class="form-group">
+      <input type="text" class="form-control" id="decryptText" placeholder="Enter text to decrypt" />
+    </div>
+    <div class="form-group">
+      <input type="password" class="form-control" id="decryptPassword" placeholder="Enter password (AES only)" />
+    </div>
+    <div class="form-group">
+      <select class="form-control" id="decryptType">
+        <option value="base64">Base64</option>
+        <option value="aes">AES</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <button class="btn" onclick="decrypt()">Decrypt</button>
+    </div>
+    <div class="form-group" id="decryptResult" style="display: none;"></div>
+    <button class="back-button" onclick="goBack()">Back</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <script>
+    function showSection(id) {
+      document.getElementById('menu').style.display = 'none';
+      document.getElementById(`${id}-container`).style.display = 'flex';
+    }
+
+    function goBack() {
+      document.getElementById('menu').style.display = 'flex';
+      document.getElementById('encrypt-container').style.display = 'none';
+      document.getElementById('decrypt-container').style.display = 'none';
+      document.querySelectorAll("input").forEach(input => input.value = "");
+      document.getElementById("encryptResult").style.display = "none";
+      document.getElementById("decryptResult").style.display = "none";
+    }
+
+    function copyToClipboard(text, button) {
+      navigator.clipboard.writeText(text).then(() => {
+        button.innerText = "Copied!";
+        setTimeout(() => button.innerText = "Copy", 2000);
+      });
+    }
+
+    function encrypt() {
+      const text = document.getElementById('encryptText').value.trim();
+      const password = document.getElementById('encryptPassword').value;
+      const type = document.getElementById('encryptType').value;
+      const result = document.getElementById('encryptResult');
+      if (!text) return alert("Enter text to encrypt");
+
+      let output = "";
+      if (type === "base64") {
+        output = btoa(unescape(encodeURIComponent(text)));
+      } else if (type === "aes") {
+        if (!password) return alert("Enter a password for AES");
+        const salt = CryptoJS.lib.WordArray.random(128 / 8);
+        const key = CryptoJS.PBKDF2(password, salt, { keySize: 256 / 32, iterations: 1000 });
+        const iv = CryptoJS.lib.WordArray.random(128 / 8);
+        const encrypted = CryptoJS.AES.encrypt(text, key, { iv: iv });
+        output = CryptoJS.enc.Base64.stringify(salt.concat(iv).concat(encrypted.ciphertext));
+      }
+
+      result.style.display = "block";
+      result.innerHTML = `Encrypted: <code>${output}</code> <button class="copy-btn" onclick="copyToClipboard(\`${output}\`, this)">Copy</button>`;
+    }
+
+    function decrypt() {
+      const text = document.getElementById('decryptText').value.trim();
+      const password = document.getElementById('decryptPassword').value;
+      const type = document.getElementById('decryptType').value;
+      const result = document.getElementById('decryptResult');
+      if (!text) return alert("Enter text to decrypt");
+
+      let output = "";
+      try {
+        if (type === "base64") {
+          output = decodeURIComponent(escape(atob(text)));
+        } else if (type === "aes") {
+          if (!password) return alert("Enter password for AES");
+          const raw = CryptoJS.enc.Base64.parse(text);
+          const salt = CryptoJS.lib.WordArray.create(raw.words.slice(0, 4));
+          const iv = CryptoJS.lib.WordArray.create(raw.words.slice(4, 8));
+          const ciphertext = CryptoJS.lib.WordArray.create(raw.words.slice(8), raw.sigBytes - 16);
+          const key = CryptoJS.PBKDF2(password, salt, { keySize: 256 / 32, iterations: 1000 });
+          const decrypted = CryptoJS.AES.decrypt({ ciphertext }, key, { iv });
+          output = decrypted.toString(CryptoJS.enc.Utf8);
+          if (!output) throw new Error("Invalid password or corrupted data");
+        }
+
+        result.style.display = "block";
+        result.innerHTML = `Decrypted: <code>${output}</code> <button class="copy-btn" onclick="copyToClipboard(\`${output}\`, this)">Copy</button>`;
+      } catch (e) {
+        result.style.display = "block";
+        result.textContent = "Error: " + e.message;
+      }
+    }
+  </script>
+</body>
+</html>
