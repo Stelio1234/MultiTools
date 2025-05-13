@@ -67,8 +67,6 @@
       box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
     }
 
-<<<<<<< HEAD
-=======
     .back-button {
       padding: 12px 20px;
       border-radius: 8px;
@@ -87,7 +85,6 @@
       box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
     }
 
->>>>>>> 907e8062c4ba2ac0f4f576b18e1aa9fb736cae24
     h1 {
       font-size: 24px;
       margin-bottom: 20px;
@@ -122,41 +119,6 @@
       border-radius: 16px;
       box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
     }
-<<<<<<< HEAD
-            .back-button {
-            padding: 12px 20px;
-            border-radius: 8px;
-            border: none;
-            background-color: #4caf50;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            width: 120px;
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            transition: all 0.2s ease;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .back-button:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-        }
-=======
->>>>>>> 907e8062c4ba2ac0f4f576b18e1aa9fb736cae24
   </style>
 </head>
 <body>
@@ -165,10 +127,6 @@
     <h1>Select Tool</h1>
     <button class="btn" onclick="showSection('encrypt')">Encrypt</button>
     <button class="btn" onclick="showSection('decrypt')">Decrypt</button>
-<<<<<<< HEAD
-    <button class="back-button" onclick="window.history.back()">Back</button>
-=======
->>>>>>> 907e8062c4ba2ac0f4f576b18e1aa9fb736cae24
   </div>
 
   <div class="container" id="encrypt-container">

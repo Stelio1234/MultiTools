@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upscaler</title>
+
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .preview {
+            max-width: 100%;
+            margin: 10px auto;
+            background-color: #2c2c2c;
+            padding: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-control {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background-color: #2c2c2c;
+            color: #ffffff;
+            width: 80%;
+            font-size: 16px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            box-shadow: 0 0 4px 2px #4caf50;
+        }
+
+        .btn {
+            background-color: #4caf50;
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+
+        .back-button {
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            background-color: #4caf50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            width: 120px;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            margin-top: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Image Upscaler</h1>
+
+        <div class="form-group">
+            <input type="file" class="form-control" id="image-upload" accept="image/*">
+        </div>
+
+        <div class="form-group">
+            <select id="scale" class="form-control">
+                <option value="2">2x Upscale</option>
+                <option value="4">4x Upscale</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <button type="button" class="btn" id="upscale">Upscale</button>
+            <button type="button" class="btn" id="download" style="display:none;">Download</button>
+        </div>
+
+        <div class="preview" id="result"></div>
+    </div>
+
+    <button class="back-button" onclick="window.history.back()">Back</button>
+
+    <script>
+        document.getElementById('upscale').addEventListener('click', () => {
+            const fileInput = document.getElementById('image-upload');
+            const scaleFactor = parseInt(document.getElementById('scale').value);
+            const resultDiv = document.getElementById('result');
+            const downloadBtn = document.getElementById('download');
+
+            if (!fileInput.files.length) {
+                alert('Please upload an image first.');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width * scaleFactor;
+                    canvas.height = img.height * scaleFactor;
+
+                    const ctx = canvas.getContext('2d');
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'high';
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                    const dataURL = canvas.toDataURL('image/png');
+                    resultDiv.innerHTML = `
+                        <p>Original: ${img.width}x${img.height}px<br>Upscaled: ${canvas.width}x${canvas.height}px</p>
+                        <img src="${dataURL}" style="max-width:100%; border-radius:8px;" />`;
+
+                    downloadBtn.style.display = 'inline-block';
+                    downloadBtn.onclick = () => {
+                        const link = document.createElement('a');
+                        link.href = dataURL;
+                        link.download = `upscaled-${scaleFactor}x.png`;
+                        link.click();
+                    };
+                };
+            };
+
+            reader.readAsDataURL(file);
+        });
+    </script>
+</body>
+
+</html>
