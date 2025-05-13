@@ -22,6 +22,43 @@
         html {
             height: 100%;
         }
+        @media screen and (max-width: 575.98px) { body { padding: 8px; } }
+        @media screen and (min-width: 576px) and (max-width: 767.98px) { body { padding: 12px; } }
+        @media screen and (min-width: 768px) and (max-width: 991.98px) { body { padding: 16px; } }
+        @media screen and (min-width: 992px) and (max-width: 1199.98px) { body { padding: 24px; } }
+        @media screen and (min-width: 1200px) and (max-width: 1399.98px) { body { padding: 30px; } }
+        @media screen and (min-width: 1400px) { body { padding: 36px; } }
+
+        .tooltip {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background-color: #333;
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 6px;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            font-size: 14px;
+            z-index: 1;
+            white-space: normal;
+            text-align: left;
+            max-width: 220px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            line-height: 1.4;
+        }
+
+        .grid-item {
+            position: relative;
+        }
+
+        .grid-item:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
 
         .container {
             display: flex;
@@ -43,66 +80,55 @@
             margin: 0;
         }
 
-        p {
+        p, .p1 {
             font-size: 18px;
             color: #cccccc;
             margin-bottom: 20px;
-        }
-        .p1 {
-            font-size: 18px;
-            color: #cccccc;
-            margin-bottom: 20px;
-            text-align: center
-
+            text-align: center;
         }
 
-        /* Grid layout for buttons */
+        .badge-new {
+            color: #ff4;
+            font-weight: bold;
+            margin-left: 6px;
+        }
+
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2 columns */
-            gap: 15px; /* Spacing between buttons */
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
             justify-content: center;
             align-items: center;
         }
+
+        .login-btn, .download-btn {
+            position: absolute;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
         .login-btn {
-        position: absolute;
-        top: 70px;
-        right: 20px;
-        padding: 10px 20px;
-        background-color: #4caf50;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
+            top: 70px;
+            right: 20px;
+        }
 
-    .login-btn:hover {
-        background-color: #45a049;
-        transform: translateY(-2px);
-        box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-    }
+        .download-btn {
+            top: 20px;
+            right: 20px;
+        }
 
-    .download-btn {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        padding: 10px 20px;
-        background-color: #4caf50;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
+        .login-btn:hover, .download-btn:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
 
-    .download-btn:hover {
-        background-color: #45a049;
-        transform: translateY(-2px);
-        box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-    }
         .grid-item button {
             width: 100%;
             padding: 15px;
@@ -120,62 +146,92 @@
             transform: translateY(-2px);
             box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
         }
+
         footer {
             color:#ffffff;
             bottom: auto;
             height: 50px;
         }
-        .footerleft {
-            text-align: left;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-        .footerright {
-            text-align: left;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
     </style>
 </head>
 <body>
-
 <div class="container">
     <h1>MultiTools</h1>
     <p>The Site with Many Tools</p>
-
-    
     <h1>Common Tools</h1>
     <div class="grid-container">
-        <div class="grid-item"><button onclick="window.location.href='Tools/timer.html '">Timer</button></div>
-        <div class="grid-item"><button onclick="window.location.href='Other/construction.html '">Unit Converter(WorkInPrgress)</button></div>
-        <div class="grid-item"><button onclick="window.location.href='Other/construction.html'">Pet Age Calculator(WorkInPrgress)</button></div>
-        <div class="grid-item"><button onclick="window.location.href='Other/construction.html'">None</button></div>
+        <div class="grid-item">
+            <div class="tooltip">Set a countdown for tasks</div>
+            <button onclick="window.location.href='Tools/timer.html'">Timer</button>
+        </div>
+        <div class="grid-item">
+            <div class="tooltip">Convert units of measure <strong>(WIP)</strong></div>
+            <button onclick="window.location.href='Other/construction.html'">Unit Converter <span class="badge-new">NEW</span></button>
+        </div>
+        <div class="grid-item">
+            <div class="tooltip">Estimate pet ages <strong>(WIP)</strong></div>
+            <button onclick="window.location.href='Other/construction.html'">Pet Age Calculator <span class="badge-new">NEW</span></button>
+        </div>
+        <div class="grid-item">
+            <div class="tooltip">Placeholder tool</div>
+            <button onclick="window.location.href='Other/construction.html'">None</button>
+        </div>
     </div>
 
     <h1>Downloaders</h1>
-    <dvi class="grid-container">
-        <div class="grid-item"><button onclick="window.location.href='Tools/YT Downloader.html'">YT Downloader(WorkInProgress)</button></div>
-        <div class="grid-item"><button onclick="window.location.href='Other/construction.html'">TikTok Downloader(WorkInPrgress)</button></div>
-    </dvi>
+    <div class="grid-container">
+        <div class="grid-item">
+            <div class="tooltip">Download YouTube videos <strong>(WIP)</strong></div>
+            <button onclick="window.location.href='Tools/YT Downloader.html'">YT Downloader <span class="badge-new">NEW</span></button>
+        </div>
+        <div class="grid-item">
+            <div class="tooltip">Download TikTok videos <strong>(WIP)</strong></div>
+            <button onclick="window.location.href='Other/construction.html'">TikTok Downloader <span class="badge-new">NEW</span></button>
+        </div>
+    </div>
 
     <h1>Dev Tools</h1>
-    <dvi class="grid-container">
-        <div class="grid-item"><button onclick="window.location.href='Tools/encrypted.html'">Text Encryter & Decrypter</button></div>
-        <div class="grid-item"><button onclick="window.location.href='Tools/WebClip.html'">WebClip Generator</button></div>
-    </dvi>
-    
+    <div class="grid-container">
+        <div class="grid-item">
+            <div class="tooltip">Encrypt and decrypt text securely</div>
+            <button onclick="window.location.href='Tools/encrypted.html'">Text Encrypter & Decrypter</button>
+        </div>
+        <div class="grid-item">
+            <div class="tooltip">Generate a webpage clip for previews</div>
+            <button onclick="window.location.href='Tools/WebClip.html'">WebClip Generator</button>
+        </div>
+    </div>
+
     <h1>Image Tools</h1>
-    <dvi class="grid-container">
-        <div class="grid-item"><button onclick="window.location.href='Other/construction.html '">Image Compressor(WorkInPrgress)</button></div>
-        <div class="grid-item"><button onclick="window.location.href='Tools/imagetypeconverter.html '">Image Converter</button></div>
-    </dvi>
-        <h1>Generators</h1>
-    <dvi class="grid-container">
-        <div class="grid-item"><button onclick="window.location.href='Tools/gamertag-gen.html'">Gamertag Generator</button></div>
-        <div class="grid-item"><button onclick="window.location.href='Tools/qr-code-gen.html'">QR Code Generator</button></div>
-        <div class="grid-item"><button onclick="window.location.href='Tools/password-gen.html'">Password Generator</button></div>
-    </dvi>
-    <p1>Version 1</p1>
-    <p1><button style="background-color: #1e1e1e; border: none; color: #ffffff; text-decoration: underline; cursor: pointer;" onclick="window.location.href='Other/TOS.html'">Terms of Service</button></p1>
+    <div class="grid-container">
+        <div class="grid-item">
+            <div class="tooltip">Reduce image size <strong>(WIP)</strong></div>
+            <button onclick="window.location.href='Other/construction.html'">Image Compressor <span class="badge-new">NEW</span></button>
+        </div>
+        <div class="grid-item">
+            <div class="tooltip">Convert image format (e.g., JPG to PNG)</div>
+            <button onclick="window.location.href='Tools/imagetypeconverter.html'">Image Converter</button>
+        </div>
+    </div>
+
+    <h1>Generators</h1>
+    <div class="grid-container">
+        <div class="grid-item">
+            <div class="tooltip">Generate random gamertags</div>
+            <button onclick="window.location.href='Tools/gamertag-gen.html'">Gamertag Generator</button>
+        </div>
+        <div class="grid-item">
+            <div class="tooltip">Generate a QR Code</div>
+            <button onclick="window.location.href='Tools/qr-code-gen.html'">QR Code Generator</button>
+        </div>
+        <div class="grid-item">
+            <div class="tooltip">Generate secure passwords</div>
+            <button onclick="window.location.href='Tools/password-gen.html'">Password Generator</button>
+        </div>
+    </div>
+
+    <p class="p1">Version 1</p>
+    <p class="p1"><button style="background-color: #1e1e1e; border: none; color: #ffffff; text-decoration: underline; cursor: pointer;" onclick="window.location.href='Other/TOS.html'">Terms of Service</button></p>
     <button class="login-btn" onclick="window.location.href='Other/login.html'">Login</button>
     <button class="download-btn" onclick="window.location.href='Other/download.html'">Download</button>
     <footer>
@@ -201,11 +257,6 @@
             </a>
         </div>
     </footer>
-    
-s
-
 </div>
-
 </body>
-
 </html>
