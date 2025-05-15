@@ -9,149 +9,206 @@
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: Arial, Helvetica, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;    
-            height: 100vh;
-            margin: 170px;
-        }
-        html {
-            height: 100%;
-        }
-        @media screen and (max-width: 575.98px) { body { padding: 8px; } }
-        @media screen and (min-width: 576px) and (max-width: 767.98px) { body { padding: 12px; } }
-        @media screen and (min-width: 768px) and (max-width: 991.98px) { body { padding: 16px; } }
-        @media screen and (min-width: 992px) and (max-width: 1199.98px) { body { padding: 24px; } }
-        @media screen and (min-width: 1200px) and (max-width: 1399.98px) { body { padding: 30px; } }
-        @media screen and (min-width: 1400px) { body { padding: 36px; } }
+        /* File: styles.css */
 
-        .tooltip {
-            position: absolute;
-            top: -60px;
-            left: 50%;
-            transform: translateX(-50%) translateY(10px);
-            background-color: #333;
-            color: #fff;
-            padding: 10px 14px;
-            border-radius: 6px;
-            visibility: hidden;
-            opacity: 0;
-            transition: opacity 0.4s ease, transform 0.4s ease;
-            font-size: 14px;
-            z-index: 1;
-            white-space: normal;
-            text-align: left;
-            max-width: 220px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-            line-height: 1.4;
-        }
+:root {
+  --padding-container: 40px;
+  --font-h1: 32px;
+  --font-p: 18px;
+  --button-padding: 15px;
+  --grid-columns: repeat(2, 1fr);
+  --tooltip-font: 14px;
+  --max-container-width: 600px;
+}
 
-        .grid-item {
-            position: relative;
-        }
+@media (max-width: 575.98px) {
+  :root {
+    --padding-container: 16px;
+    --font-h1: 24px;
+    --font-p: 14px;
+    --button-padding: 12px;
+    --grid-columns: 1fr;
+    --tooltip-font: 12px;
+    --max-container-width: 100%;
+  }
+}
 
-        .grid-item:hover .tooltip {
-            visibility: visible;
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
+@media (min-width: 576px) and (max-width: 767.98px) {
+  :root {
+    --padding-container: 20px;
+    --font-h1: 26px;
+    --font-p: 16px;
+    --button-padding: 13px;
+  }
+}
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            background-color: #1e1e1e;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            max-width: 600px;
-            text-align: center;
-        }
+@media (min-width: 768px) and (max-width: 991.98px) {
+  :root {
+    --padding-container: 28px;
+  }
+}
 
-        h1 {
-            font-size: 32px;
-            font-weight: bold;
-            color: #ffffff;
-            margin: 0;
-        }
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  :root {
+    --padding-container: 32px;
+  }
+}
 
-        p, .p1 {
-            font-size: 18px;
-            color: #cccccc;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+@media (min-width: 1200px) and (max-width: 1399.98px) {
+  :root {
+    --padding-container: 36px;
+  }
+}
 
-        .badge-new {
-            color: #ff4;
-            font-weight: bold;
-            margin-left: 6px;
-        }
+@media (min-width: 1400px) {
+  :root {
+    --padding-container: 40px;
+  }
+}
 
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            justify-content: center;
-            align-items: center;
-        }
+html, body {
+  height: auto;
+  margin: auto;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #121212;
+  color: #ffffff;
+}
 
-        .login-btn, .download-btn {
-            position: absolute;
-            padding: 10px 20px;
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--padding-container);
+  height: 100vh;
+  box-sizing: border-box;
+  height: auto;
+  margin: auto;
+}
 
-        .login-btn {
-            top: 70px;
-            right: 20px;
-        }
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #1e1e1e;
+  padding: var(--padding-container);
+  border-radius: 16px;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: var(--max-container-width);
+  text-align: center;
+}
 
-        .download-btn {
-            top: 20px;
-            right: 20px;
-        }
+h1 {
+  font-size: var(--font-h1);
+  font-weight: bold;
+  color: #ffffff;
+  margin: 0;
+}
 
-        .login-btn:hover, .download-btn:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-        }
+p, .p1 {
+  font-size: var(--font-p);
+  color: #cccccc;
+  margin-bottom: 20px;
+  text-align: center;
+}
 
-        .grid-item button {
-            width: 100%;
-            padding: 15px;
-            border-radius: 8px;
-            background-color: #4caf50;
-            border: none;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
+.badge-new {
+  color: #ff4;
+  font-weight: bold;
+  margin-left: 6px;
+}
 
-        .grid-item button:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-        }
+.grid-container {
+  display: grid;
+  grid-template-columns: var(--grid-columns);
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+}
 
-        footer {
-            color:#ffffff;
-            bottom: auto;
-            height: 50px;
-        }
+.grid-item {
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background-color: #333;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 6px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  font-size: var(--tooltip-font);
+  z-index: 1;
+  white-space: normal;
+  text-align: left;
+  max-width: 220px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  line-height: 1.4;
+}
+
+.grid-item:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.grid-item button {
+  width: 100%;
+  padding: var(--button-padding);
+  border-radius: 8px;
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.grid-item button:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+}
+
+.login-btn, .download-btn {
+  position: absolute;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.login-btn {
+  top: 70px;
+  right: 20px;
+}
+
+.download-btn {
+  top: 20px;
+  right: 20px;
+}
+
+.login-btn:hover, .download-btn:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+}
+
+footer {
+  color: #ffffff;
+  height: 50px;
+  text-align: center;
+}
     </style>
 </head>
 <body>
