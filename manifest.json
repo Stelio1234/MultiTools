@@ -1,0 +1,21 @@
+{
+  "name": "The MultiTools",
+  "short_name": "MultiTools",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#45a049",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "MultiTools.jpg",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "MultiTools.jpg",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
