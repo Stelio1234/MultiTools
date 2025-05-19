@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchace Optios</title>
+        <link rel="icon" type="image/x-icon" href="/MultiTools.jpg">
+    <meta name="theme-color" content="#45a049">
+    <link rel="manifest" href="/manifest.json">
+</head>
+<style> 
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;    
+            height: 100vh;
+            margin: 0;
+            overflow: scroll;
+        }
+        html {
+            height: 100%;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background-color: #1e1e1e;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+        .grid-item button {
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #4caf50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .grid-item button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+
+        /* Grid layout for buttons */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 2 columns */
+            gap: 15px; /* Spacing between buttons */
+            justify-content: center;
+            align-items: center;
+        }
+        li {
+            text-align: left;
+            list-style: circle;
+            gap: 10px;
+        }
+        ul {
+            text-align: left;
+            gap: 10px;
+        }
+</style>
+<body>
+    <div class="container">
+        <div class="grid-container">
+            <div class="grid-item">
+                <ul>
+                    <h1>MultiTools Free</h1>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li> 
+                </ul>
+            </div>
+            <ul>
+                <h1>MultiTools Pro</h1>
+                <li>Everything In MultiTools Free</li>
+                <li>Acsess to TikTok Downloader</li>
+                <li>4K YT Downloads</li>
+                <li>Acsess to Snaphchat Downloader</li>
+                <li>Acsess to MultiTools Ai</li>
+                <li>Acsess to MultiTools Discord</li>
+            </ul>
+            <ul>
+                <h1>MultiTools Pro</h1>
+                <li>Everything In MultiTools Free</li>
+                <li>Acsess to TikTok Downloader</li>
+                <li>4K YT Downloads</li>
+                <li>Acsess to Snaphchat Downloader</li>
+                <li>Acsess to MultiTools Ai</li>
+                <li>Acsess to MultiTools Discord</li>
+            </ul>
+            <div class="grid-item"><button onclick="window.location.href='#'">Free</button></div>
+            <div class="grid-item"><button onclick="window.location.href='#'">$2.99 / month</button></div>
+            <div class="grid-item"><button onclick="window.location.href='#'">$20.99 / year</button></div>
+        </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script>
+
+<script>
+
+</script>
+
+</body>
+</html>
