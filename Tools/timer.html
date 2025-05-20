@@ -1,14 +1,13 @@
-
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Timer Tool</title>
-      <link rel="icon" type="image/x-icon" href="/MultiTools.jpg">
-    <meta name="theme-color" content="#45a049">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" type="image/x-icon" href="/MultiTools.jpg">
+  <link rel="icon" type="image/x-icon" href="/MultiTools.jpg">
+  <meta name="theme-color" content="#45a049">
+  <link rel="manifest" href="/manifest.json">
+</head>
 <style>
   :root {
     --padding-container: 40px;
@@ -185,8 +184,6 @@
     }
   }
 </style>
-
-</head>
 <body>
   <div class="container">
     <h1>Timer</h1>
@@ -200,7 +197,7 @@
       <button class="btn" id="stopBtn">Stop</button>
     </div>
   </div>
-  <button class="back-button" onclick="history.back()" style="margin-top: 20px;">Back</button>
+  <button class="back-button" onclick="history.back()">Back</button>
 
   <script>
     let timerInterval;
@@ -212,55 +209,70 @@
     const minutesInput = document.getElementById('minutes');
     const secondsInput = document.getElementById('seconds');
 
+    function updateUI(remainingSeconds) {
+      const hours = Math.floor(remainingSeconds / 3600);
+      const minutes = Math.floor((remainingSeconds % 3600) / 60);
+      const seconds = remainingSeconds % 60;
+      hoursInput.value = hours;
+      minutesInput.value = minutes;
+      secondsInput.value = seconds;
+    }
+
     function startTimer() {
       if (isRunning) return;
-      
+
       let hours = parseInt(hoursInput.value) || 0;
       let minutes = parseInt(minutesInput.value) || 0;
       let seconds = parseInt(secondsInput.value) || 0;
-      
       let totalSeconds = hours * 3600 + minutes * 60 + seconds;
-      
       if (totalSeconds <= 0) return;
-      
+
+      const startTime = Date.now();
+      const endTime = startTime + totalSeconds * 1000;
+
+      localStorage.setItem('timerStart', startTime);
+      localStorage.setItem('timerEnd', endTime);
       isRunning = true;
-      
-      timerInterval = setInterval(() => {
-        if (totalSeconds <= 0) {
-          clearInterval(timerInterval);
-          isRunning = false;
-          notifyUser();
-          return;
-        }
-        
-        totalSeconds--;
-        
-        hours = Math.floor(totalSeconds / 3600);
-        minutes = Math.floor((totalSeconds % 3600) / 60);
-        seconds = totalSeconds % 60;
-        
-        hoursInput.value = hours;
-        minutesInput.value = minutes;
-        secondsInput.value = seconds;
-      }, 1000);
+
+      runCountdown();
     }
 
     function stopTimer() {
       clearInterval(timerInterval);
       isRunning = false;
+      localStorage.removeItem('timerStart');
+      localStorage.removeItem('timerEnd');
+    }
+
+    function runCountdown() {
+      timerInterval = setInterval(() => {
+        const endTime = parseInt(localStorage.getItem('timerEnd')) || 0;
+        const remaining = Math.floor((endTime - Date.now()) / 1000);
+
+        if (remaining <= 0) {
+          clearInterval(timerInterval);
+          isRunning = false;
+          localStorage.removeItem('timerStart');
+          localStorage.removeItem('timerEnd');
+          updateUI(0);
+          notifyUser();
+        } else {
+          updateUI(remaining);
+        }
+      }, 1000);
     }
 
     function notifyUser() {
       if (Notification.permission === 'granted') {
-        new Notification('⏰ Timer Complete!', {
-          body: 'Your countdown has finished.',
-          icon: '/MultiTools.jpg' // Optional icon
+        new Notification('Timer Complete!', {
+          body: 'Your timer has finished.',
+          icon: '/MultiTools.jpg'
         });
       } else if (Notification.permission !== 'denied') {
         Notification.requestPermission().then(permission => {
           if (permission === 'granted') {
-            new Notification('⏰ Timer Complete!', {
-              body: 'Your countdown has finished.',
+            new Notification('Timer Complete!', {
+              body: 'Your timer has finished.',
               icon: '/MultiTools.jpg'
             });
           } else {
@@ -272,11 +284,25 @@
       }
     }
 
-    
+    function checkAndResumeTimer() {
+      const endTime = parseInt(localStorage.getItem('timerEnd')) || 0;
+      const remaining = Math.floor((endTime - Date.now()) / 1000);
+      if (remaining > 0) {
+        updateUI(remaining);
+        isRunning = true;
+        runCountdown();
+      } else {
+        stopTimer();
+      }
+    }
+
+    window.onload = () => {
+      Notification.requestPermission();
+      checkAndResumeTimer();
+    };
 
     startBtn.addEventListener('click', startTimer);
     stopBtn.addEventListener('click', stopTimer);
   </script>
 </body>
 </html>
-

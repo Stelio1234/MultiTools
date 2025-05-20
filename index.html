@@ -319,5 +319,30 @@ footer {
         </div>
     </footer>
 </div>
+
+<script>
+  function requestNotificationAccess() {
+    if (!('Notification' in window)) {
+      console.log('This browser does not support notifications.');
+      return;
+    }
+
+    if (Notification.permission === 'default') {
+      Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+          console.log('Notification permission granted.');
+        } else {
+          console.log('Notification permission denied.');
+        }
+      });
+    } else {
+      console.log('Notification permission already:', Notification.permission);
+    }
+  }
+
+  // Auto-call when page loads
+  window.addEventListener('load', requestNotificationAccess);
+</script>
+
 </body>
 </html>
