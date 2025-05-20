@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Account</title>
+    <link rel="icon" type="image/x-icon" href="/MultiTools.jpg">
+    <meta name="theme-color" content="#45a049">
+    <link rel="manifest" href="/manifest.json">
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        h2 {
+            font-weight: bold;
+            color: white;
+            font-size: large;
+            text-align: left;
+        }
+
+        ul {
+            list-style-type: decimal;
+            list-style-type: armenian;
+            margin: 0;
+            padding: 0 20px;
+            text-align: left;
+        }
+
+        .back-button {
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            background-color: #4caf50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            width: 120px;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            transition: all 0.2s ease;
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <h1>Patch Notes</h1>
+        <h2>Version 1</h2>
+        <ul>
+            <li>Added All tools</li>
+        </ul>
+    </main>
+
+    <button class="back-button" onclick="window.history.back()">Back</button>
+</body>
+</html>

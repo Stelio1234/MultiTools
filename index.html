@@ -213,6 +213,50 @@ footer {
   height: 50px;
   text-align: center;
 }
+
+.popup-container {
+  width: 20px;
+  height: 40px;
+  border-radius: 8px;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+
+}
+    #myPopup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      opacity: 0;
+      width: 300px;
+      padding: 20px;
+      background-color: #222;
+      color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      z-index: 999;
+      pointer-events: none;
+    }
+
+    #myPopup.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+      pointer-events: auto;
+    }
+
+    #button {
+      position: fixed;
+      padding: 10px 10px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+
+    }
     </style>
 </head>
 <body>
@@ -318,6 +362,11 @@ footer {
             </a>
         </div>
     </footer>
+  <div id="myPopup">
+    <h2>IMPORTANT!!!</h2>
+    <p>Even though we have officialy launched we will be doing maintenance and content updates at least once a week. Some tools are still realy buggy dont wory we are working on it. For more info click <a href="https://themultitools.xyz/other/patchnotes">Here</a></p>
+    <button id="button" onclick="togglePopup()">Close</button>
+  </div>
 </div>
 
 <script>
@@ -342,6 +391,19 @@ footer {
 
   // Auto-call when page loads
   window.addEventListener('load', requestNotificationAccess);
+
+
+
+
+  // Maitmence Popup
+    function togglePopup() {
+      const popup = document.getElementById("myPopup");
+      popup.classList.toggle("show");
+    }
+
+  window.addEventListener('load', togglePopup);
+  
+
 </script>
 
 </body>
