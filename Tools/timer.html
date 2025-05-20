@@ -9,6 +9,61 @@
     <meta name="theme-color" content="#45a049">
     <link rel="manifest" href="/manifest.json">
   <style>
+    :root {
+  --padding-container: 40px;
+  --font-h1: 32px;
+  --font-p: 18px;
+  --button-padding: 15px;
+  --grid-columns: repeat(2, 1fr);
+  --tooltip-font: 14px;
+  --max-container-width: 600px;
+}
+
+@media (max-width: 575.98px) {
+  :root {
+    --padding-container: 16px;
+    --font-h1: 24px;
+    --font-p: 14px;
+    --button-padding: 12px;
+    --grid-columns: 1fr;
+    --tooltip-font: 12px;
+    --max-container-width: 100%;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+  :root {
+    --padding-container: 20px;
+    --font-h1: 26px;
+    --font-p: 16px;
+    --button-padding: 13px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  :root {
+    --padding-container: 28px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  :root {
+    --padding-container: 32px;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1399.98px) {
+  :root {
+    --padding-container: 36px;
+  }
+}
+
+@media (min-width: 1400px) {
+  :root {
+    --padding-container: 40px;
+  }
+}
+
     body {
       background-color: #121212;
       color: #ffffff;
