@@ -98,13 +98,69 @@
             transform: translateY(-2px);
             box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
         }
+
+        .instructions {
+            margin-top: 20px;
+            background-color: #2a2a2a;
+            padding: 20px;
+            border-radius: 12px;
+            color: #eeeeee;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        .instructions h2 {
+            color: #ffffff;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .instructions ul {
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+        }
+
+        .icon {
+            width: 16px;
+            height: 16px;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Coming Soon</h1>
         <p>We are curently trying to get a Apple Developer account so we can publish the app to the App Store.</p>
+
+        <div class="instructions">
+            <h2>📲 Add to Home Screen</h2>
+            <p><strong>iPhone & iPad (Safari):</strong></p>
+            <ul>
+                <li><img src="https://img.icons8.com/ios/50/ffffff/share-rounded.png" class="icon" alt="Share icon"> Tap the <strong>Share</strong> icon at the bottom (iPhone) or top (iPad) of Safari.</li>
+                <li><img src="https://img.icons8.com/ios-filled/50/ffffff/add-property.png" class="icon" alt="Add icon"> Scroll down and select <strong>"Add to Home Screen"</strong>.</li>
+                <li><img src="https://img.icons8.com/ios-filled/50/ffffff/plus-math.png" class="icon" alt="Add confirm"> Tap <strong>Add</strong> in the top-right corner.</li>
+            </ul>
+
+            <p><strong>iPhone & iPad (Chrome):</strong></p>
+            <ul>
+                <li><img src="https://img.icons8.com/ios/50/ffffff/share-rounded.png" class="icon" alt="Share icon"> Tap the <strong>Share</strong> icon (square with arrow) in the top-right corner.</li>
+                <li><img src="https://img.icons8.com/ios-filled/50/ffffff/add-property.png" class="icon" alt="Add icon"> Scroll down and choose <strong>"Add to Home Screen"</strong>.</li>
+                <li><img src="https://img.icons8.com/ios-filled/50/ffffff/plus-math.png" class="icon" alt="Add confirm"> Tap <strong>Add</strong> to confirm.</li>
+            </ul>
+
+            <p><strong>Android (Chrome):</strong></p>
+            <ul>
+                <li><img src="https://img.icons8.com/ios-filled/50/ffffff/menu-2.png" class="icon" alt="Menu icon"> Tap the <strong>3-dot</strong> menu in the top-right corner.</li>
+                <li><img src="https://img.icons8.com/ios-filled/50/ffffff/add-property.png" class="icon" alt="Add icon"> Choose <strong>"Add to Home screen"</strong>.</li>
+                <li><img src="https://img.icons8.com/ios-filled/50/ffffff/plus-math.png" class="icon" alt="Add confirm"> Tap <strong>Add</strong> when prompted.</li>
+            </ul>
+        </div>
     </div>
+
     <button class="back-button" onclick="window.history.back()">Back</button>
 
     <script>
