@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IPA OTA Installer</title>
+  <style>
+    body {
+      background: #121212;
+      color: white;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: auto;
+      margin: 1%;
+      margin-bottom: 1%;
+    }
+    .container {
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      background: #4caf50;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>IPA OTA Installer</h1>
+    <p>Upload your .ipa file to install over-the-air on iOS</p>
+
+    <input type="file" id="fileInput" />
+    <button onclick="uploadFile()">Upload & Install</button>
+  </div>
+
+  <script>
+    async function uploadFile() {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert("Please select an IPA file.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const response = await fetch('/upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          const manifestUrl = encodeURIComponent(result.manifestUrl);
+          const installUrl = `itms-services://?action=download-manifest&url=${manifestUrl}`;
+          window.location.href = installUrl;
+        } else {
+          alert("Upload failed: " + result.message);
+        }
+      } catch (err) {
+        alert("Error uploading file.");
+        console.error(err);
+      }
+    }
+  </script>
+</body>
+</html>
