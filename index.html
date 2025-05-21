@@ -422,6 +422,30 @@ footer {
   window.addEventListener('load', togglePopup);
   
 
+      function notifyUser() {
+      if (Notification.permission === 'granted') {
+        new Notification('ATTENTION!!!', {
+          body: 'We will be doing a scheduled downtime on friday 5/23 and the site will be offline till 4/26. ',
+          icon: '/MultiTools.jpg'
+        });
+      } else if (Notification.permission !== 'denied') {
+        Notification.requestPermission().then(permission => {
+      if (Notification.permission === 'granted') {
+        new Notification('ATTENTION!!!', {
+          body: 'We will be doing a scheduled downtime on friday 5/23 and the site will be offline till 4/26. ',
+          icon: '/MultiTools.jpg'
+        });
+          } else {
+            alert('IMPORTANT');
+          }
+        });
+      } else {
+        alert('IMPORTANT');
+      }
+    }
+
+    window.addEventListener.('load', notifyUser());
+
 </script>
 
 </body>
