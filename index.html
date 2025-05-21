@@ -331,7 +331,9 @@ footer {
         </div>
         <div class="grid-item">
             <div class="tooltip">Generate secure passwords</div>
-            <button onclick="window.location.href='Tools/password-gen.html'">Password Generator</button>    </div>
+            <button onclick="window.location.href='Tools/password-gen.html'">Password Generator</button>
+        </div>
+    </div>
 
     <p class="p1">Beta V1.5.1</p>
     <p class="p1"><button style="background-color: #1e1e1e; border: none; color: #ffffff; text-decoration: underline; cursor: pointer;" onclick="window.location.href='Other/TOS.html'">Terms of Service</button></p>
@@ -388,6 +390,7 @@ footer {
 </div>
 
 <script>
+  // Request notification access
   function requestNotificationAccess() {
     if (!('Notification' in window)) {
       console.log('This browser does not support notifications.');
@@ -407,46 +410,52 @@ footer {
     }
   }
 
-  // Auto-call when page loads
-  window.addEventListener('load', requestNotificationAccess);
-
-
-
-
-  // Maitmence Popup
-    function togglePopup() {
-      const popup = document.getElementById("myPopup");
+  // Maintenance Popup (run once per page load)
+  function togglePopup() {
+    const popup = document.getElementById("myPopup");
+    if (popup) {
       popup.classList.toggle("show");
     }
+    window.removeEventListener('load', togglePopup);
+  }
 
-  window.addEventListener('load', togglePopup);
-  
-
-      function notifyUser() {
-      if (Notification.permission === 'granted') {
-        new Notification('ATTENTION!!!', {
-          body: 'We will be doing a scheduled downtime on friday 5/23 and the site will be offline till 4/26. ',
-          icon: '/MultiTools.jpg'
-        });
-      } else if (Notification.permission !== 'denied') {
-        Notification.requestPermission().then(permission => {
-      if (Notification.permission === 'granted') {
-        new Notification('ATTENTION!!!', {
-          body: 'We will be doing a scheduled downtime on friday 5/23 and the site will be offline till 4/26. ',
-          icon: '/MultiTools.jpg'
-        });
-          } else {
-            alert('IMPORTANT');
-          }
-        });
-      } else {
-        alert('IMPORTANT');
-      }
+  // Notification (run once ever using localStorage)
+  function notifyUser() {
+    if (localStorage.getItem('maintenanceNotificationShown') === 'true') {
+      return;
     }
 
-    window.addEventListener('load', notifyUser());
+    if (Notification.permission === 'granted') {
+      new Notification('ATTENTION!!!', {
+        body: 'We will be doing a scheduled downtime on Friday 5/23 and the site will be offline till 4/26.',
+        icon: '/MultiTools.jpg'
+      });
+      localStorage.setItem('maintenanceNotificationShown', 'true');
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+          new Notification('ATTENTION!!!', {
+            body: 'We will be doing a scheduled downtime on Friday 5/23 and the site will be offline till 4/26.',
+            icon: '/MultiTools.jpg'
+          });
+          localStorage.setItem('maintenanceNotificationShown', 'true');
+        } else {
+          alert('IMPORTANT');
+        }
+      });
+    } else {
+      alert('IMPORTANT');
+    }
+  }
 
+  // Attach all scripts to load event
+  window.addEventListener('load', () => {
+    requestNotificationAccess();
+    togglePopup();
+    notifyUser();
+  });
 </script>
+
 
 </body>
 </html>
