@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tip Calculator</title>
+  <link rel="icon" type="image/x-icon" href="/MultiTools.jpg" />
+  <meta name="theme-color" content="#45a049" />
+  <link rel="manifest" href="/manifest.json" />
+<style>
+  :root {
+    --padding-container: 40px;
+    --font-h1: 32px;
+    --font-p: 18px;
+    --button-padding: 15px;
+    --grid-columns: repeat(2, 1fr);
+    --tooltip-font: 14px;
+    --max-container-width: 400px;
+  }
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: #121212; /* optional background */
+  font-family: Arial, sans-serif; /* default font */
+}
+  .back-button {
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    background-color: #4caf50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    width: 120px;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    margin-top: 20px;
+    transition: all 0.2s ease;
+    animation: fadeInUp 1s ease-out;
+  }
+
+  /* Keyframe animation to make the button fade in and move up */
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .back-button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background-color: #1e1e1e;
+    padding: var(--padding-container);
+    border-radius: 16px;
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    width: 400px;
+    max-width: var(--max-container-width);
+    text-align: center;
+    justify-content: center;
+    margin: 0%;
+  }
+
+  .timer-inputs {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .form-control {
+    width: 100%;          /* Fill container width */
+    max-width: 100%;      /* No fixed max width */
+    padding: 12px;
+    border-radius: 8px;
+    border: 2px solid #4caf50;
+    background-color: #2c2c2c;
+    color: #ffffff;
+    font-size: 16px;
+    text-align: center;
+    box-sizing: border-box;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .form-control:focus {
+    outline: none;
+    box-shadow: 0 0 4px 2px #4caf50;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    background-color: #4caf50;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 16px;
+    transition: all 0.2s ease;
+    width: 100px;
+  }
+
+  .btn:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+  }
+
+  h1 {
+    font-size: var(--font-h1);
+    margin-bottom: 20px;
+    color: #ffffff;
+  }
+
+  @media (max-width: 575.98px) {
+    :root {
+      --padding-container: 16px;
+      --font-h1: 24px;
+      --font-p: 14px;
+      --button-padding: 12px;
+      --grid-columns: 1fr;
+      --tooltip-font: 12px;
+      --max-container-width: 35%;
+    }
+
+    .form-control {
+      font-size: 14px;
+    }
+  }
+
+  @media (min-width: 576px) and (max-width: 767.98px) {
+    :root {
+      --padding-container: 20px;
+      --font-h1: 26px;
+      --font-p: 16px;
+      --button-padding: 13px;
+      --max-container-width: 100%;
+    }
+
+    .form-control {
+      font-size: 14px;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 991.98px) {
+    :root {
+      --padding-container: 28px;
+      --max-container-width: 90%;
+    }
+
+    .form-control {
+      font-size: 16px;
+    }
+  }
+
+  @media (min-width: 992px) and (max-width: 1199.98px) {
+    :root {
+      --padding-container: 32px;
+      --max-container-width: 80%;
+    }
+  }
+
+  @media (min-width: 1200px) and (max-width: 1399.98px) {
+    :root {
+      --padding-container: 36px;
+      --max-container-width: 70%;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    :root {
+      --padding-container: 40px;
+      --max-container-width: 600px;
+    }
+  }
+</style>
+
+</head>
+<body>
+  <main class="container">
+    <h2>Tip Calculator</h2>
+
+    <label for="bill">Bill Amount ($):</label>
+    <input type="number" id="bill" class="form-control" placeholder="Enter bill amount" min="0" step="0.01" />
+
+    <label for="tip">Tip Percentage (%):</label>
+    <input type="number" id="tip" class="form-control" placeholder="Enter tip percentage" min="0" max="100" step="0.1" />
+
+    <label for="people">Number of People:</label>
+    <input type="number" id="people" class="form-control" placeholder="Enter number of people" min="1" value="1" />
+
+    <div class="result" id="result">Each person pays: $0.00</div>
+
+    <button class="back-button" onclick="window.history.back()">Back</button>
+  </main>
+
+<script>
+  const billInput = document.getElementById('bill');
+  const tipInput = document.getElementById('tip');
+  const peopleInput = document.getElementById('people');
+  const resultDiv = document.getElementById('result');
+
+  const updateResult = () => {
+    const bill = parseFloat(billInput.value);
+    const tipPercent = parseFloat(tipInput.value);
+    const people = parseInt(peopleInput.value);
+
+    if (bill < 0 || tipPercent < 0 || people <= 0) {
+      resultDiv.innerHTML = `<span style="color: red;">Please enter non-negative values and at least one person.</span>`;
+      return;
+    }
+
+    if (!isNaN(bill) && !isNaN(tipPercent) && !isNaN(people)) {
+      const tipAmount = bill * (tipPercent / 100);
+      const tipPerPerson = tipAmount / people;
+      const totalAmount = bill + tipAmount;
+
+      resultDiv.innerHTML = `
+        Total tip: $${tipAmount.toFixed(2)}<br />
+        Tip per person: $${tipPerPerson.toFixed(2)}<br />
+        <small>Total with tip: $${totalAmount.toFixed(2)}</small>
+      `;
+    } else {
+      resultDiv.textContent = `Total tip: $0.00`;
+    }
+  };
+
+  billInput.addEventListener('input', updateResult);
+  tipInput.addEventListener('input', updateResult);
+  peopleInput.addEventListener('input', updateResult);
+</script>
+
+
+</body>
+</html>
