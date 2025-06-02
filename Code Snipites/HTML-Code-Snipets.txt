@@ -1,0 +1,7 @@
+PopUp
+  <div id="myPopup">
+    <h2>IMPORTANT!!!</h2>
+    <p>Even though we have officialy launched we will be doing maintenance and content updates at least once a week. Some tools are still realy buggy dont wory we are working on it. For more info click <a href="https://themultitools.xyz/other/patchnotes">Here</a></p>
+    <button id="button" onclick="togglePopup()">Close</button>
+  </div>
+
