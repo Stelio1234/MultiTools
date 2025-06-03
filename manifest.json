@@ -8,12 +8,12 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "MultiTools.jpg",
+      "src": "images/MultiTools.jpg",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "MultiTools.jpg",
+      "src": "images/MultiTools.jpg",
       "type": "image/png",
       "sizes": "512x512"
     }
