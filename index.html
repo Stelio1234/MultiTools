@@ -262,7 +262,8 @@ footer {
 <body>
 <div class="container">
     <h1>MultiTools</h1>
-    <p>The Site with Many Tools</p>
+    <p1>The Site with Many Tools</p1>
+    <p id="welcome"></p>
     <h1>Common Tools</h1>
     <div class="grid-container">
         <div class="grid-item">
@@ -465,5 +466,37 @@ footer {
 </script>
 
 
-</body>
+</body><!-- Firebase SDK scripts (include if not already on the page) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+
+<!-- Add this somewhere in your HTML -->
+<div id="welcome" style="color: white; font-size: 18px; margin: 20px;"></div>
+
+<script>
+  // Initialize Firebase (reuse your actual config)
+  const firebaseConfig = {
+    apiKey: "AIzaSyBHSuqEhGYcRd_6GsMDI0bHDy3_5v0lD9g",
+    authDomain: "multitools-48cc8.firebaseapp.com",
+    projectId: "multitools-48cc8",
+    storageBucket: "multitools-48cc8.firebasestorage.app",
+    messagingSenderId: "1048886823672",
+    appId: "1:1048886823672:web:71f0ff40e2a9642de2890d",
+    measurementId: "G-JG6J0KRN08"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  // Show welcome message if user is logged in
+  auth.onAuthStateChanged((user) => {
+    const welcomeDiv = document.getElementById("welcome");
+    if (user) {
+      welcomeDiv.textContent = `Hello, ${user.email}`;
+    } else {
+      welcomeDiv.textContent = `You're not logged in.`;
+    }
+  });
+</script>
+
 </html>
