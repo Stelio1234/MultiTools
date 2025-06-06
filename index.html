@@ -349,6 +349,10 @@ footer {
             <div class="tooltip">Terms Of Service</div>
             <button onclick="window.location.href='other/TOS.html'">Terms of Service</button>
         </div>
+          <div class="grid-item">
+            <div class="tooltip">LOGOUT</div>
+            <button onclick="logout">LOGOUT</button>
+        </div>
     </div>
     <p class="p1">Version 1.1</p>
     <button class="login-btn" onclick="window.location.href='other/construction.html'">Login</button>
@@ -497,6 +501,21 @@ footer {
       welcomeDiv.textContent = `You're not logged in.`;
     }
   });
+
+      function logout() {
+      console.log("Logout button clicked");
+      auth.signOut()
+        .then(() => {
+          console.log('User signed out successfully.');
+          // Optionally redirect after logout
+          // window.location.href = '/login.html';
+        })
+        .catch((error) => {
+          console.error('Error signing out:', error);
+        });
+    }
+
+  
 </script>
 
 </html>
