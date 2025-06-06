@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manage Account</title>
+  <link rel="icon" type="image/x-icon" href="/MultiTools.jpg">
+  <meta name="theme-color" content="#45a049">
+  <link rel="manifest" href="/manifest.json">
+  <style>
+    body {
+      background-color: #121212;
+      color: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      background-color: #1e1e1e;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    h2 {
+      font-weight: bold;
+      font-size: large;
+      text-align: center;
+    }
+
+    .grid-item button {
+      width: 100%;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: #4caf50;
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .grid-item button:hover {
+      background-color: #45a049;
+      transform: translateY(-2px);
+      box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      text-align: left;
+    }
+
+    .back-button {
+      padding: 12px 20px;
+      border-radius: 8px;
+      border: none;
+      background-color: #4caf50;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      width: 120px;
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      transition: all 0.2s ease;
+    }
+
+    .back-button:hover {
+      background-color: #45a049;
+      transform: translateY(-2px);
+      box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+    }
+
+    #welcome {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Settings</h2>
+
+    <div class="grid-container">
+      <div class="grid-item"><button onclick="logout()">Log Out</button></div>
+      <div class="grid-item"><button onclick="deleteAccount()">Delete Account</button></div>
+    </div>
+
+    <ul id="userInfo">
+      <li><strong>Email:</strong> <span id="userEmail">Loading...</span></li>
+      <li><strong>Sign-in Method:</strong> <span id="signInMethod">Loading...</span></li>
+    </ul>
+  </div>
+
+  <div id="welcome"></div>
+  <button class="back-button" onclick="window.history.back()">Back</button>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+
+  <script>
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBHSuqEhGYcRd_6GsMDI0bHDy3_5v0lD9g",
+      authDomain: "multitools-48cc8.firebaseapp.com",
+      projectId: "multitools-48cc8",
+      storageBucket: "multitools-48cc8.appspot.com",
+      messagingSenderId: "1048886823672",
+      appId: "1:1048886823672:web:71f0ff40e2a9642de2890d",
+      measurementId: "G-JG6J0KRN08"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Get and display user info
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        document.getElementById("userEmail").textContent = user.email;
+        
+        const provider = user.providerData[0]?.providerId || "Unknown";
+        const providerMap = {
+          "password": "Email & Password",
+          "google.com": "Google",
+          "facebook.com": "Facebook",
+          "github.com": "GitHub"
+        };
+        document.getElementById("signInMethod").textContent = providerMap[provider] || provider;
+
+      } else {
+        document.getElementById("userEmail").textContent = "Not signed in";
+        document.getElementById("signInMethod").textContent = "N/A";
+      }
+    });
+
+    function logout() {
+      auth.signOut()
+        .then(() => {
+          console.log("User signed out.");
+          window.location.href = "login.html";
+        })
+        .catch((error) => {
+          console.error("Logout failed:", error);
+        });
+    }
+
+    function deleteAccount() {
+      const user = auth.currentUser;
+      if (!user) return alert("You're not logged in.");
+
+      const confirmDelete = confirm("Are you sure you want to delete your account? This cannot be undone.");
+      if (!confirmDelete) return;
+
+      user.delete()
+        .then(() => {
+          alert("Account deleted successfully.");
+          window.location.href = "login.html"; // Or wherever you want to go
+        })
+        .catch((error) => {
+          console.error("Account deletion error:", error);
+          if (error.code === "auth/requires-recent-login") {
+            alert("Please log in again before deleting your account.");
+            // Optional: Redirect to re-auth page
+          } else {
+            alert("Something went wrong. Try again.");
+          }
+        });
+    }
+  </script>
+</body>
+</html>
