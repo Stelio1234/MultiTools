@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Multi Tools Hub</title>
-    <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
-    <meta name="theme-color" content="#45a049">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="stylesheet" href="css/footer.css">
-    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <meta name="description" content="Multi Tools is a free website offering many useful online tools like YouTube downloader, QR code generator, unit converter, and more – all in one place!">
-    
-
-    <style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multi Tools Hub</title>
+  <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
+  <meta name="theme-color" content="#45a049">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="css/footer.css">
+  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <meta name="description" content="Multi Tools is a free website offering many useful online tools like YouTube downloader, QR code generator, unit converter, and more – all in one place!">
+  <style>
 
 :root {
   --padding-container: 40px;
@@ -260,7 +258,7 @@ footer {
     </style>
 </head>
 <body>
-<div class="container">
+  <div class="container">
     <h1>MultiTools</h1>
     <p1>The Site with Many Tools</p1>
     <p id="welcome"></p>
@@ -355,9 +353,10 @@ footer {
       </div>
     </div>
     <p class="p1">Version 2</p>
-    <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
+    <div class="welcome" id="welcome">Checking login status...</div>
+    <button id="login-btn" class="login-btn">Log In</button>
     <button class="download-btn" onclick="window.location.href='other/download.html'">Download</button>
-    <footer>
+        <footer>
         <div class="grid">
             <a href="https://discord.gg/ESWhAhR5Pp" 
             target="_blank" 
@@ -400,122 +399,77 @@ footer {
             </a>
         </div>
     </footer>
-</div>
+  </div>
 
-<script>
-  // Request notification access
-  function requestNotificationAccess() {
-    if (!('Notification' in window)) {
-      console.log('This browser does not support notifications.');
-      return;
+  <script>
+    function requestNotificationAccess() {
+      if (!('Notification' in window)) return;
+      if (Notification.permission === 'default') {
+        Notification.requestPermission();
+      }
     }
 
-    if (Notification.permission === 'default') {
-      Notification.requestPermission().then(permission => {
-        if (permission === 'granted') {
-          console.log('Notification permission granted.');
-        } else {
-          console.log('Notification permission denied.');
-        }
-      });
-    } else {
-      console.log('Notification permission already:', Notification.permission);
-    }
-  }
-
-  // Maintenance Popup (run once per page load)
-  function togglePopup() {
-    const popup = document.getElementById("myPopup");
-    if (popup) {
-      popup.classList.toggle("show");
-    }
-    window.removeEventListener('load', togglePopup);
-  }
-
-  // Notification (run once ever using localStorage)
-  function notifyUser() {
-    if (localStorage.getItem('maintenanceNotificationShown') === 'true') {
-      return;
+    function togglePopup() {
+      const popup = document.getElementById("myPopup");
+      if (popup) popup.classList.toggle("show");
+      window.removeEventListener('load', togglePopup);
     }
 
-    if (Notification.permission === 'granted') {
-      new Notification('ATTENTION!!!', {
-        body: 'We will be doing a scheduled downtime on Friday 5/23 and the site will be offline till 4/26.',
-        icon: '/MultiTools.jpg'
-      });
-      localStorage.setItem('maintenanceNotificationShown', 'true');
-    } else if (Notification.permission !== 'denied') {
-      Notification.requestPermission().then(permission => {
-        if (permission === 'granted') {
-          new Notification('ATTENTION!!!', {
-            body: 'We will be doing a scheduled downtime on Friday 5/23 and the site will be offline till 4/26.',
-            icon: '/MultiTools.jpg'
-          });
-          localStorage.setItem('maintenanceNotificationShown', 'true');
-        } else {
-            return
-        }
-      });
-    } else {
-        return
-    }
-  }
-
-  // Attach all scripts to load event
-  window.addEventListener('load', () => {
-    requestNotificationAccess();
-    togglePopup();
-    notifyUser();
-  });
-</script>
-
-
-</body><!-- Firebase SDK scripts (include if not already on the page) -->
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-
-<!-- Add this somewhere in your HTML -->
-<div id="welcome" style="color: white;"></div>
-
-<script>
-  // Initialize Firebase (reuse your actual config)
-  const firebaseConfig = {
-    apiKey: "AIzaSyBHSuqEhGYcRd_6GsMDI0bHDy3_5v0lD9g",
-    authDomain: "multitools-48cc8.firebaseapp.com",
-    projectId: "multitools-48cc8",
-    storageBucket: "multitools-48cc8.firebasestorage.app",
-    messagingSenderId: "1048886823672",
-    appId: "1:1048886823672:web:71f0ff40e2a9642de2890d",
-    measurementId: "G-JG6J0KRN08"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-
-  // Show welcome message if user is logged in
-  auth.onAuthStateChanged((user) => {
-    const welcomeDiv = document.getElementById("welcome");
-    if (user) {
-      welcomeDiv.textContent = `Hello, ${user.email}`;
-    } else {
-      welcomeDiv.textContent = `You're not logged in.`;
-    }
-  });
-
-      function logout() {
-      console.log("Logout button clicked");
-      auth.signOut()
-        .then(() => {
-          console.log('User signed out successfully.');
-          // Optionally redirect after logout
-          // window.location.href = '/login.html';
-        })
-        .catch((error) => {
-          console.error('Error signing out:', error);
+    function notifyUser() {
+      if (localStorage.getItem('maintenanceNotificationShown') === 'true') return;
+      if (Notification.permission === 'granted') {
+        new Notification('ATTENTION!!!', {
+          body: 'We will be doing a scheduled downtime on Friday 5/23 and the site will be offline till 4/26.',
+          icon: '/MultiTools.jpg'
         });
+        localStorage.setItem('maintenanceNotificationShown', 'true');
+      }
     }
 
-  
-</script>
+    window.addEventListener('load', () => {
+      requestNotificationAccess();
+      togglePopup();
+      notifyUser();
+    });
+  </script>
 
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBHSuqEhGYcRd_6GsMDI0bHDy3_5v0lD9g",
+      authDomain: "multitools-48cc8.firebaseapp.com",
+      projectId: "multitools-48cc8",
+      storageBucket: "multitools-48cc8.appspot.com",
+      messagingSenderId: "1048886823672",
+      appId: "1:1048886823672:web:71f0ff40e2a9642de2890d",
+      measurementId: "G-JG6J0KRN08"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const welcomeDiv = document.getElementById('welcome');
+    const loginBtn = document.getElementById('login-btn');
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        welcomeDiv.textContent = `Hello, ${user.email}`;
+        loginBtn.textContent = 'Log Out';
+      } else {
+        welcomeDiv.textContent = `You're not logged in.`;
+        loginBtn.textContent = 'Log In';
+      }
+    });
+
+    loginBtn.addEventListener('click', () => {
+      const user = auth.currentUser;
+      if (user) {
+        auth.signOut().catch(err => console.error("Sign-out error:", err));
+      } else {
+        window.location.href = "login.html";
+      }
+    });
+  </script>
+</body>
 </html>
+
