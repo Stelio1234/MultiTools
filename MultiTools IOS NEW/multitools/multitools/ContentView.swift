@@ -1,0 +1,510 @@
+import SwiftUI
+
+struct ContentView: View {
+    @State private var navigateTo: String?
+
+    let html = """
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>Multi Tools Hub</title>
+          <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
+          <meta name="theme-color" content="#45a049">
+          <link rel="manifest" href="/manifest.json">
+          <link rel="stylesheet" href="css/footer.css">
+          <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+          <meta name="description" content="Multi Tools is a free website offering many useful online tools like YouTube downloader, QR code generator, unit converter, and more – all in one place!">
+          <style>
+
+        :root {
+          --padding-container: 40px;
+          --font-h1: 32px;
+          --font-p: 18px;
+          --button-padding: 15px;
+          --grid-columns: repeat(2, 1fr);
+          --tooltip-font: 14px;
+          --max-container-width: 600px;
+        }
+
+        @media (max-width: 575.98px) {
+          :root {
+            --padding-container: 16px;
+            --font-h1: 24px;
+            --font-p: 14px;
+            --button-padding: 12px;
+            --grid-columns: 1fr;
+            --tooltip-font: 12px;
+            --max-container-width: 100%;
+          }
+        }
+
+        @media (min-width: 576px) and (max-width: 767.98px) {
+          :root {
+            --padding-container: 20px;
+            --font-h1: 26px;
+            --font-p: 16px;
+            --button-padding: 13px;
+          }
+        }
+
+        @media (min-width: 768px) and (max-width: 991.98px) {
+          :root {
+            --padding-container: 28px;
+          }
+        }
+
+        @media (min-width: 992px) and (max-width: 1199.98px) {
+          :root {
+            --padding-container: 32px;
+          }
+        }
+
+        @media (min-width: 1200px) and (max-width: 1399.98px) {
+          :root {
+            --padding-container: 36px;
+          }
+        }
+
+        @media (min-width: 1400px) {
+          :root {
+            --padding-container: 40px;
+          }
+        }
+
+        html, body {
+          height: auto;
+          margin: auto;
+          padding: 0;
+          font-family: Arial, Helvetica, sans-serif;
+          background-color: #121212;
+          color: #ffffff;
+        }
+
+        body {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: var(--padding-container);
+          height: 100vh;
+          box-sizing: border-box;
+          height: auto;
+          margin: auto;
+        }
+
+        .container {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          background-color: #1e1e1e;
+          padding: var(--padding-container);
+          border-radius: 16px;
+          box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
+          width: 100%;
+          max-width: var(--max-container-width);
+          text-align: center;
+        }
+
+        h1 {
+          font-size: var(--font-h1);
+          font-weight: bold;
+          color: #ffffff;
+          margin: 0;
+        }
+
+        p, .p1 {
+          font-size: var(--font-p);
+          color: #cccccc;
+          margin-bottom: 20px;
+          text-align: center;
+        }
+
+        .badge-new {
+          color: #ff4;
+          font-weight: bold;
+          margin-left: 6px;
+        }
+
+        .grid-container {
+          display: grid;
+          grid-template-columns: var(--grid-columns);
+          gap: 15px;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .grid-item {
+          position: relative;
+        }
+
+        .tooltip {
+          position: absolute;
+          top: -60px;
+          left: 50%;
+          transform: translateX(-50%) translateY(10px);
+          background-color: #333;
+          color: #fff;
+          padding: 10px 14px;
+          border-radius: 6px;
+          visibility: hidden;
+          opacity: 0;
+          transition: opacity 0.4s ease, transform 0.4s ease;
+          font-size: var(--tooltip-font);
+          z-index: 1;
+          white-space: normal;
+          text-align: left;
+          max-width: 220px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+          line-height: 1.4;
+        }
+
+        .grid-item:hover .tooltip {
+          visibility: visible;
+          opacity: 1;
+          transform: translateX(-50%) translateY(0);
+        }
+
+        .grid-item button {
+          width: 100%;
+          padding: var(--button-padding);
+          border-radius: 8px;
+          background-color: #4caf50;
+          border: none;
+          color: white;
+          font-size: 16px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .grid-item button:hover {
+          background-color: #45a049;
+          transform: translateY(-2px);
+          box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+
+        .login-btn, .download-btn {
+          position: absolute;
+          padding: 10px 20px;
+          background-color: #4caf50;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          font-size: 16px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .login-btn {
+          top: 70px;
+          right: 20px;
+        }
+
+        .download-btn {
+          top: 20px;
+          right: 20px;
+        }
+
+        .login-btn:hover, .download-btn:hover {
+          background-color: #45a049;
+          transform: translateY(-2px);
+          box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+
+        footer {
+          color: #ffffff;
+          height: 50px;
+          text-align: center;
+        }
+
+        .popup-container {
+          width: 20px;
+          height: 40px;
+          border-radius: 8px;
+          transition: opacity 0.4s ease, transform 0.4s ease;
+
+        }
+            #myPopup {
+              position: fixed;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%) scale(0.8);
+              opacity: 0;
+              width: 300px;
+              padding: 20px;
+              background-color: #222;
+              color: #fff;
+              border-radius: 8px;
+              box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+              transition: opacity 0.4s ease, transform 0.4s ease;
+              z-index: 999;
+              pointer-events: none;
+            }
+
+            #myPopup.show {
+              opacity: 1;
+              transform: translate(-50%, -50%) scale(1);
+              pointer-events: auto;
+            }
+
+            #button {
+              position: fixed;
+              padding: 10px 10px;
+              background-color: #4caf50;
+              color: white;
+              border: none;
+              border-radius: 8px;
+              font-size: 16px;
+              cursor: pointer;
+              transition: all 0.2s ease;
+              position: relative;
+
+            }
+            </style>
+        </head>
+        <body>
+          <div class="container">
+            <h1>MultiTools</h1>
+            <p1>The App with Many Tools</p1>
+            <p id="welcome"></p>
+            <h1>Common Tools</h1>
+            <div class="grid-container">
+                <div class="grid-item">
+                    <div class="tooltip">Set a countdown for tasks</div>
+                    <button onclick="window.location.href='Tools/timer.html'">Timer</button>
+                </div>
+                <div class="grid-item">
+                    <div class="tooltip">Convert units of measure <strong>Work in progress</strong></div>
+                    <button onclick="window.location.href='other/construction.html'">Unit Converter <span class="badge-new">WIP</span></button>
+                </div>
+                <div class="grid-item">
+                    <div class="tooltip">Estimate pet ages <strong>Work in progress</strong></div>
+                    <button onclick="window.location.href='other/construction.html'">Pet Age Calculator <span class="badge-new">WIP</span></button>
+                </div>
+                    <div class="grid-item">
+                    <div class="tooltip">Calculates you tip</div>
+                    <button onclick="window.location.href='Tools/tipcalculator.html'">Tip Calculator<span class="badge-new">New</span></button>
+                </div>
+            </div>
+
+            <h1>Downloaders</h1>
+            <div class="grid-container">
+                <div class="grid-item">
+                    <div class="tooltip">Download YouTube videos <strong>Work in progress.</strong></div>
+                    <button onclick="window.location.href='Tools/YT-Downloader.html'">YT Downloader <span class="badge-new">WIP</span></button>
+                </div>
+                <div class="grid-item">
+                    <div class="tooltip">Download TikTok videos <strong>Work in progress</strong></div>
+                    <button onclick="window.location.href='construction.swift'">TikTok Downloader <span class="badge-new">WIP</span></button>
+                </div>
+            </div>
+
+            <h1>Dev Tools</h1>
+            <div class="grid-container">
+                <div class="grid-item">
+                    <div class="tooltip">Encrypt and decrypt text securely</div>
+                    <button onclick="window.location.href='Tools/encrypted.html'">Text Encrypter & Decrypter</button>
+                </div>
+                <div class="grid-item">
+                    <div class="tooltip">Generate a webpage clip for previews</div>
+                    <button onclick="window.location.href='Tools/WebClip.html'">WebClip Generator</button>
+                </div>
+                        <div class="grid-item">
+                    <div class="tooltip">Install IPA files on ypur device</div>
+                    <button onclick="window.location.href='other/construction.html'">IPA Installer</button>
+                </div>
+            </div>
+
+            <h1>Image Tools</h1>
+            <div class="grid-container">
+                <div class="grid-item">
+                    <div class="tooltip">Reduce image size <strong>Work in progress</strong></div>
+                    <button onclick="window.location.href='other/construction.html'">Image Compressor <span class="badge-new">WIP</span></button>
+                </div>
+                <div class="grid-item">
+                    <div class="tooltip">Convert image format (e.g., JPG to PNG)<strong>Work in progress</strong></div>
+                    <button onclick="window.location.href='Tools/imagetypeconverter.html'">Image Converter<span class="badge-new">WIP</span></button>
+                </div>
+            </div>
+
+            <h1>Generators</h1>
+            <div class="grid-container">
+                <div class="grid-item">
+                    <div class="tooltip">Generate random gamertags</div>
+                    <button onclick="window.location.href='Tools/gamertag-gen.html'">Gamertag Generator</button>
+                </div>
+                <div class="grid-item">
+                    <div class="tooltip">Generate a QR Code</div>
+                    <button onclick="window.webkit.messageHandlers.navigate.postMessage('QrCodeView')">QR Code Generator</button>
+
+                </div>
+                <div class="grid-item">
+                    <div class="tooltip">Generate secure passwords</div>
+                    <button onclick="window.location.href='Tools/password-gen.html'">Password Generator</button>
+                </div>
+            </div>
+                <h1>Site Info</h1>
+            <div class="grid-container">
+                <div class="grid-item">
+                    <div class="tooltip">Patch Notes</div>
+                    <button onclick="window.location.href='other/patchnotes.html'">Patch Notes</button>
+                </div>
+                <div class="grid-item">
+                    <div class="tooltip">Terms Of Service</div>
+                    <button onclick="window.location.href='other/TOS.html'">Terms of Service</button>
+                </div>
+              <div class="grid-item">
+                <div class="tooltip">Settings</div>
+                <button onclick="window.location.href='other/settings.html'">Settings</button>
+              </div>
+            </div>
+            <p class="p1">Version 2</p>
+            <div class="welcome" id="welcome">Checking login status...</div>
+            <button id="login-btn" class="login-btn">Log In</button>
+            <button class="download-btn" onclick="window.location.href='other/download.html'">Download</button>
+                <footer>
+                <div class="grid">
+                    <a href="https://discord.gg/ESWhAhR5Pp"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="Discord"
+                    style="font-size: 25px; background: none; color: #ffffff; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 8px; text-decoration: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"/>
+                        </svg>
+                    </a>
+
+                    <a href="https://github.com/Stelio1234/MultiTools"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="GitHub"
+                    style="font-size: 25px; background: none; color: #ffffff; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 8px; text-decoration: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38v-1.33c-2.23.49-2.69-1.07-2.69-1.07-.36-.91-.88-1.15-.88-1.15-.72-.49.06-.48.06-.48.8.06 1.22.83 1.22.83.71 1.21 1.86.86 2.31.66.07-.52.28-.86.51-1.06-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82a7.7 7.7 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                        </svg>
+                    </a>
+
+                    <a href="https://instagram.com/the.multitools"
+                      target="_blank"
+                      rel="noopener"
+                      aria-label="Instagram"
+                      style="font-size: 25px; background: none; color: #ffffff; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 8px; text-decoration: none;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 448 512">
+                         <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9S160.5 370.8 224.1 370.8 339 319.5 339 255.9 287.7 141 224.1 141zm0 186.6c-39.5 0-71.6-32.1-71.6-71.6s32.1-71.6 71.6-71.6 71.6 32.1 71.6 71.6-32.1 71.6-71.6 71.6zm146.4-194.3c0 14.9-12.1 27-27 27-14.9 0-27-12.1-27-27s12.1-27 27-27 27 12.1 27 27zm76.1 27.2c-.9-19.6-5.2-37-17.1-53.1-12-16.3-27.9-28.3-47.5-37.2C358.6 10.2 299.8 0 224.1 0 148.3 0 89.5 10.2 66 70.2c-19.6 8.9-35.5 20.9-47.5 37.2C6.2 123.2 1.9 140.6 1 160.2.3 180.8 0 198.6 0 256s.3 75.2 1 95.8c.9 19.6 5.2 37 17.1 53.1 12 16.3 27.9 28.3 47.5 37.2 23.5 60 82.3 70.2 158.1 70.2s134.6-10.2 158.1-70.2c19.6-8.9 35.5-20.9 47.5-37.2 11.9-16.1 16.2-33.5 17.1-53.1.7-20.6 1-38.4 1-95.8s-.3-75.2-1-95.8zm-48.3 232.1c-7.8 19.5-22.9 34.6-42.4 42.4-29.4 11.8-99.1 9.1-132.1 9.1s-102.7 2.6-132.1-9.1c-19.5-7.8-34.6-22.9-42.4-42.4-11.8-29.4-9.1-99.1-9.1-132.1s-2.6-102.7 9.1-132.1c7.8-19.5 22.9-34.6 42.4-42.4 29.4-11.8 99.1-9.1 132.1-9.1s102.7-2.6 132.1 9.1c19.5 7.8 34.6 22.9 42.4 42.4 11.8 29.4 9.1 99.1 9.1 132.1s2.7 102.7-9.1 132.1z"/>
+                      </svg>
+                    </a>
+
+                    <a href="https://www.tiktok.com/@multitoolss"
+                      target="_blank"
+                      rel="noopener"
+                      aria-label="TikTok"
+                      style="font-size: 25px; background: none; color: #ffffff; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 8px; text-decoration: none;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 448 512">
+                        <path d="M412.19,118.66a109.27,109.27,0,0,1-9.45-5.5,132.87,132.87,0,0,1-24.27-20.62c-18.1-20.71-24.86-41.72-27.35-56.43h.1C349.14,23.9,350,16,350.13,16H267.69V334.78c0,4.28,0,8.51-.18,12.69,0,.52-.05,1-.08,1.56,0,.23,0,.47-.05.71,0,.06,0,.12,0,.18a70,70,0,0,1-35.22,55.56,68.8,68.8,0,0,1-34.11,9c-38.41,0-69.54-31.32-69.54-70s31.13-70,69.54-70a68.9,68.9,0,0,1,21.41,3.39l.1-83.94a153.14,153.14,0,0,0-118,34.52,161.79,161.79,0,0,0-35.3,43.53c-3.48,6-16.61,30.11-18.2,69.24-1,22.21,5.67,45.22,8.85,54.73v.2c2,5.6,9.75,24.71,22.38,40.82A167.53,167.53,0,0,0,115,470.66v-.2l.2.2C155.11,497.78,199.36,496,199.36,496c7.66-.31,33.32,0,62.46-13.81,32.32-15.31,50.72-38.12,50.72-38.12a158.46,158.46,0,0,0,27.64-45.93c7.46-19.61,9.95-43.13,9.95-52.53V176.49c1,.6,14.32,9.41,14.32,9.41s19.19,12.3,49.13,20.31c21.48,5.7,50.42,6.9,50.42,6.9V131.27C453.86,132.37,433.27,129.17,412.19,118.66Z"/>
+                      </svg>
+                    </a>
+                </div>
+            </footer>
+          </div>
+
+          <script>
+            function requestNotificationAccess() {
+              if (!('Notification' in window)) return;
+              if (Notification.permission === 'default') {
+                Notification.requestPermission();
+              }
+            }
+
+            function togglePopup() {
+              const popup = document.getElementById("myPopup");
+              if (popup) popup.classList.toggle("show");
+              window.removeEventListener('load', togglePopup);
+            }
+
+            function notifyUser() {
+              if (localStorage.getItem('maintenanceNotificationShown') === 'true') return;
+              if (Notification.permission === 'granted') {
+                new Notification('ATTENTION!!!', {
+                  body: 'We will be doing a scheduled downtime on Friday 5/23 and the site will be offline till 4/26.',
+                  icon: '/MultiTools.jpg'
+                });
+                localStorage.setItem('maintenanceNotificationShown', 'true');
+              }
+            }
+
+            window.addEventListener('load', () => {
+              requestNotificationAccess();
+              togglePopup();
+              notifyUser();
+            });
+          </script>
+
+          <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+          <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+          <script>
+            const firebaseConfig = {
+              apiKey: "AIzaSyBHSuqEhGYcRd_6GsMDI0bHDy3_5v0lD9g",
+              authDomain: "multitools-48cc8.firebaseapp.com",
+              projectId: "multitools-48cc8",
+              storageBucket: "multitools-48cc8.appspot.com",
+              messagingSenderId: "1048886823672",
+              appId: "1:1048886823672:web:71f0ff40e2a9642de2890d",
+              measurementId: "G-JG6J0KRN08"
+            };
+
+            firebase.initializeApp(firebaseConfig);
+            const auth = firebase.auth();
+            const welcomeDiv = document.getElementById('welcome');
+            const loginBtn = document.getElementById('login-btn');
+
+            auth.onAuthStateChanged(user => {
+              if (user) {
+                welcomeDiv.textContent = `Hello, ${user.email}`;
+                loginBtn.textContent = 'Log Out';
+              } else {
+                welcomeDiv.textContent = `You're not logged in.`;
+                loginBtn.textContent = 'Log In';
+              }
+            });
+
+            loginBtn.addEventListener('click', () => {
+              const user = auth.currentUser;
+              if (user) {
+                auth.signOut().catch(err => console.error("Sign-out error:", err));
+              } else {
+                window.location.href = "login.html";
+              }
+            });
+          </script>
+        </body>
+        </html>
+    """ // Truncated for readability
+
+    var body: some View {
+        NavigationView {
+            ZStack {
+                HTMLWebView(htmlContent: html, onNavigationRequest: { tool in
+                    navigateTo = tool
+                })
+                .edgesIgnoringSafeArea(.all)
+                .navigationBarHidden(true)
+
+                NavigationLink(destination: QrCodeGenView(), tag: "QrCodeView", selection: $navigateTo) {
+                    EmptyView()
+                }
+
+                // Example: Add more NavigationLinks if you connect other tools this way
+                // NavigationLink(destination: TipCalculatorView(), tag: "TipCalculatorView", selection: $navigateTo) {
+                //     EmptyView()
+                // }
+            }
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+    }
+}
+
+#Preview {
+    ContentView()
+}
+
