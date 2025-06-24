@@ -1,0 +1,523 @@
+import SwiftUI
+
+struct QrCodeGenView: View {
+    let html = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>QR Code Generator</title>
+      <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
+      <meta name="theme-color" content="#45a049">
+      <link rel="manifest" href="/manifest.json">
+      <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+      <style>
+        :root {
+          --padding-container: 40px;
+          --font-h1: 32px;
+          --font-p: 18px;
+          --button-padding: 15px;
+          --grid-columns: repeat(2, 1fr);
+          --tooltip-font: 14px;
+          --max-container-width: 600px;
+        }
+
+        @media (max-width: 575.98px) {
+          :root {
+            --padding-container: 16px;
+            --font-h1: 24px;
+            --font-p: 14px;
+            --button-padding: 12px;
+            --grid-columns: 1fr;
+            --tooltip-font: 12px;
+            --max-container-width: 100%;
+          }
+        }
+
+        @media (min-width: 576px) and (max-width: 767.98px) {
+          :root {
+            --padding-container: 20px;
+            --font-h1: 26px;
+            --font-p: 16px;
+            --button-padding: 13px;
+            --max-container-width: 100%;
+          }
+        }
+
+        @media (min-width: 768px) and (max-width: 991.98px) {
+          :root {
+            --padding-container: 28px;
+            --max-container-width: 100%;
+          }
+        }
+
+        @media (min-width: 992px) and (max-width: 1199.98px) {
+          :root {
+            --padding-container: 32px;
+            --max-container-width: 100%;
+          }
+        }
+
+        @media (min-width: 1200px) and (max-width: 1399.98px) {
+          :root {
+            --padding-container: 36px;
+          }
+        }
+
+        @media (min-width: 1400px) {
+          :root {
+            --padding-container: 40px;
+          }
+        }
+
+        body {
+          background-color: #121212;
+          color: #ffffff;
+          font-family: Arial, Helvetica, sans-serif;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 1%;
+          padding: var(--padding-container);
+          flex-direction: column;
+        }
+
+        .container {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          background-color: #1e1e1e;
+          padding: 20px;
+          border-radius: 16px;
+          box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
+          width: 100%;
+          max-width: var(--max-container-width);
+          text-align: center;
+        }
+
+        .main-flex {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: flex-start;
+          width: 100%;
+          flex-wrap: wrap;
+        }
+
+        .customization-panel {
+          display: flex;
+          flex-direction: row;
+          gap: 16px;
+          background: #232323;
+          padding: 16px;
+          border-radius: 12px;
+          margin-right: 24px;
+          align-items: center;
+          min-width: 140px;
+          height: fit-content;
+        }
+
+        .customization-label {
+          color: #bdbdbd;
+          font-size: var(--tooltip-font);
+          margin-bottom: 4px;
+        }
+
+        .color-wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4px;
+        }
+
+        .customization-color {
+          width: 40px;
+          height: 40px;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          box-shadow: 0 0 4px #333;
+        }
+
+        .preset-bg {
+          width: 32px;
+          height: 32px;
+          border: 2px solid #444;
+          border-radius: 50%;
+          cursor: pointer;
+          margin: 0;
+          padding: 0;
+          transition: border 0.2s, transform 0.2s;
+        }
+
+        .preset-bg:hover {
+          border: 2px solid #45a049;
+          transform: translateY(-2px) scale(0.9);
+          box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+
+        .qr-code {
+          max-width: 200px;
+          margin: 10px auto;
+          padding: 0;
+          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+          border-width: 10px;
+        }
+
+        .form-group {
+          margin-bottom: 15px;
+        }
+
+        .form-control {
+          padding: 12px;
+          border-radius: 8px;
+          border: none;
+          background-color: #2c2c2c;
+          color: #ffffff;
+          font-size: 16px;
+          width: 80%;
+        }
+
+        .form-control:focus {
+          outline: none;
+          box-shadow: 0 0 4px 2px #4caf50;
+        }
+
+        .btn {
+          background-color: #4caf50;
+          border: none;
+          color: white;
+          padding: var(--button-padding);
+          font-size: 16px;
+          cursor: pointer;
+          border-radius: 8px;
+          transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+          background-color: #45a049;
+          transform: translateY(-2px);
+          box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+
+        .back-button {
+          padding: 12px 20px;
+          border-radius: 8px;
+          border: none;
+          background-color: #4caf50;
+          color: white;
+          font-size: 16px;
+          cursor: pointer;
+          width: 120px;
+          position: fixed;
+          bottom: 30px;
+          right: 30px;
+        }
+
+        .back-button:hover {
+          background-color: #45a049;
+          transform: translateY(-2px);
+          box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+
+        .preset-row {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          justify-content: center;
+        }
+
+        h1 {
+          font-size: var(--font-h1);
+          margin-bottom: 20px;
+          color: #45a049;
+        }
+
+        @media (max-width: 767.98px) {
+          .main-flex {
+            flex-direction: column;
+            align-items: center;
+          }
+
+          .customization-panel {
+            flex-direction: row;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+            margin: 16px 0 0 0;
+          }
+        }
+
+        .form-row {
+          display: flex;
+          justify-content: center;
+          gap: 10px;
+          flex-wrap: wrap;
+          margin-bottom: 1rem;
+        }
+
+        .form-row label {
+          margin-right: 5px;
+        }
+      </style>
+    </head>
+    <body>
+
+      <div class="container">
+        <h1>QR Code Generator</h1>
+
+        <div id="qr-code"></div>
+
+        <div class="form-group">
+          <input type="text" class="form-control" id="content" placeholder="Enter content" />
+        </div>
+
+        <div class="form-row">
+          <label for="qr-size">Size:</label>
+          <input type="number" id="qr-size" class="form-control" placeholder="200" min="50" max="800" />
+          
+          <label for="shape">Shape:</label>
+          <select id="shape" class="form-control">
+            <option value="square">Square</option>
+            <option value="dots">Dot</option>
+            <option value="rounded">Rounded</option>
+          </select>
+        </div>
+
+
+        <div class="form-row" style="justify-content:center; align-items:center;">
+          <label for="gradient-from">Gradient From:</label>
+          <input type="color" id="gradient-from" class="customization-color" value="#000000" />
+          
+          <label for="gradient-to">Gradient To:</label>
+          <input type="color" id="gradient-to" class="customization-color" value="#45a049" />
+        </div>
+
+        <div class="form-group">
+          <button type="button" class="btn" id="gradient-toggle-btn">Use Gradient: On</button>
+        </div>
+
+        <div class="form-row" style="justify-content:center; align-items:center;">
+          <label for="qr-color">QR Color:</label>
+          <input type="color" id="qr-color" class="customization-color" value="#000000" />
+          
+          <label for="bg-color">Background:</label>
+          <input type="color" id="bg-color" class="customization-color" value="#ffffff" />
+        </div>
+
+        <div class="form-group">
+          <button type="button" class="btn" id="generate">Generate</button>
+          <button type="button" class="btn" id="reset">Reset</button>
+          <button type="button" class="btn" id="download">Download</button>
+        </div>
+
+        <div class="form-group">
+          <label for="logo-upload" class="btn">Choose Logo Image
+            <input type="file" id="logo-upload" accept="image/*" hidden />
+          </label>
+        </div>
+
+        <div class="preset-row">
+          <button class="preset-bg" style="background:#ffffff;" data-color="#ffffff" title="White"></button>
+          <button class="preset-bg" style="background:#f44336;" data-color="#f44336" title="Red"></button>
+          <button class="preset-bg" style="background:#2196f3;" data-color="#2196f3" title="Blue"></button>
+          <button class="preset-bg" style="background:#4caf50;" data-color="#4caf50" title="Green"></button>
+          <button class="preset-bg" style="background:#ffeb3b;" data-color="#ffeb3b" title="Yellow"></button>
+          <button class="preset-bg" style="background:#000000;" data-color="#000000" title="Black"></button>
+        </div>
+      </div>
+
+      <button class="back-button" onclick="window.history.back()">Back</button>
+
+      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+      <script>
+        const input = document.getElementById("content"); // now it knows who input is
+        let useGradient = true;
+
+        const qrCode = new QRCodeStyling({
+          width: 200,
+          height: 200,
+          type: "canvas",
+          data: "Hello World",
+          dotsOptions: {
+            color: "#000000",
+            type: "square"
+          },
+          backgroundOptions: {
+            color: "#ffffff"
+          },
+          imageOptions: {
+            crossOrigin: "anonymous",
+            margin: 10
+          }
+        });
+
+        qrCode.append(document.getElementById("qr-code"));
+
+        function updateQRCode() {
+          const content = $('#content').val().trim() || "Hello World";
+          const size = Math.min(Math.max(parseInt($('#qr-size').val()) || 200, 50), 800);
+          const shape = $('#shape').val();
+          const qrColor = $('#qr-color').val();
+          const bgColor = $('#bg-color').val();
+          const gradientFrom = $('#gradient-from').val();
+          const gradientTo = $('#gradient-to').val();
+
+          const imageFile = document.getElementById('logo-upload').files[0];
+
+          let dotsOptions = { type: shape };
+
+          // Clean up both gradient and color, then apply the correct one
+          if (useGradient) {
+            dotsOptions.color = undefined; // in case it was used before
+            dotsOptions.gradient = {
+              type: "linear",
+              rotation: 0,
+              colorStops: [
+                { offset: 0, color: gradientFrom },
+                { offset: 1, color: gradientTo }
+              ]
+            };
+          } else {
+            dotsOptions.gradient = undefined; // nuke the gradient
+            dotsOptions.color = qrColor;
+          }
+
+
+          const qrConfig = {
+            width: size,
+            height: size,
+            data: content,
+            image: "",
+            dotsOptions,
+            backgroundOptions: { color: bgColor },
+            imageOptions: {
+              crossOrigin: "anonymous",
+              margin: 10
+            }
+          };
+
+          if (imageFile) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              qrConfig.image = e.target.result;
+              qrCode.update(qrConfig);
+            };
+            reader.onerror = function () {
+              alert("Error reading logo image file.");
+              qrCode.update(qrConfig);
+            };
+            reader.readAsDataURL(imageFile);
+          } else {
+            qrCode.update(qrConfig);
+          }
+        }
+
+        $(document).ready(function () {
+          $('#generate').click(function () {
+            const content = $('#content').val().trim();
+            if (content === "") {
+              alert("Please enter some content!");
+              return;
+            }
+            updateQRCode();
+          });
+
+          $('#qr-color, #bg-color, #shape, #gradient-from, #gradient-to, #qr-size').on('input change', () => {
+            // debounce example
+            clearTimeout(window.updateTimer);
+            window.updateTimer = setTimeout(updateQRCode, 150);
+          });
+
+          $('.preset-bg').click(function () {
+            const bg = $(this).data('color');
+            $('#bg-color').val(bg);
+            updateQRCode();
+          });
+
+          $('#reset').click(function () {
+            $('#content').val('');
+            $('#qr-color').val('#000000');
+            $('#bg-color').val('#ffffff');
+            $('#qr-size').val('200');
+            $('#shape').val('square');
+            $('#gradient-from').val('#000000');
+            $('#gradient-to').val('#45a049');
+            $('#logo-upload').val('');
+            useGradient = true;
+            $('#gradient-toggle-btn').text('Use Gradient: On');
+
+            qrCode.update({
+              width: 200,
+              height: 200,
+              data: "Hello World",
+              image: "",
+              dotsOptions: {
+                color: "#000000",
+                type: "square"
+              },
+              backgroundOptions: {
+                color: "#ffffff"
+              }
+            });
+          });
+
+          $('#content').on('input', () => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(updateQRCode, 300);
+          });
+
+
+            $('#download').click(function () {
+              qrCode.getRawData('png').then((blob) => {
+                const reader = new FileReader();
+                reader.onloadend = function () {
+                  const base64data = reader.result;
+                  window.webkit.messageHandlers.downloadHandler.postMessage(base64data);
+                };
+                reader.readAsDataURL(blob);
+              });
+            });
+
+
+
+          $('#logo-upload').change(function () {
+            // Optional: show filename or clear button here
+            updateQRCode();
+          });
+
+          // Initial QR code display
+          updateQRCode();
+        });
+
+
+        let debounceTimer;
+        input.addEventListener("input", () => {
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(() => {
+            const content = input.value.trim();
+            if (content !== "") {
+              updateQRCode();
+            }
+          }, 300); // waits 300ms after last input
+        });
+      </script>
+    </body>
+    </html>
+
+    """
+    
+    var body: some View {
+        NavigationView {
+            HTMLWebView(htmlContent: html, onNavigationRequest: { _ in })
+                .edgesIgnoringSafeArea(.all)
+                .navigationBarHidden(true)
+        }
+        .navigationViewStyle(StackNavigationViewStyle()) // for iPad/iPhone consistency
+    }
+}
+
+#Preview {
+    QrCodeGenView()
+}
