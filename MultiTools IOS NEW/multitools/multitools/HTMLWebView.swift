@@ -35,14 +35,32 @@ struct HTMLWebView: UIViewRepresentable {
         }
 
         func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-            if message.name == "navigate", let tool = message.body as? String {
-                onNavigationRequest?(tool)
-            } else if message.name == "downloadHandler", let base64String = message.body as? String {
-                if let data = Data(base64Encoded: base64String.components(separatedBy: ",").last ?? ""),
-                   let image = UIImage(data: data) {
+            switch message.name {
+            case "navigate":
+                if let tool = message.body as? String {
+                    onNavigationRequest?(tool)
+                }
+            case "downloadHandler":
+                if let base64String = message.body as? String,
+                   let base64Data = Data(base64Encoded: base64String.components(separatedBy: ",").last ?? ""),
+                   let image = UIImage(data: base64Data) {
                     UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
                 }
+            default:
+                break
             }
+        }
+
+        func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
+                     decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+            if let url = navigationAction.request.url?.absoluteString {
+                if url.contains("index.html") {
+                    onNavigationRequest?("ContentView")
+                    decisionHandler(.cancel)
+                    return
+                }
+            }
+            decisionHandler(.allow)
         }
     }
 }
