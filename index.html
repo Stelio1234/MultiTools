@@ -287,11 +287,11 @@ footer {
     <div class="grid-container">
         <div class="grid-item">
             <div class="tooltip">Download YouTube videos <strong>Work in progress.</strong></div>
-            <button onclick="window.location.href='Tools/YT-Downloader.html'">YT Downloader </button>
+            <button onclick="window.location.href='Tools/YT-Downloader'">YT Downloader </button>
         </div>
         <div class="grid-item">
             <div class="tooltip">Download TikTok videos <strong>Work in progress</strong></div>
-            <button onclick="window.location.href='other/construction.html'">TikTok Downloader </button>
+            <button onclick="window.location.href='other/construction'">TikTok Downloader </button>
         </div>
     </div>
 
@@ -299,15 +299,15 @@ footer {
     <div class="grid-container">
         <div class="grid-item">
             <div class="tooltip">Encrypt and decrypt text securely</div>
-            <button onclick="window.location.href='Tools/encrypted.html'">Text Encrypter & Decrypter<span class="badge-new">WIP</span></button>
+            <button onclick="window.location.href='Tools/encrypted'">Text Encrypter & Decrypter<span class="badge-new">WIP</span></button>
         </div>
         <div class="grid-item">
             <div class="tooltip">Generate a webpage clip for previews</div>
-            <button onclick="window.location.href='Tools/WebClip.html'">WebClip Generator</button>
+            <button onclick="window.location.href='Tools/WebClip'">WebClip Generator</button>
         </div>
                 <div class="grid-item">
             <div class="tooltip">Install IPA files on ypur device</div>
-            <button onclick="window.location.href='other/construction.html'">IPA Installer</button>
+            <button onclick="window.location.href='other/construction'">IPA Installer</button>
         </div>
     </div>
 
@@ -315,11 +315,11 @@ footer {
     <div class="grid-container">
         <div class="grid-item">
             <div class="tooltip">Reduce image size <strong>Work in progress</strong></div>
-            <button onclick="window.location.href='other/construction.html'">Image Compressor</button>
+            <button onclick="window.location.href='other/construction'">Image Compressor</button>
         </div>
         <div class="grid-item">
             <div class="tooltip">Convert image format (e.g., JPG to PNG)<strong>Work in progress</strong></div>
-            <button onclick="window.location.href='Tools/imagetypeconverter.html'">Image Converter</button>
+            <button onclick="window.location.href='Tools/imagetypeconverter'">Image Converter</button>
         </div>
     </div>
 
@@ -327,30 +327,30 @@ footer {
     <div class="grid-container">
         <div class="grid-item">
             <div class="tooltip">Generate random gamertags</div>
-            <button onclick="window.location.href='Tools/gamertag-gen.html'">Gamertag Generator</button>
+            <button onclick="window.location.href='Tools/gamertag-gen'">Gamertag Generator</button>
         </div>
         <div class="grid-item">
             <div class="tooltip">Generate a QR Code</div>
-            <button onclick="window.location.href='Tools/qr-code-gen.html'">QR Code Generator</button>
+            <button onclick="window.location.href='Tools/qr-code-gen'">QR Code Generator</button>
         </div>
         <div class="grid-item">
             <div class="tooltip">Generate secure passwords</div>
-            <button onclick="window.location.href='Tools/password-gen.html'">Password Generator</button>
+            <button onclick="window.location.href='Tools/password-gen'">Password Generator</button>
         </div>
     </div>
         <h1>Site Info</h1>
     <div class="grid-container">
         <div class="grid-item">
             <div class="tooltip">Patch Notes</div>
-            <button onclick="window.location.href='other/patchnotes.html'">Patch Notes</button>
+            <button onclick="window.location.href='other/patchnotes'">Patch Notes</button>
         </div>
         <div class="grid-item">
             <div class="tooltip">Terms Of Service</div>
-            <button onclick="window.location.href='other/TOS.html'">Terms of Service</button>
+            <button onclick="window.location.href='other/TOS'">Terms of Service</button>
         </div>
       <div class="grid-item">
         <div class="tooltip">Privacy Policy</div>
-        <button onclick="window.location.href='Other/privicypolicy.html'">Privacy Policy</button>
+        <button onclick="window.location.href='Other/privicypolicy'">Privacy Policy</button>
       </div>
       <div class="grid-item">
         <div class="tooltip">Settings</div>
@@ -359,7 +359,7 @@ footer {
     </div>
     <p class="p1">Version 1.4</p>
     <button id="login-btn" class="login-btn">Log In</button>
-    <button class="download-btn" onclick="window.location.href='other/download.html'">Download</button>
+    <button class="download-btn" onclick="window.location.href='other/download'">Download</button>
         <footer>
         <div class="grid">
             <a href="https://discord.gg/ESWhAhR5Pp" 
@@ -477,7 +477,7 @@ footer {
     SettingsBtn.addEventListener('click', () => {
       const user = auth.currentUser;
       if (user) {
-        window.location.href = "other/settings.html"
+        window.location.href = "other/settings"
       } else {
         return
       }
@@ -488,7 +488,7 @@ footer {
       if (user) {
         auth.signOut().catch(err => console.error("Sign-out error:", err));
       } else {
-        window.location.href = "login.html";
+        window.location.href = "login";
       }
     });
   </script>
