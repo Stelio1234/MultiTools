@@ -349,12 +349,12 @@ footer {
             <button onclick="window.location.href='other/TOS.html'">Terms of Service</button>
         </div>
       <div class="grid-item">
-        <div class="tooltip">Settings</div>
-        <button id="settings-btn">Settings</button>
-      </div>
-      <div class="grid-item">
         <div class="tooltip">Privacy Policy</div>
         <button onclick="window.location.href='Other/privicypolicy.html'">Privacy Policy</button>
+      </div>
+      <div class="grid-item">
+        <div class="tooltip">Settings</div>
+        <button id="settings-btn">Settings</button>
       </div>
     </div>
     <p class="p1">Version 1.4</p>
@@ -468,9 +468,9 @@ footer {
 
     auth.onAuthStateChanged(user => {
       if (user) {
-        SettingsBtn.textContent = 'Settins';
+        SettingsBtn.textContent = 'Settings';
       } else {
-        SettingsBtn.textContent = 'Plesase login';
+        SettingsBtn.textContent = 'Plesase login to acsess the settings';
       }
     });
 
