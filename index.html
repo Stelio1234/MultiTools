@@ -117,7 +117,7 @@ p, .p1 {
 }
 
 .badge-new {
-  color: #ff4;
+  color:#ff4;
   font-weight: bold;
   margin-left: 6px;
 }
@@ -267,15 +267,15 @@ footer {
     <div class="grid-container">
         <div class="grid-item">
             <div class="tooltip">Set a countdown for tasks</div>
-            <button onclick="window.location.href='Tools/timer.html'">Timer</button>
+            <button onclick="window.location.href='Tools/timer.html'">Timer<span class="badge-new">New</span></button>
         </div>
         <div class="grid-item">
             <div class="tooltip">Convert units of measure <strong>Work in progress</strong></div>
-            <button onclick="window.location.href='other/construction.html'">Unit Converter <span class="badge-new">WIP</span></button>
+            <button onclick="window.location.href='other/construction.html'">Unit Converter</button>
         </div>
         <div class="grid-item">
             <div class="tooltip">Estimate pet ages <strong>Work in progress</strong></div>
-            <button onclick="window.location.href='other/construction.html'">Pet Age Calculator <span class="badge-new">WIP</span></button>
+            <button onclick="window.location.href='other/construction.html'">Pet Age Calculator</button>
         </div>
             <div class="grid-item">
             <div class="tooltip">Calculates you tip</div>
@@ -287,11 +287,11 @@ footer {
     <div class="grid-container">
         <div class="grid-item">
             <div class="tooltip">Download YouTube videos <strong>Work in progress.</strong></div>
-            <button onclick="window.location.href='Tools/YT-Downloader.html'">YT Downloader <span class="badge-new">WIP</span></button>
+            <button onclick="window.location.href='Tools/YT-Downloader.html'">YT Downloader </button>
         </div>
         <div class="grid-item">
             <div class="tooltip">Download TikTok videos <strong>Work in progress</strong></div>
-            <button onclick="window.location.href='other/construction.html'">TikTok Downloader <span class="badge-new">WIP</span></button>
+            <button onclick="window.location.href='other/construction.html'">TikTok Downloader </button>
         </div>
     </div>
 
@@ -299,7 +299,7 @@ footer {
     <div class="grid-container">
         <div class="grid-item">
             <div class="tooltip">Encrypt and decrypt text securely</div>
-            <button onclick="window.location.href='Tools/encrypted.html'">Text Encrypter & Decrypter</button>
+            <button onclick="window.location.href='Tools/encrypted.html'">Text Encrypter & Decrypter<span class="badge-new">WIP</span></button>
         </div>
         <div class="grid-item">
             <div class="tooltip">Generate a webpage clip for previews</div>
@@ -315,11 +315,11 @@ footer {
     <div class="grid-container">
         <div class="grid-item">
             <div class="tooltip">Reduce image size <strong>Work in progress</strong></div>
-            <button onclick="window.location.href='other/construction.html'">Image Compressor <span class="badge-new">WIP</span></button>
+            <button onclick="window.location.href='other/construction.html'">Image Compressor</button>
         </div>
         <div class="grid-item">
             <div class="tooltip">Convert image format (e.g., JPG to PNG)<strong>Work in progress</strong></div>
-            <button onclick="window.location.href='Tools/imagetypeconverter.html'">Image Converter<span class="badge-new">WIP</span></button>
+            <button onclick="window.location.href='Tools/imagetypeconverter.html'">Image Converter</button>
         </div>
     </div>
 
@@ -350,7 +350,7 @@ footer {
         </div>
       <div class="grid-item">
         <div class="tooltip">Settings</div>
-        <button onclick="window.location.href='other/settings.html'">Settings</button>
+        <button id="settings-btn">Settings</button>
       </div>
       <div class="grid-item">
         <div class="tooltip">Privacy Policy</div>
@@ -454,14 +454,32 @@ footer {
     const auth = firebase.auth();
     const welcomeDiv = document.getElementById('welcome');
     const loginBtn = document.getElementById('login-btn');
+    const SettingsBtn = document.getElementById('settings-btn');
 
     auth.onAuthStateChanged(user => {
       if (user) {
-        welcomeDiv.textContent = `Hello, ${user.email}`;
+        welcomeDiv.textContent = `Welcome, ${user.email}`;
         loginBtn.textContent = 'Log Out';
       } else {
         welcomeDiv.textContent = `You're not logged in.`;
         loginBtn.textContent = 'Log In';
+      }
+    });
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        SettingsBtn.textContent = 'Settins';
+      } else {
+        SettingsBtn.textContent = 'Plesase login';
+      }
+    });
+
+    SettingsBtn.addEventListener('click', () => {
+      const user = auth.currentUser;
+      if (user) {
+        window.location.href = "other/settings.html"
+      } else {
+        return
       }
     });
 
@@ -476,4 +494,3 @@ footer {
   </script>
 </body>
 </html>
-

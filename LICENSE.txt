@@ -1,6 +1,6 @@
 ## Proprietary License
 
-Copyright (c) [Year] MultiTools
+Copyright (c) [2025] MultiTools
 
 All rights reserved.
 
