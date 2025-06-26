@@ -19,38 +19,32 @@
       margin: 0;
     }
 
-.back-button {
-            padding: 12px 20px;
-            border-radius: 8px;
-            border: none;
-            background-color: #4caf50;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            width: 120px;
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            transition: all 0.2s ease;
-            animation: fadeInUp 1s ease-out;
-        }
+    .back-button {
+      padding: 12px 20px;
+      border-radius: 8px;
+      border: none;
+      background-color: #4caf50;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      width: 120px;
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      transition: all 0.2s ease;
+      animation: fadeInUp 1s ease-out;
+    }
 
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
 
-        .back-button:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-        }
+    .back-button:hover {
+      background-color: #45a049;
+      transform: translateY(-2px);
+      box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+    }
 
     .container {
       background-color: #1e1e1e;
@@ -61,15 +55,10 @@
       max-width: 400px;
       text-align: center;
     }
-    h1 {
-      font-size: 32px;
-      margin-bottom: 10px;
-    }
-    h2 {
-      font-size: 16px;
-      color: #aaa;
-      margin-bottom: 20px;
-    }
+
+    h1 { font-size: 32px; margin-bottom: 10px; }
+    h2 { font-size: 16px; color: #aaa; margin-bottom: 20px; }
+
     .input-field {
       width: 80%;
       padding: 14px;
@@ -80,11 +69,13 @@
       color: #ffffff;
       font-size: 16px;
     }
+
     .input-field:focus {
       outline: none;
       border: 2px solid #4caf50;
       background-color: #333333;
     }
+
     .btn, .google-login {
       padding: 14px;
       border-radius: 8px;
@@ -97,29 +88,38 @@
       border: none;
       transition: all 0.2s ease;
     }
+
     .btn:hover, .google-login:hover {
       background-color: #45a049;
       transform: translateY(-2px);
       box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
     }
-    .message {
+
+    .message { color: #4caf50; font-size: 14px; margin-top: 12px; }
+    .error { color: red; }
+    .link-button {
+      background: none;
+      border: none;
       color: #4caf50;
+      text-decoration: underline;
+      cursor: pointer;
       font-size: 14px;
-      margin-top: 12px;
+      margin: 8px auto;
+      display: block;
     }
   </style>
 </head>
 <body>
-
 <div class="container" id="container">
   <!-- Login Form -->
   <div id="loginForm">
     <h1>Login</h1>
-    <h2>Welcome back! Please login to your account</h2>
-    <input type="email" id="username" class="input-field" placeholder="Email" required />
+    <h2>Use your username and password</h2>
+    <input type="text" id="username" class="input-field" placeholder="Username" required />
     <input type="password" id="password" class="input-field" placeholder="Password" required />
     <button class="btn" onclick="login()">Login</button>
     <button class="google-login" onclick="googleLogin()">Login With Google</button>
+    <button class="link-button" onclick="forgotPassword()">Forgot Password?</button>
     <p class="message">Don't have an account? <a href="#" onclick="showRegister()">Sign Up</a></p>
   </div>
 
@@ -127,26 +127,29 @@
   <div id="registerForm" style="display:none;">
     <h1>Sign Up</h1>
     <h2>Create a new account</h2>
-    <input type="email" id="regUsername" class="input-field" placeholder="Email" required />
+    <input type="text" id="regUsername" class="input-field" placeholder="Username" required />
+    <input type="email" id="regEmail" class="input-field" placeholder="Email" required />
     <input type="password" id="regPassword" class="input-field" placeholder="Password" required />
     <button class="btn" onclick="register()">Register</button>
     <button class="google-login" onclick="googleLogin()">Sign Up With Google</button>
     <p class="message">Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+    <p id="regStatus" class="message"></p>
   </div>
 </div>
+
 <button class="back-button" onclick="window.history.back()">Back</button>
 
-<!-- Firebase JS SDK -->  
+<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 
 <script>
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
     apiKey: "AIzaSyBHSuqEhGYcRd_6GsMDI0bHDy3_5v0lD9g",
     authDomain: "multitools-48cc8.firebaseapp.com",
     projectId: "multitools-48cc8",
-    storageBucket: "multitools-48cc8.firebasestorage.app",
+    storageBucket: "multitools-48cc8.appspot.com",
     messagingSenderId: "1048886823672",
     appId: "1:1048886823672:web:71f0ff40e2a9642de2890d",
     measurementId: "G-JG6J0KRN08"
@@ -154,49 +157,103 @@
 
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
+  const db = firebase.firestore();
 
-    function login() {
-    const email = document.getElementById('username').value;
+  async function login() {
+    const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value;
 
-    auth.signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-        console.log("Logged in:", userCredential.user);
-        window.location.href = "index.html"; // 👈 redirect
-        })
-        .catch((error) => {
-        alert("Login failed: " + error.message);
-        console.error(error);
-        });
+    const userQuery = await db.collection("users")
+      .where("username", "==", username)
+      .limit(1)
+      .get();
+
+    if (userQuery.empty) {
+      alert("No account found with that username.");
+      return;
     }
 
-  function register() {
-    const email = document.getElementById('regUsername').value;
-    const password = document.getElementById('regPassword').value;
+    const userDoc = userQuery.docs[0];
+    const email = userDoc.data().email;
 
-    auth.createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        alert("Registered successfully!");
-        console.log(userCredential.user);
+    auth.signInWithEmailAndPassword(email, password)
+      .then(() => {
+        window.location.href = "index.html";
       })
       .catch((error) => {
-        alert("Registration failed: " + error.message);
-        console.error(error);
+        alert("Login failed: " + error.message);
       });
   }
 
-    function googleLogin() {
+  async function register() {
+    const email = document.getElementById('regEmail').value;
+    const password = document.getElementById('regPassword').value;
+    const username = document.getElementById('regUsername').value.trim();
+    const status = document.getElementById('regStatus');
+
+    if (!username || !email || !password) {
+      status.textContent = "Please fill in all fields.";
+      return;
+    }
+
+    const snapshot = await db.collection("users")
+      .where("username", "==", username)
+      .get();
+
+    if (!snapshot.empty) {
+      status.textContent = "Username is already taken.";
+      return;
+    }
+
+    auth.createUserWithEmailAndPassword(email, password)
+      .then(async (userCredential) => {
+        const user = userCredential.user;
+        await db.collection("users").doc(user.uid).set({
+          username: username,
+          email: email,
+          createdAt: new Date()
+        });
+        status.textContent = "Registered successfully!";
+      })
+      .catch((error) => {
+        status.textContent = "Registration failed: " + error.message;
+      });
+  }
+
+  function forgotPassword() {
+    const username = prompt("Enter your username to reset your password:");
+    if (!username) return;
+
+    db.collection("users")
+      .where("username", "==", username.trim())
+      .limit(1)
+      .get()
+      .then(snapshot => {
+        if (snapshot.empty) {
+          alert("Username not found.");
+        } else {
+          const email = snapshot.docs[0].data().email;
+          auth.sendPasswordResetEmail(email)
+            .then(() => {
+              alert("Password reset email sent to " + email);
+            })
+            .catch(error => {
+              alert("Error sending reset email: " + error.message);
+            });
+        }
+      });
+  }
+
+  function googleLogin() {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider)
-        .then((result) => {
-        console.log("Google login successful:", result.user);
-        window.location.href = "index.html"; // 👈 redirect
-        })
-        .catch((error) => {
+      .then((result) => {
+        window.location.href = "index.html";
+      })
+      .catch((error) => {
         alert("Google login failed: " + error.message);
-        console.error(error);
-        });
-    }
+      });
+  }
 
   function showRegister() {
     document.getElementById('loginForm').style.display = 'none';
@@ -208,6 +265,5 @@
     document.getElementById('loginForm').style.display = 'block';
   }
 </script>
-
 </body>
 </html>

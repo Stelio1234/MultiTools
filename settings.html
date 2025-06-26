@@ -155,7 +155,7 @@
       auth.signOut()
         .then(() => {
           console.log("User signed out.");
-          window.location.href = "login.html";
+          window.location.href = "login";
         })
         .catch((error) => {
           console.error("Logout failed:", error);
@@ -172,7 +172,7 @@
       user.delete()
         .then(() => {
           alert("Account deleted successfully.");
-          window.location.href = "login.html"; // Or wherever you want to go
+          window.location.href = "login"; // Or wherever you want to go
         })
         .catch((error) => {
           console.error("Account deletion error:", error);

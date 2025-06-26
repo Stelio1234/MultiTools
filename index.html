@@ -456,15 +456,23 @@ footer {
     const loginBtn = document.getElementById('login-btn');
     const SettingsBtn = document.getElementById('settings-btn');
 
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        welcomeDiv.textContent = `Welcome, ${user.email}`;
-        loginBtn.textContent = 'Log Out';
-      } else {
-        welcomeDiv.textContent = `You're not logged in.`;
-        loginBtn.textContent = 'Log In';
-      }
-    });
+   auth.onAuthStateChanged(async user => {
+  if (user) {
+    try {
+      const doc = await db.collection("users").doc(user.uid).get();
+      const username = doc.exists ? doc.data().username : user.email;
+      welcomeDiv.textContent = `Welcome, ${username}`;
+    } catch (err) {
+      console.error("Error fetching username:", err);
+      welcomeDiv.textContent = `Welcome, ${user.email}`;
+    }
+    loginBtn.textContent = 'Log Out';
+  } else {
+    welcomeDiv.textContent = `You're not logged in.`;
+    loginBtn.textContent = 'Log In';
+  }
+});
+
 
     auth.onAuthStateChanged(user => {
       if (user) {
