@@ -140,7 +140,7 @@
         const userDoc = await db.collection("Users").doc(user.uid).get();
         const role = userDoc.exists ? userDoc.data().role : null;
 
-        if (role === "admin" || user.email === MY_ADMIN_EMAIL) {
+        if (role === "admin" || user.email === themultitools1@gmail.com) {
           document.getElementById("adminOnly").style.display = "block";
           document.getElementById("notAdmin").style.display = "none";
           loadUsers();
