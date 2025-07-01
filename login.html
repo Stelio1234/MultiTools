@@ -297,7 +297,8 @@
         await db.collection("users").doc(user.uid).set({
           username: username,
           email: email,
-          createdAt: new Date()
+          createdAt: new Date(),
+          role: "user",
         });
         await collectUserInfo(user.uid, email, username);
         status.textContent = "Registered successfully!";
@@ -334,15 +335,32 @@
   }
 
   function googleLogin() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider)
-      .then((result) => {
-        window.location.href = "index.html";
-      })
-      .catch((error) => {
-        alert("Google login failed: " + error.message);
-      });
-  }
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider)
+    .then(async (result) => {
+      const user = result.user;
+      const userDoc = await db.collection("users").doc(user.uid).get();
+
+      // If user doesn't exist in Firestore, create it with default role "user"
+      if (!userDoc.exists) {
+        const username = user.displayName || "UnnamedUser" + Math.floor(Math.random() * 10000);
+        await db.collection("users").doc(user.uid).set({
+          username: username,
+          email: user.email,
+          createdAt: new Date(),
+          role: "user",
+        });
+
+        await collectUserInfo(user.uid, user.email, username);
+      }
+
+      window.location.href = "index.html";
+    })
+    .catch((error) => {
+      alert("Google login failed: " + error.message);
+    });
+}
+
 
   function showRegister() {
     document.getElementById('loginForm').style.display = 'none';

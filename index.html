@@ -11,6 +11,7 @@
   <script type="module" src="/js/logger.js"></script>
   <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <meta name="description" content="Multi Tools is a free website offering many useful online tools like YouTube downloader, QR code generator, unit converter, and more – all in one place!">
   <style>
 
@@ -356,6 +357,7 @@ footer {
         <div class="tooltip">Settings</div>
         <button id="settings-btn">Settings</button>
       </div>
+      <div id="admin-section-container"></div>
     </div>
     <p class="p1">Version 1.5</p>
     <button id="login-btn" class="login-btn">Log In</button>
@@ -437,79 +439,131 @@ footer {
     });
   </script>
 
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBHSuqEhGYcRd_6GsMDI0bHDy3_5v0lD9g",
-      authDomain: "multitools-48cc8.firebaseapp.com",
-      projectId: "multitools-48cc8",
-      storageBucket: "multitools-48cc8.appspot.com",
-      messagingSenderId: "1048886823672",
-      appId: "1:1048886823672:web:71f0ff40e2a9642de2890d",
-      measurementId: "G-JG6J0KRN08"
-    };
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const welcomeDiv = document.getElementById('welcome');
-    const loginBtn = document.getElementById('login-btn');
-    const SettingsBtn = document.getElementById('settings-btn');
-    const YTDownloaderBtn = document.getElementById('YT-Downloader-btn');
+<script>
+  // Firebase config & init
+  const firebaseConfig = {
+    apiKey: "AIzaSyBHSuqEhGYcRd_6GsMDI0bHDy3_5v0lD9g",
+    authDomain: "multitools-48cc8.firebaseapp.com",
+    projectId: "multitools-48cc8",
+    storageBucket: "multitools-48cc8.appspot.com",
+    messagingSenderId: "1048886823672",
+    appId: "1:1048886823672:web:71f0ff40e2a9642de2890d",
+    measurementId: "G-JG6J0KRN08"
+  };
 
-   auth.onAuthStateChanged(async user => {
-  if (user) {
-    try {
-      const doc = await db.collection("users").doc(user.uid).get();
-      const username = doc.exists ? doc.data().username : user.email;
-      welcomeDiv.textContent = `Welcome, ${username}`;
-    } catch (err) {
-      console.error("Error fetching username:", err);
-      welcomeDiv.textContent = `Welcome, ${user.email}`;
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  // DOM refs
+  const welcomeDiv = document.getElementById("welcome");
+  const loginBtn = document.getElementById("login-btn");
+  const SettingsBtn = document.getElementById("settings-btn");
+  const YTDownloaderBtn = document.getElementById("YT-Downloader-btn");
+  const adminSectionContainer = document.getElementById("admin-section-container");
+
+  // Single auth state listener - handles everything
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      try {
+        const userDoc = await db.collection("users").doc(user.uid).get();
+        const userData = userDoc.exists ? userDoc.data() : null;
+
+        const username = userData?.username || user.email;
+        welcomeDiv.textContent = `Welcome, ${username}`;
+        loginBtn.textContent = "Log Out";
+        SettingsBtn.textContent = "Settings";
+
+        if (userData?.role === "admin") {
+          injectAdminSection();
+        } else {
+          adminSectionContainer.innerHTML = "";
+        }
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+        welcomeDiv.textContent = `Welcome, ${user.email}`;
+        loginBtn.textContent = "Log Out";
+        SettingsBtn.textContent = "Settings";
+        adminSectionContainer.innerHTML = "";
+      }
+    } else {
+      welcomeDiv.textContent = "You're not logged in.";
+      loginBtn.textContent = "Log In";
+      SettingsBtn.textContent = "Please login to access the settings";
+      adminSectionContainer.innerHTML = "";
     }
-    loginBtn.textContent = 'Log Out';
-  } else {
-    welcomeDiv.textContent = `You're not logged in.`;
-    loginBtn.textContent = 'Log In';
+  });
+
+  function injectAdminSection() {
+    adminSectionContainer.innerHTML = `
+      <h1>Site Info</h1>
+      <div class="grid-container">
+        <div class="grid-item">
+            <div class="tooltip">Admin Pannel</div>
+            <button onclick="window.location.href='admin.html'">Admin Pannel</button>
+        </div>
+      </div>
+    `;
   }
-});
 
+  // Button event listeners
+  SettingsBtn.addEventListener("click", () => {
+    if (auth.currentUser) {
+      window.location.href = "settings";
+    }
+  });
 
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        SettingsBtn.textContent = 'Settings';
-      } else {
-        SettingsBtn.textContent = 'Plesase login to acsess the settings';
-      }
-    });
+  YTDownloaderBtn.addEventListener("click", () => {
+    if (auth.currentUser) {
+      window.location.href = "Tools/YT-Downloader.html";
+    } else {
+      alert("Please log in to access the YouTube Downloader.");
+    }
+  });
 
-    SettingsBtn.addEventListener('click', () => {
-      const user = auth.currentUser;
-      if (user) {
-        window.location.href = "settings"
-      } else {
-        return
-      }
-    });
+  loginBtn.addEventListener("click", () => {
+    if (auth.currentUser) {
+      auth.signOut().catch((err) => console.error("Sign-out error:", err));
+    } else {
+      window.location.href = "login.html";
+    }
+  });
 
-    YTDownloaderBtn.addEventListener('click', () => {
-      const user = auth.currentUser;
-      if (user) {
-        window.location.href = "Tools/YT-Downloader.html";
-      } else {
-        alert("Please log in to access the YouTube Downloader.");
-        return;
-      }
-    });
+  // Notification & popup helpers
+  function requestNotificationAccess() {
+    if (!("Notification" in window)) return;
+    if (Notification.permission === "default") {
+      Notification.requestPermission();
+    }
+  }
 
-    loginBtn.addEventListener('click', () => {
-      const user = auth.currentUser;
-      if (user) {
-        auth.signOut().catch(err => console.error("Sign-out error:", err));
-      } else {
-        window.location.href = "login.html";
-      }
-    });
-  </script>
+  function togglePopup() {
+    const popup = document.getElementById("myPopup");
+    if (popup) popup.classList.toggle("show");
+    window.removeEventListener("load", togglePopup);
+  }
+
+  function notifyUser() {
+    if (localStorage.getItem("maintenanceNotificationShown") === "true") return;
+    if (Notification.permission === "granted") {
+      new Notification("ATTENTION!!!", {
+        body: "We will be doing a scheduled downtime on Friday 5/23 and the site will be offline till 4/26.",
+        icon: "/MultiTools.jpg"
+      });
+      localStorage.setItem("maintenanceNotificationShown", "true");
+    }
+  }
+
+  window.addEventListener("load", () => {
+    requestNotificationAccess();
+    togglePopup();
+    notifyUser();
+  });
+</script>
+
 </body>
 </html>
