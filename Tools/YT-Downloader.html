@@ -119,8 +119,8 @@
 
 <!-- Title moved above the container -->
 <div class="title">
-    <h1>YT Downloader</h1>
-    <h2>This Downloader is currently offline. More updates coming soon.</h2>
+    <h1>Youtube Downloader</h1>
+    <h2>The downloader is offline. More updates coming soon.</h2>
 </div>
 
 <!-- Downloader container -->
@@ -145,51 +145,157 @@
 
 <button class="back-button" onclick="window.history.back()">Back</button>
 
-<script>    
-    async function downloadVideo() {
-        const url = document.getElementById('urlInput').value;
-        const quality = document.getElementById('qualitySelect').value;
-        const spinner = document.getElementById('loadingSpinner');
-        const errorMessage = document.getElementById('errorMessage');
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyBHSuqEhGYcRd_6GsMDI0bHDy3_5v0lD9g",
+  authDomain: "multitools-48cc8.firebaseapp.com",
+  projectId: "multitools-48cc8",
+  storageBucket: "multitools-48cc8.appspot.com",
+  messagingSenderId: "1048886823672",
+  appId: "1:1048886823672:web:71f0ff40e2a9642de2890d",
+  measurementId: "G-JG6J0KRN08"
+};
 
-        // Reset previous errors
-        errorMessage.textContent = '';
-        if (!url) {
-            errorMessage.textContent = 'Please enter a valid URL.';
-            return;
-        }
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-        // Show loading spinner
-        spinner.style.display = 'block';
+auth.onAuthStateChanged(async function(user) {
+  if (user) {
+    const uid = user.uid;
+    const email = user.email;
 
-        try {
-            const response = await fetch(
-                'http://192.168.1.41:5000/download?url=' + 
-                encodeURIComponent(url) + '&quality=' + encodeURIComponent(quality)
-            );
+    try {
+      const userDoc = await db.collection("Users").doc(uid).get();
+      const username = userDoc.exists ? userDoc.data().username : "Unknown";
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to download');
-            }
+      await logDownloaderAccess(uid, email, username);
+      console.log("✅ Page access logged to Firestore");
+    } catch (err) {
+      console.warn("❌ Error during auth log:", err);
+    }
+  }
+});
 
-            const blob = await response.blob();
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'video.mp4';
-            link.click();
+async function logDownloaderAccess(userId, email, username) {
+  try {
+    const response = await fetch('https://api64.ipify.org?format=json');
+    const data = await response.json();
+    const ip = data.ip;
 
-            alert('Download started successfully!');
-        } catch (error) {
-            errorMessage.textContent = error.message;
-        } finally {
-            // Hide loading spinner
-            spinner.style.display = 'none';
-        }
+    const timestamp = new Date();
+    const formattedTimestamp = formatTimestamp(timestamp);
+    const userAgent = navigator.userAgent;
+    const language = navigator.language || navigator.userLanguage;
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    await db.collection("YoutubeDownloaderPageAcsessed").doc(userId).set({
+      emailLogged: email,
+      usernameLogged: username,
+      ipAddress: ip,
+      lastSeenFormatted: formattedTimestamp,
+      userAgent: userAgent,
+      language: language,
+      timezone: timezone
+    }, { merge: true });
+  } catch (error) {
+    console.warn("🚫 Failed to log downloader access:", error);
+  }
+}
+
+async function logUserDownload(userId, email, username, youtubeURL) {
+  try {
+    const response = await fetch('https://api64.ipify.org?format=json');
+    const data = await response.json();
+    const ip = data.ip;
+
+    const timestamp = new Date();
+    const formattedTimestamp = formatTimestamp(timestamp);
+    const userAgent = navigator.userAgent;
+    const language = navigator.language || navigator.userLanguage;
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    await db.collection("YoutubeUserDownloads").add({
+      userId: userId,
+      emailLogged: email,
+      usernameLogged: username,
+      ipAddress: ip,
+      downloadedURL: youtubeURL,
+      timestamp: formattedTimestamp,
+      userAgent: userAgent,
+      language: language,
+      timezone: timezone
+    });
+  } catch (error) {
+    console.warn("🚫 Failed to log user download:", error);
+  }
+}
+
+function formatTimestamp(timestamp) {
+  return timestamp.toLocaleString('en-US', {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZoneName: 'short'
+  });
+}
+
+async function downloadVideo() {
+  const url = document.getElementById('urlInput').value;
+  const quality = document.getElementById('qualitySelect').value;
+  const spinner = document.getElementById('loadingSpinner');
+  const errorMessage = document.getElementById('errorMessage');
+
+  errorMessage.textContent = '';
+  if (!url) {
+    errorMessage.textContent = 'Please enter a valid URL.';
+    return;
+  }
+
+  spinner.style.display = 'block';
+
+  try {
+    const user = auth.currentUser;
+    if (user) {
+      const uid = user.uid;
+      const email = user.email;
+      const userDoc = await db.collection("Users").doc(uid).get();
+      const username = userDoc.exists ? userDoc.data().username : "Unknown";
+
+      await logUserDownload(uid, email, username, url);
     }
 
+    const response = await fetch(
+      'http://172.16.19.22:5000/download?url=' +
+      encodeURIComponent(url) + '&quality=' + encodeURIComponent(quality)
+    );
 
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Failed to download');
+    }
+
+    const blob = await response.blob();
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'video.mp4';
+    link.click();
+
+    alert('Download started successfully!');
+  } catch (error) {
+    errorMessage.textContent = error.message;
+  } finally {
+    spinner.style.display = 'none';
+  }
+}
 </script>
+
 
 </body>
 </html>

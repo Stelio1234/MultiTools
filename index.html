@@ -287,7 +287,7 @@ footer {
     <div class="grid-container">
         <div class="grid-item">
             <div class="tooltip">Download YouTube videos <strong>Work in progress.</strong></div>
-            <button onclick="window.location.href='Tools/YT-Downloader'">YT Downloader </button>
+            <button id="YT-Downloader-btn">YT Downloader </button>
         </div>
         <div class="grid-item">
             <div class="tooltip">Download TikTok videos <strong>Work in progress</strong></div>
@@ -357,7 +357,7 @@ footer {
         <button id="settings-btn">Settings</button>
       </div>
     </div>
-    <p class="p1">Version 1.4</p>
+    <p class="p1">Version 1.5</p>
     <button id="login-btn" class="login-btn">Log In</button>
     <button class="download-btn" onclick="window.location.href='other/download'">Download</button>
         <footer>
@@ -455,6 +455,7 @@ footer {
     const welcomeDiv = document.getElementById('welcome');
     const loginBtn = document.getElementById('login-btn');
     const SettingsBtn = document.getElementById('settings-btn');
+    const YTDownloaderBtn = document.getElementById('YT-Downloader-btn');
 
    auth.onAuthStateChanged(async user => {
   if (user) {
@@ -488,6 +489,16 @@ footer {
         window.location.href = "settings"
       } else {
         return
+      }
+    });
+
+    YTDownloaderBtn.addEventListener('click', () => {
+      const user = auth.currentUser;
+      if (user) {
+        window.location.href = "Tools/YT-Downloader.html";
+      } else {
+        alert("Please log in to access the YouTube Downloader.");
+        return;
       }
     });
 
