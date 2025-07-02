@@ -93,7 +93,6 @@
   <h1>Admin Panel</h1>
 
   <div id="adminOnly" class="admin-section" style="display:none;">
-    <button onclick="sendEmailToAll()">📨 Email All Users</button>
     <button onclick="copyAllEmails()">📋 Copy All Emails</button>
 
     <h3 style="margin-top: 25px;">Add New User</h3>
@@ -128,9 +127,7 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
-    const functions = firebase.functions();
 
-    // Replace with your actual admin email for quick admin access
     const MY_ADMIN_EMAIL = "themultitools1@gmail.com";
 
     auth.onAuthStateChanged(async user => {
@@ -163,7 +160,6 @@
 
         li.textContent = `${data.username} (${data.role || "user"}) — ${data.email}`;
 
-        // Create buttons
         const btnGroup = document.createElement("div");
         btnGroup.classList.add("btn-group");
 
@@ -213,10 +209,7 @@
       }
 
       try {
-        // Create user with Firebase Auth
         const newUser = await auth.createUserWithEmailAndPassword(email, pass);
-
-        // Save user data in Firestore
         await db.collection("Users").doc(newUser.user.uid).set({
           email,
           username,
@@ -224,30 +217,12 @@
         });
 
         alert("User created!");
-        // Clear inputs
         document.getElementById("newEmail").value = "";
         document.getElementById("newPass").value = "";
         document.getElementById("newUsername").value = "";
         loadUsers();
       } catch (e) {
         alert("Error creating user: " + e.message);
-      }
-    }
-
-    async function sendEmailToAll() {
-      const subject = prompt("Subject?");
-      if (!subject) return alert("Email subject is required.");
-
-      const message = prompt("Message to all users?");
-      if (!message) return alert("Email message is required.");
-
-      const sendEmail = functions.httpsCallable("sendEmailToAllUsers");
-
-      try {
-        await sendEmail({ subject, message });
-        alert("✅ Email sent to all users!");
-      } catch (e) {
-        alert("❌ Error sending email: " + e.message);
       }
     }
 
