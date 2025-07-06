@@ -103,7 +103,9 @@
     <button onclick="addNewUser()">➕ Add User</button>
 
     <h3 style="margin-top: 25px;">All Users</h3>
+    <input id="searchInput" type="text" placeholder="Search by email or username..." oninput="filterUsers()" />
     <ul id="userList"></ul>
+    <button onclick="exportEmailsToCSV()">📁 Export Emails to CSV</button>
   </div>
 
   <div id="notAdmin" style="text-align:center; margin-top:50px;">
@@ -129,8 +131,8 @@
     const db = firebase.firestore();
     const functions = firebase.functions();
 
-    // Replace with your actual admin email for quick admin access
     const MY_ADMIN_EMAIL = "youremail@example.com";
+    let allUsers = [];
 
     auth.onAuthStateChanged(async user => {
       if (!user) return location.href = "/login.html";
@@ -154,29 +156,32 @@
 
     async function loadUsers() {
       const snapshot = await db.collection("Users").get();
+      allUsers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      renderUserList(allUsers);
+    }
+
+    function renderUserList(users) {
       const list = document.getElementById("userList");
       list.innerHTML = "";
-      snapshot.forEach(doc => {
-        const data = doc.data();
+
+      users.forEach(user => {
         const li = document.createElement("li");
+        li.textContent = `${user.username} (${user.role || "user"}) — ${user.email}`;
 
-        li.textContent = `${data.username} (${data.role || "user"}) — ${data.email}`;
-
-        // Create buttons
         const btnGroup = document.createElement("div");
         btnGroup.classList.add("btn-group");
 
         const makeAdminBtn = document.createElement("button");
         makeAdminBtn.textContent = "Make Admin";
-        makeAdminBtn.onclick = () => setRole(doc.id, "admin");
+        makeAdminBtn.onclick = () => setRole(user.id, "admin");
 
         const makeUserBtn = document.createElement("button");
         makeUserBtn.textContent = "Make User";
-        makeUserBtn.onclick = () => setRole(doc.id, "user");
+        makeUserBtn.onclick = () => setRole(user.id, "user");
 
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "❌ Delete";
-        deleteBtn.onclick = () => deleteUser(doc.id);
+        deleteBtn.onclick = () => deleteUser(user.id);
 
         btnGroup.appendChild(makeAdminBtn);
         btnGroup.appendChild(makeUserBtn);
@@ -185,6 +190,15 @@
         li.appendChild(btnGroup);
         list.appendChild(li);
       });
+    }
+
+    function filterUsers() {
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      const filtered = allUsers.filter(user =>
+        user.email.toLowerCase().includes(query) ||
+        user.username.toLowerCase().includes(query)
+      );
+      renderUserList(filtered);
     }
 
     async function setRole(uid, role) {
@@ -211,11 +225,13 @@
         return;
       }
 
-      try {
-        // Create user with Firebase Auth
-        const newUser = await auth.createUserWithEmailAndPassword(email, pass);
+      if (!/\S+@\S+\.\S+/.test(email)) {
+        alert("Please enter a valid email address.");
+        return;
+      }
 
-        // Save user data in Firestore
+      try {
+        const newUser = await auth.createUserWithEmailAndPassword(email, pass);
         await db.collection("Users").doc(newUser.user.uid).set({
           email,
           username,
@@ -223,7 +239,6 @@
         });
 
         alert("User created!");
-        // Clear inputs
         document.getElementById("newEmail").value = "";
         document.getElementById("newPass").value = "";
         document.getElementById("newUsername").value = "";
@@ -266,6 +281,20 @@
       } catch (err) {
         alert("Failed to copy emails: " + err.message);
       }
+    }
+
+    async function exportEmailsToCSV() {
+      const emails = allUsers.map(u => u.email).filter(Boolean);
+      if (!emails.length) return alert("No emails to export.");
+
+      const csvContent = "data:text/csv;charset=utf-8," + emails.join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "user_emails.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   </script>
 </body>
