@@ -446,6 +446,18 @@ async function checkProgress() {
         
         const response = await fetch(statusUrl);
         console.log('📡 Status response status:', response.status);
+        console.log('📡 Status response headers:', response.headers);
+        
+        // Check if response is actually JSON
+        const contentType = response.headers.get('content-type');
+        console.log('📡 Content-Type:', contentType);
+        
+        if (!contentType || !contentType.includes('application/json')) {
+            console.log('❌ Response is not JSON, likely HTML error page');
+            const htmlText = await response.text();
+            console.log('📡 HTML response (first 200 chars):', htmlText.substring(0, 200));
+            throw new Error('Server returned HTML instead of JSON - ngrok tunnel issue');
+        }
         
         const data = await response.json();
         console.log('📡 Status data:', data);
