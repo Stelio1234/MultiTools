@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>UUID Generator</title>
+    <meta name="theme-color" content="#45a049" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg" />
+    <style>
+        body {
+            background-color: #121212;
+            color: #fff;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0%;
+        }
+        .title {
+            text-align: center;
+            font-weight: bold;
+            font-size: large;
+            margin-bottom: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+        }
+        input, select, button {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.2s ease;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: #2c2c2c;
+            color: #fff;
+        }
+        button {
+            background-color: #4caf50;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .back-button {
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            background-color: #4caf50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            width: 120px;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            transition: all 0.2s ease;
+            animation: fadeInUp 1s ease-out;
+        }
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .back-button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+        .progress-container {
+            display: none;
+            margin-top: 12px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="title">
+    <h1>UUID Generator</h1>
+    <h2>Generate unique UUID's</h2>
+</div>
+
+<div class="container">
+    <input type="text" id="uuidInput" placeholder="Generated UUID will appear here" readonly />
+    <button id="generateButton" onclick="generateUUID()">Generate UUID</button>
+
+<button class="back-button" onclick="window.history.back()">Back</button>
+
+
+<script>
+    function generateUUID() {
+        const template = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx";
+        const uuid = template.replace(/[xy]/g, char => {
+            const rand = crypto.getRandomValues(new Uint8Array(1))[0] & 15;
+            const val = char === "x" ? rand : (rand & 0x3 | 0x8); // RFC 4122 variant
+            return val.toString(16);
+        });
+
+        const uuidInput = document.getElementById("uuidInput");
+        if (uuidInput) {
+            uuidInput.value = uuid;
+        }
+    }
+</script>
+
+
+</body>
+</html>

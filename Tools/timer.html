@@ -16,6 +16,7 @@
     --grid-columns: repeat(2, 1fr);
     --tooltip-font: 14px;
     --max-container-width: 400px;
+    align-items: center;
   }
 
   body {
@@ -26,9 +27,10 @@
     justify-content: center;
     align-items: center;;
     flex-direction: column;
-    height: auto;
-    margin: 1%;
-    margin-bottom: 1%;
+    min-height:  100vh;
+    margin: 0%;
+    
+    
   }
 
           .back-button {
@@ -77,6 +79,8 @@
     width: 400px;
     max-width: var(--max-container-width);
     text-align: center;
+    justify-content: center;
+    
   }
 
   .timer-inputs {
@@ -132,6 +136,18 @@
     font-size: var(--font-h1);
     margin-bottom: 20px;
     color: #ffffff;
+  }
+
+  #id {
+    background-color: #4caf50;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 16px;
+    transition: all 0.2s ease;
+    width: 100px;
   }
 
   @media (max-width: 575.98px) {
@@ -195,6 +211,7 @@
     <div class="button-group">
       <button class="btn" id="startBtn">Start</button>
       <button class="btn" id="stopBtn">Stop</button>
+      <div id="notificationRequestContainer" style="margin-top: 20px;"></div>
     </div>
   </div>
   <button class="back-button" onclick="history.back()">Back</button>
@@ -262,6 +279,18 @@
       }, 1000);
     }
 
+
+    function notgranted() {
+      if (Notification.permission === 'denied');
+        requestBtn();
+    }
+
+    function request() {
+    RequestNotififacationContainer.innerHTML = `
+      <button class='btn' id='requestBtn'>Request Notifications</button>
+    `;
+  }
+
     function notifyUser() {
       if (Notification.permission === 'granted') {
         new Notification('Timer Complete!', {
@@ -299,8 +328,9 @@
     window.onload = () => {
       Notification.requestPermission();
       checkAndResumeTimer();
+      notgranted();
     };
-
+    requestBtn.addEventListener('click', request);
     startBtn.addEventListener('click', startTimer);
     stopBtn.addEventListener('click', stopTimer);
   </script>

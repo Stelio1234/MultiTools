@@ -268,47 +268,33 @@ footer {
     <div class="grid-container">
         <div class="grid-item">
             <div class="tooltip">Set a countdown for tasks</div>
-            <button onclick="window.location.href='Tools/timer'">Timer<span class="badge-new">New</span></button>
+            <button onclick="window.location.href='Tools/timer.html'">Timer<span class="badge-new">New</span></button>
         </div>
         <div class="grid-item">
             <div class="tooltip">Convert units of measure <strong>Work in progress</strong></div>
-            <button onclick="window.location.href='other/construction'">Unit Converter</button>
+            <button onclick="window.location.href='other/construction.html'">Unit Converter</button>
         </div>
         <div class="grid-item">
-            <div class="tooltip">Estimate pet ages <strong>Work in progress</strong></div>
-            <button onclick="window.location.href='other/construction'">Pet Age Calculator</button>
-        </div>
-            <div class="grid-item">
             <div class="tooltip">Calculates you tip</div>
-            <button onclick="window.location.href='Tools/tipcalculator'">Tip Calculator<span class="badge-new">New</span></button>
+            <button onclick="window.location.href='Tools/tipcalculator.html'">Tip Calculator<span class="badge-new">New</span></button>
         </div>
     </div>
 
-    <h1>Downloaders</h1>
-    <div class="grid-container">
-        <div class="grid-item">
-            <div class="tooltip">Download YouTube videos <strong>Work in progress.</strong></div>
-            <button id="YT-Downloader-btn">YT Downloader </button>
-        </div>
-        <div class="grid-item">
-            <div class="tooltip">Download TikTok videos <strong>Work in progress</strong></div>
-            <button onclick="window.location.href='other/construction'">TikTok Downloader </button>
-        </div>
-    </div>
+    
 
     <h1>Dev Tools</h1>
     <div class="grid-container">
         <div class="grid-item">
             <div class="tooltip">Encrypt and decrypt text securely</div>
-            <button onclick="window.location.href='Tools/encrypted'">Text Encrypter & Decrypter<span class="badge-new">WIP</span></button>
+            <button onclick="window.location.href='Tools/encrypted.html'">Text Encrypter & Decrypter<span class="badge-new">WIP</span></button>
         </div>
         <div class="grid-item">
             <div class="tooltip">Generate a webpage clip for previews</div>
-            <button onclick="window.location.href='Tools/WebClip'">WebClip Generator</button>
+            <button onclick="window.location.href='Tools/WebClip.html'">WebClip Generator</button>
         </div>
                 <div class="grid-item">
             <div class="tooltip">Install IPA files on ypur device</div>
-            <button onclick="window.location.href='other/construction'">IPA Installer</button>
+            <button onclick="window.location.href='other/construction.html'">IPA Installer</button>
         </div>
     </div>
 
@@ -316,11 +302,11 @@ footer {
     <div class="grid-container">
         <div class="grid-item">
             <div class="tooltip">Reduce image size <strong>Work in progress</strong></div>
-            <button onclick="window.location.href='other/construction'">Image Compressor</button>
+            <button onclick="window.location.href='other/construction.html'">Image Compressor</button>
         </div>
         <div class="grid-item">
             <div class="tooltip">Convert image format (e.g., JPG to PNG)<strong>Work in progress</strong></div>
-            <button onclick="window.location.href='Tools/imagetypeconverter'">Image Converter</button>
+            <button onclick="window.location.href='Tools/imagetypeconverter.html'">Image Converter</button>
         </div>
     </div>
 
@@ -328,30 +314,34 @@ footer {
     <div class="grid-container">
         <div class="grid-item">
             <div class="tooltip">Generate random gamertags</div>
-            <button onclick="window.location.href='Tools/gamertag-gen'">Gamertag Generator</button>
+            <button onclick="window.location.href='Tools/gamertag-gen.html'">Gamertag Generator</button>
         </div>
         <div class="grid-item">
             <div class="tooltip">Generate a QR Code</div>
-            <button onclick="window.location.href='Tools/qr-code-gen'">QR Code Generator</button>
+            <button onclick="window.location.href='Tools/qr-code-gen.html'">QR Code Generator</button>
         </div>
         <div class="grid-item">
             <div class="tooltip">Generate secure passwords</div>
-            <button onclick="window.location.href='Tools/password-gen'">Password Generator</button>
+            <button onclick="window.location.href='Tools/password-gen.html'">Password Generator</button>
+        </div>
+        <div class="grid-item">
+            <div class="tooltip">Generate unique UUID's</div>
+            <button onclick="window.location.href='Tools/uuid-generator.html'">UUID Generator</button>
         </div>
     </div>
         <h1>Site Info</h1>
     <div class="grid-container">
         <div class="grid-item">
             <div class="tooltip">Patch Notes</div>
-            <button onclick="window.location.href='other/patchnotes'">Patch Notes</button>
+            <button onclick="window.location.href='other/patchnotes.html'">Patch Notes</button>
         </div>
         <div class="grid-item">
             <div class="tooltip">Terms Of Service</div>
-            <button onclick="window.location.href='other/TOS'">Terms of Service</button>
+            <button onclick="window.location.href='other/TOS.html'">Terms of Service</button>
         </div>
       <div class="grid-item">
         <div class="tooltip">Privacy Policy</div>
-        <button onclick="window.location.href='other/privicypolicy'">Privacy Policy</button>
+        <button onclick="window.location.href='Other/privicypolicy.html'">Privacy Policy</button>
       </div>
       <div class="grid-item">
         <div class="tooltip">Settings</div>
@@ -359,7 +349,7 @@ footer {
       </div>
       <div id="admin-section-container"></div>
     </div>
-    <p class="p1">Version 1.5</p>
+    <p class="p1">Version 1.6</p>
     <button id="login-btn" class="login-btn">Log In</button>
     <button class="download-btn" onclick="window.location.href='other/download'">Download</button>
         <footer>
@@ -407,12 +397,20 @@ footer {
     </footer>
   </div>
 
+  
+
+
+
   <script>
     function requestNotificationAccess() {
       if (!('Notification' in window)) return;
       if (Notification.permission === 'default') {
         Notification.requestPermission();
       }
+    }
+    function closePopup() {
+      const popup = document.getElementById("myPopup");
+      if (popup) popup.classList.remove("show");
     }
 
     function togglePopup() {
@@ -436,6 +434,7 @@ footer {
       requestNotificationAccess();
       togglePopup();
       notifyUser();
+      openPopup();
     });
   </script>
 
@@ -541,22 +540,8 @@ footer {
     }
   }
 
-  function togglePopup() {
-    const popup = document.getElementById("myPopup");
-    if (popup) popup.classList.toggle("show");
-    window.removeEventListener("load", togglePopup);
-  }
+  
 
-  function notifyUser() {
-    if (localStorage.getItem("maintenanceNotificationShown") === "true") return;
-    if (Notification.permission === "granted") {
-      new Notification("ATTENTION!!!", {
-        body: "We will be doing a scheduled downtime on Friday 5/23 and the site will be offline till 4/26.",
-        icon: "/MultiTools.jpg"
-      });
-      localStorage.setItem("maintenanceNotificationShown", "true");
-    }
-  }
 
   window.addEventListener("load", () => {
     requestNotificationAccess();
