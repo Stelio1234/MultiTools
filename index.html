@@ -396,11 +396,6 @@ footer {
         </div>
     </footer>
   </div>
-
-  
-
-
-
   <script>
     function requestNotificationAccess() {
       if (!('Notification' in window)) return;
@@ -443,7 +438,6 @@ footer {
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 
 <script>
-  // Firebase config & init
   const firebaseConfig = {
     apiKey: "AIzaSyBHSuqEhGYcRd_6GsMDI0bHDy3_5v0lD9g",
     authDomain: "multitools-48cc8.firebaseapp.com",
@@ -458,92 +452,114 @@ footer {
   const auth = firebase.auth();
   const db = firebase.firestore();
 
-  // DOM refs
-  const welcomeDiv = document.getElementById("welcome");
-  const loginBtn = document.getElementById("login-btn");
-  const SettingsBtn = document.getElementById("settings-btn");
-  const YTDownloaderBtn = document.getElementById("YT-Downloader-btn");
-  const adminSectionContainer = document.getElementById("admin-section-container");
+  window.addEventListener("load", () => {
+    const welcomeDiv = document.getElementById("welcome");
+    const loginBtn = document.getElementById("login-btn");
+    const SettingsBtn = document.getElementById("settings-btn");
+    const YTDownloaderBtn = document.getElementById("YT-Downloader-btn");
+    const adminSectionContainer = document.getElementById("admin-section-container");
 
-  // Single auth state listener - handles everything
-  auth.onAuthStateChanged(async (user) => {
-    if (user) {
-      try {
-        const userDoc = await db.collection("users").doc(user.uid).get();
-        const userData = userDoc.exists ? userDoc.data() : null;
-
-        const username = userData?.username || user.email;
-        welcomeDiv.textContent = `Welcome, ${username}`;
-        loginBtn.textContent = "Log Out";
-        SettingsBtn.textContent = "Settings";
-
-        if (userData?.role === "admin") {
-          injectAdminSection();
-        } else {
-          adminSectionContainer.innerHTML = "";
-        }
-      } catch (err) {
-        console.error("Error fetching user data:", err);
-        welcomeDiv.textContent = `Welcome, ${user.email}`;
-        loginBtn.textContent = "Log Out";
-        SettingsBtn.textContent = "Settings";
-        adminSectionContainer.innerHTML = "";
+    function requestNotificationAccess() {
+      if (!("Notification" in window)) return;
+      if (Notification.permission === "default") {
+        Notification.requestPermission();
       }
-    } else {
-      welcomeDiv.textContent = "You're not logged in.";
-      loginBtn.textContent = "Log In";
-      SettingsBtn.textContent = "Please login to access the settings";
-      adminSectionContainer.innerHTML = "";
     }
-  });
 
-  function injectAdminSection() {
-    adminSectionContainer.innerHTML = `
-      <h1>Site Info</h1>
-      <div class="grid-container">
-        <div class="grid-item">
+    function notifyUser() {
+      if (localStorage.getItem('maintenanceNotificationShown') === 'true') return;
+      if (Notification.permission === 'granted') {
+        new Notification('ATTENTION!!!', {
+          body: 'We will be doing a scheduled downtime on Friday 5/23 and the site will be offline till 4/26.',
+          icon: '/MultiTools.jpg'
+        });
+        localStorage.setItem('maintenanceNotificationShown', 'true');
+      }
+    }
+
+    function togglePopup() {
+      const popup = document.getElementById("myPopup");
+      if (popup) popup.classList.toggle("show");
+    }
+
+    function closePopup() {
+      const popup = document.getElementById("myPopup");
+      if (popup) popup.classList.remove("show");
+    }
+
+    function injectAdminSection() {
+      adminSectionContainer.innerHTML = `
+        <h1>Site Info</h1>
+        <div class="grid-container">
+          <div class="grid-item">
             <div class="tooltip">Admin Pannel</div>
             <button onclick="window.location.href='admin.html'">Admin Pannel</button>
+          </div>
         </div>
-      </div>
-    `;
-  }
-
-  // Button event listeners
-  SettingsBtn.addEventListener("click", () => {
-    if (auth.currentUser) {
-      window.location.href = "settings";
+      `;
     }
-  });
 
-  YTDownloaderBtn.addEventListener("click", () => {
-    if (auth.currentUser) {
-      window.location.href = "Tools/YT-Downloader.html";
-    } else {
-      alert("Please log in to access the YouTube Downloader.");
+    // Handle login/logout logic
+    if (loginBtn) {
+      loginBtn.addEventListener("click", () => {
+        if (auth.currentUser) {
+          auth.signOut().catch((err) => console.error("Sign-out error:", err));
+        } else {
+          window.location.href = "login.html";
+        }
+      });
     }
-  });
 
-  loginBtn.addEventListener("click", () => {
-    if (auth.currentUser) {
-      auth.signOut().catch((err) => console.error("Sign-out error:", err));
-    } else {
-      window.location.href = "login.html";
+    if (SettingsBtn) {
+      SettingsBtn.addEventListener("click", () => {
+        if (auth.currentUser) {
+          window.location.href = "settings";
+        }
+      });
     }
-  });
 
-  // Notification & popup helpers
-  function requestNotificationAccess() {
-    if (!("Notification" in window)) return;
-    if (Notification.permission === "default") {
-      Notification.requestPermission();
+    if (YTDownloaderBtn) {
+      YTDownloaderBtn.addEventListener("click", () => {
+        if (auth.currentUser) {
+          window.location.href = "Tools/YT-Downloader.html";
+        } else {
+          alert("Please log in to access the YouTube Downloader.");
+        }
+      });
     }
-  }
 
-  
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        try {
+          const userDoc = await db.collection("users").doc(user.uid).get();
+          const userData = userDoc.exists ? userDoc.data() : null;
 
+          const username = userData?.username || user.email;
+          welcomeDiv.textContent = `Welcome, ${username}`;
+          loginBtn.textContent = "Log Out";
+          SettingsBtn.textContent = "Settings";
 
-  window.addEventListener("load", () => {
+          if (userData?.role === "admin") {
+            injectAdminSection();
+          } else {
+            adminSectionContainer.innerHTML = "";
+          }
+        } catch (err) {
+          console.error("Error fetching user data:", err);
+          welcomeDiv.textContent = `Welcome, ${user.email}`;
+          loginBtn.textContent = "Log Out";
+          SettingsBtn.textContent = "Settings";
+          adminSectionContainer.innerHTML = "";
+        }
+      } else {
+        welcomeDiv.textContent = "You're not logged in.";
+        loginBtn.textContent = "Log In";
+        SettingsBtn.textContent = "Please login to access the settings";
+        adminSectionContainer.innerHTML = "";
+      }
+    });
+
+    // Run notifications + popup
     requestNotificationAccess();
     togglePopup();
     notifyUser();

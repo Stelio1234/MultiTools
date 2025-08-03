@@ -5,3 +5,46 @@ PopUp
     <button id="button" onclick="togglePopup()">Close</button>
   </div>
 
+function uuidv4() {
+  return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+    (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
+  );
+}
+
+console.log(uuidv4());
+
+function notifyUser() {
+    if (localStorage.getItem("maintenanceNotificationShown") === "true") return;
+    if (Notification.permission === "granted") {
+      new Notification("ATTENTION!!!", {
+        body: "We will be doing a scheduled downtime on Friday 5/23 and the site will be offline till 4/26.",
+        icon: "/MultiTools.jpg"
+      });
+      localStorage.setItem("maintenanceNotificationShown", "true");
+    }
+  }
+
+
+  function togglePopup() {
+    const popup = document.getElementById("myPopup");
+    if (popup) popup.classList.toggle("show");
+    window.removeEventListener("load", togglePopup);
+  }
+
+
+  <div id="myPopup" class="custom-popup">
+  <div class="custom-popup-content">
+    <h3>Good Afternoon</h3>
+    <p>
+      If you created your MultiTools account using your email and password, please take a moment to reset your password on any other services where you may have used the same credentials.
+    </p>
+    <p>
+      Unfortunately, my Google account—which manages the MultiTools GitHub repository, database, Discord account, and administrative tools on the website—has been compromised. I am currently working to recover access, but I’m encountering some difficulties.
+    </p>
+    <p>
+      At this time, I’m unsure who to reach out to for further assistance. If anyone has experience with account recovery or can point me in the right direction, your help would be greatly appreciated.
+    </p>
+    <p>Thank you for your understanding and support.</p>
+    <button onclick="closePopup()">Close</button>
+  </div>
+</div>
