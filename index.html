@@ -499,7 +499,6 @@ footer {
       `;
     }
 
-    // Handle login/logout logic
     if (loginBtn) {
       loginBtn.addEventListener("click", () => {
         if (auth.currentUser) {
@@ -559,7 +558,7 @@ footer {
       }
     });
 
-    // Run notifications + popup
+    
     requestNotificationAccess();
     togglePopup();
     notifyUser();
