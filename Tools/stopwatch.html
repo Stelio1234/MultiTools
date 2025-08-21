@@ -22,6 +22,27 @@
             background-color: #121212;
             font-family: Arial, sans-serif;
         }
+        .back-button {
+      padding: 12px 20px;
+      border-radius: 8px;
+      border: none;
+      background-color: #4caf50;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      width: 120px;
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      transition: all 0.2s ease;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .back-button:hover {
+      background-color: #45a049;
+      transform: translateY(-2px);
+      box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+    }
 
         .container {
             display: flex;
@@ -115,6 +136,7 @@
 </head>
 <body>
     <div class="container">
+        <button type="button"  class="back-button" onclick="window.history.back()">Back</button>
         <div class="timer-circle">
             <svg class="progress-ring" width="200" height="200">
                 <circle class="progress-ring-progress" stroke="#4CAF50" stroke-width="4" fill="transparent" r="90" cx="100" cy="100"></circle>
