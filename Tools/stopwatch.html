@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stopwatch</title>
+    <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
+    <meta name="theme-color" content="#45a049">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="css/footer.css">
+    <script type="module" src="/js/logger.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #121212;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .timer-circle {
+            width: 180px;
+            height: 180px;
+            border: 2px solid #333;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .progress-ring {
+            position: absolute;
+        }
+
+        .progress-ring-circle, .progress-ring-progress {
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .time-display {
+            font-size: 1.4rem;
+            color: #ffffff;
+            font-weight: bold;
+            z-index: 1;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: #4caf50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+        }
+
+        /* 📱 Mobile adjustments */
+        @media (max-width: 480px) {
+            .timer-circle {
+                width: 140px;
+                height: 140px;
+            }
+
+            .time-display {
+                font-size: 1.2rem;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="timer-circle">
+            <svg class="progress-ring" width="200" height="200">
+                <circle class="progress-ring-progress" stroke="#4CAF50" stroke-width="4" fill="transparent" r="90" cx="100" cy="100"></circle>
+            </svg>
+            <div class="time-display" id="timeDisplay">00:00:00.000</div>
+        </div>
+        <div class="controls">
+            <button id="startButton">Start</button>
+            <button id="pauseButton">Pause</button>
+            <button id="resetButton">Reset</button>
+        </div>
+    </div>
+</body>
+<script>
+    let startTime, timerInterval;
+    let elapsedTime = 0;
+
+    const timeDisplay = document.getElementById('timeDisplay');
+    const progressCircle = document.querySelector('.progress-ring-progress');
+    const radius = progressCircle.r.baseVal.value;
+    const circumference = radius * 2 * Math.PI;
+
+    progressCircle.style.strokeDasharray = circumference;
+    progressCircle.style.strokeDashoffset = circumference;
+
+    function updateProgress(percentage) {
+        const offset = circumference - (percentage / 100) * circumference;
+        progressCircle.style.strokeDashoffset = offset;
+    }
+
+    function startStopwatch() {
+        if (!timerInterval) {
+            startTime = Date.now() - elapsedTime;
+            timerInterval = setInterval(updateStopwatch, 50);
+        }
+    }
+
+    function pauseStopwatch() {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+
+    function resetStopwatch() {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        elapsedTime = 0;
+        timeDisplay.textContent = '00:00:00.000';
+        updateProgress(0);
+    }
+
+    function updateStopwatch() {
+        elapsedTime = Date.now() - startTime;
+
+        const hours = Math.floor(elapsedTime / 3600000);
+        const minutes = Math.floor((elapsedTime % 3600000) / 60000);
+        const seconds = Math.floor((elapsedTime % 60000) / 1000);
+        const milliseconds = elapsedTime % 1000;
+
+        timeDisplay.textContent = 
+            `${pad(hours)}:${pad(minutes)}:${pad(seconds)}.${pad(milliseconds, 3)}`;
+
+        const percentage = ((elapsedTime % 60000) / 60000) * 100; 
+        updateProgress(percentage);
+    }
+
+    function pad(number, length = 2) {
+        return number.toString().padStart(length, '0');
+    }
+
+    document.getElementById('startButton').addEventListener('click', startStopwatch);
+    document.getElementById('pauseButton').addEventListener('click', pauseStopwatch); 
+    document.getElementById('resetButton').addEventListener('click', resetStopwatch);
+</script>
+</html>

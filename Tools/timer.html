@@ -5,205 +5,189 @@
   <meta name="viewport" content="width=device-width">
   <title>Timer Tool</title>
   <meta name="theme-color" content="#45a049">
- <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
-</head>
-<style>
-  :root {
-    --padding-container: 40px;
-    --font-h1: 32px;
-    --font-p: 18px;
-    --button-padding: 15px;
-    --grid-columns: repeat(2, 1fr);
-    --tooltip-font: 14px;
-    --max-container-width: 400px;
-    align-items: center;
-  }
-
-  body {
-    background-color: #121212;
-    color: #ffffff;
-    font-family: Arial, Helvetica, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;;
-    flex-direction: column;
-    min-height:  100vh;
-    margin: 0%;
-    
-    
-  }
-
-          .back-button {
-        padding: 12px 20px;
-        border-radius: 8px;
-        border: none;
-        background-color: #4caf50;
-        color: white;
-        font-size: 16px;
-        cursor: pointer;
-        width: 120px;
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        margin-top: 20px;
-        transition: all 0.2s ease;
-        animation: fadeInUp 1s ease-out;
+  <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
+  <style>
+    :root {
+      --padding-container: 24px;
+      --font-h1: 28px;
+      --font-time: 36px;
+      --font-p: 16px;
+      --button-padding: 14px;
+      --max-container-width: 400px;
+      --circle-size: 220px;
     }
 
-    /* Keyframe animation to make the button fade in and move up */
-    @keyframes fadeInUp {
-        0% {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        100% {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    body {
+      background-color: #121212;
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: #1e1e1e;
+      padding: var(--padding-container);
+      border-radius: 20px;
+      box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.6);
+      width: 100%;
+      max-width: var(--max-container-width);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: var(--font-h1);
+      margin-bottom: 20px;
+      color: #ffffff;
+      letter-spacing: 1px;
+    }
+
+    /* Circle hidden by default */
+    .circle-wrapper {
+      display: none;
+      position: relative;
+      width: var(--circle-size);
+      height: var(--circle-size);
+      margin: 0 auto 20px;
+    }
+
+    svg {
+      transform: rotate(-90deg);
+      width: 100%;
+      height: 100%;
+    }
+
+    .circle-bg {
+      fill: none;
+      stroke: #333;
+      stroke-width: 10;
+    }
+
+    .circle-progress {
+      fill: none;
+      stroke: #4caf50;
+      stroke-width: 10;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1s linear;
+    }
+
+    .circle-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: var(--font-time);
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .timer-inputs {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .form-control {
+      padding: 10px;
+      border-radius: 8px;
+      border: 2px solid #4caf50;
+      background-color: #2c2c2c;
+      color: #ffffff;
+      width: 70px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .form-control:focus {
+      outline: none;
+      box-shadow: 0 0 5px 2px #4caf50;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background-color: #4caf50;
+      border: none;
+      color: white;
+      padding: 12px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+      width: 110px;
+    }
+
+    .btn:hover {
+      background-color: #45a049;
+      transform: translateY(-2px);
+      box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+    }
+
+    .back-button {
+      padding: 12px 20px;
+      border-radius: 8px;
+      border: none;
+      background-color: #4caf50;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      width: 120px;
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      transition: all 0.2s ease;
+      animation: fadeInUp 1s ease-out;
     }
 
     .back-button:hover {
-        background-color: #45a049;
-        transform: translateY(-2px);
-        box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
+      background-color: #45a049;
+      transform: translateY(-2px);
+      box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
     }
 
-  .container {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    background-color: #1e1e1e;
-    padding: var(--padding-container);
-    border-radius: 16px;
-    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
-    width: 400px;
-    max-width: var(--max-container-width);
-    text-align: center;
-    justify-content: center;
-    
-  }
-
-  .timer-inputs {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-  }
-
-  .form-control {
-    padding: 12px;
-    border-radius: 8px;
-    border: 2px solid #4caf50;
-    background-color: #2c2c2c;
-    color: #ffffff;
-    width: 80px;
-    font-size: 16px;
-    text-align: center;
-  }
-
-  .form-control:focus {
-    outline: none;
-    box-shadow: 0 0 4px 2px #4caf50;
-  }
-
-  .button-group {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .btn {
-    background-color: #4caf50;
-    border: none;
-    color: white;
-    padding: 12px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 16px;
-    transition: all 0.2s ease;
-    width: 100px;
-  }
-
-  .btn:hover {
-    background-color: #45a049;
-    transform: translateY(-2px);
-    box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-  }
-
-  h1 {
-    font-size: var(--font-h1);
-    margin-bottom: 20px;
-    color: #ffffff;
-  }
-
-  #id {
-    background-color: #4caf50;
-    border: none;
-    color: white;
-    padding: 12px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 16px;
-    transition: all 0.2s ease;
-    width: 100px;
-  }
-
-  @media (max-width: 575.98px) {
-    :root {
-      --padding-container: 16px;
-      --font-h1: 24px;
-      --font-p: 14px;
-      --button-padding: 12px;
-      --grid-columns: 1fr;
-      --tooltip-font: 12px;
-      --max-container-width: 35%;
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-  }
 
-  @media (min-width: 576px) and (max-width: 767.98px) {
-    :root {
-      --padding-container: 20px;
-      --font-h1: 26px;
-      --font-p: 16px;
-      --button-padding: 13px;
-      --max-container-width: 100%;
+    @media (max-width: 575.98px) {
+      :root {
+        --font-h1: 22px;
+        --font-time: 28px;
+        --circle-size: 180px;
+        --max-container-width: 95%;
+      }
     }
-  }
-
-  @media (min-width: 768px) and (max-width: 991.98px) {
-    :root {
-      --padding-container: 28px;
-      --max-container-width: 90%;
-    }
-  }
-
-  @media (min-width: 992px) and (max-width: 1199.98px) {
-    :root {
-      --padding-container: 32px;
-      --max-container-width: 80%;
-    }
-  }
-
-  @media (min-width: 1200px) and (max-width: 1399.98px) {
-    :root {
-      --padding-container: 36px;
-      --max-container-width: 70%;
-    }
-  }
-
-  @media (min-width: 1400px) {
-    :root {
-      --padding-container: 40px;
-      --max-container-width: 600px;
-    }
-  }
-</style>
+  </style>
+</head>
 <body>
   <div class="container">
     <h1>Timer</h1>
-    <div class="timer-inputs">
+    <div class="circle-wrapper" id="circleWrapper">
+      <svg>
+        <circle class="circle-bg" cx="110" cy="110" r="100"></circle>
+        <circle class="circle-progress" cx="110" cy="110" r="100"></circle>
+      </svg>
+      <div class="circle-text" id="circleDisplay">00:00:00</div>
+    </div>
+    <div class="timer-inputs" id="inputsWrapper">
       <input type="number" id="hours" class="form-control" placeholder="Hours" min="0" max="23">
       <input type="number" id="minutes" class="form-control" placeholder="Minutes" min="0" max="59">
       <input type="number" id="seconds" class="form-control" placeholder="Seconds" min="0" max="59">
@@ -219,20 +203,43 @@
   <script>
     let timerInterval;
     let isRunning = false;
+    let totalSeconds = 0;
 
     const startBtn = document.getElementById('startBtn');
     const stopBtn = document.getElementById('stopBtn');
     const hoursInput = document.getElementById('hours');
     const minutesInput = document.getElementById('minutes');
     const secondsInput = document.getElementById('seconds');
+    const notificationContainer = document.getElementById('notificationRequestContainer');
+    const circleDisplay = document.getElementById('circleDisplay');
+    const circleProgress = document.querySelector('.circle-progress');
+    const circleWrapper = document.getElementById('circleWrapper');
+    const inputsWrapper = document.getElementById('inputsWrapper');
+
+    const radius = 100;
+    const circumference = 2 * Math.PI * radius;
+    circleProgress.style.strokeDasharray = circumference;
+    circleProgress.style.strokeDashoffset = circumference;
 
     function updateUI(remainingSeconds) {
       const hours = Math.floor(remainingSeconds / 3600);
       const minutes = Math.floor((remainingSeconds % 3600) / 60);
       const seconds = remainingSeconds % 60;
+
       hoursInput.value = hours;
       minutesInput.value = minutes;
       secondsInput.value = seconds;
+
+      const display =
+        String(hours).padStart(2, "0") + ":" +
+        String(minutes).padStart(2, "0") + ":" +
+        String(seconds).padStart(2, "0");
+      circleDisplay.textContent = display;
+
+      if (totalSeconds > 0) {
+        const progress = remainingSeconds / totalSeconds;
+        circleProgress.style.strokeDashoffset = circumference * (1 - progress);
+      }
     }
 
     function startTimer() {
@@ -241,7 +248,7 @@
       let hours = parseInt(hoursInput.value) || 0;
       let minutes = parseInt(minutesInput.value) || 0;
       let seconds = parseInt(secondsInput.value) || 0;
-      let totalSeconds = hours * 3600 + minutes * 60 + seconds;
+      totalSeconds = hours * 3600 + minutes * 60 + seconds;
       if (totalSeconds <= 0) return;
 
       const startTime = Date.now();
@@ -249,7 +256,12 @@
 
       localStorage.setItem('timerStart', startTime);
       localStorage.setItem('timerEnd', endTime);
+      localStorage.setItem('timerTotal', totalSeconds);
       isRunning = true;
+
+      // Hide inputs, show circle
+      inputsWrapper.style.display = "none";
+      circleWrapper.style.display = "block";
 
       runCountdown();
     }
@@ -259,54 +271,57 @@
       isRunning = false;
       localStorage.removeItem('timerStart');
       localStorage.removeItem('timerEnd');
+      localStorage.removeItem('timerTotal');
+      updateUI(0);
+
+      // Reset UI
+      inputsWrapper.style.display = "flex";
+      circleWrapper.style.display = "none";
     }
 
     function runCountdown() {
+      clearInterval(timerInterval);
       timerInterval = setInterval(() => {
         const endTime = parseInt(localStorage.getItem('timerEnd')) || 0;
+        totalSeconds = parseInt(localStorage.getItem('timerTotal')) || 0;
         const remaining = Math.floor((endTime - Date.now()) / 1000);
 
         if (remaining <= 0) {
           clearInterval(timerInterval);
           isRunning = false;
-          localStorage.removeItem('timerStart');
-          localStorage.removeItem('timerEnd');
+          localStorage.clear();
           updateUI(0);
           notifyUser();
+
+          // Reset UI when done
+          inputsWrapper.style.display = "flex";
+          circleWrapper.style.display = "none";
         } else {
           updateUI(remaining);
         }
       }, 1000);
     }
 
-
-    function notgranted() {
-      if (Notification.permission === 'denied');
-        requestBtn();
+    function showRequestButton() {
+      notificationContainer.innerHTML = `
+        <button class='btn' id='requestBtn'>Enable Notifications</button>
+      `;
+      document.getElementById('requestBtn').addEventListener('click', () => {
+        Notification.requestPermission().then(permission => {
+          if (permission === 'granted') {
+            notificationContainer.innerHTML = "<p>✅ Notifications enabled!</p>";
+          } else {
+            notificationContainer.innerHTML = "<p>❌ Notifications blocked.</p>";
+          }
+        });
+      });
     }
-
-    function request() {
-    RequestNotififacationContainer.innerHTML = `
-      <button class='btn' id='requestBtn'>Request Notifications</button>
-    `;
-  }
 
     function notifyUser() {
       if (Notification.permission === 'granted') {
         new Notification('Timer Complete!', {
           body: 'Your timer has finished.',
-          icon: '/MultiTools.jpg'
-        });
-      } else if (Notification.permission !== 'denied') {
-        Notification.requestPermission().then(permission => {
-          if (permission === 'granted') {
-            new Notification('Timer Complete!', {
-              body: 'Your timer has finished.',
-              icon: '/MultiTools.jpg'
-            });
-          } else {
-            alert('Timer Complete!');
-          }
+          icon: '/images/MultiTools.jpg'
         });
       } else {
         alert('Timer Complete!');
@@ -315,10 +330,16 @@
 
     function checkAndResumeTimer() {
       const endTime = parseInt(localStorage.getItem('timerEnd')) || 0;
+      totalSeconds = parseInt(localStorage.getItem('timerTotal')) || 0;
       const remaining = Math.floor((endTime - Date.now()) / 1000);
       if (remaining > 0) {
         updateUI(remaining);
         isRunning = true;
+
+        // Show circle, hide inputs
+        inputsWrapper.style.display = "none";
+        circleWrapper.style.display = "block";
+
         runCountdown();
       } else {
         stopTimer();
@@ -326,11 +347,12 @@
     }
 
     window.onload = () => {
-      Notification.requestPermission();
+      if (Notification.permission !== 'granted') {
+        showRequestButton();
+      }
       checkAndResumeTimer();
-      notgranted();
     };
-    requestBtn.addEventListener('click', request);
+
     startBtn.addEventListener('click', startTimer);
     stopBtn.addEventListener('click', stopTimer);
   </script>
