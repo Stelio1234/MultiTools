@@ -129,7 +129,6 @@
   </div>
 </body>
 <script>
-  // This lil' script dynamically updates the timestamp with the current date
   const lastUpdated = new Date(document.lastModified);
   const formattedDate = lastUpdated.toLocaleDateString('en-US', {
     year: 'numeric',
@@ -139,7 +138,7 @@
 
   const timestampDiv = document.createElement('div');
   timestampDiv.className = 'timestamp';
-  timestampDiv.textContent = `Last updated: ${formattedDate}`;
+  timestampDiv.textContent = `Last updated: April 26th`;
   
   document.querySelector('.container').appendChild(timestampDiv);
 </script>
