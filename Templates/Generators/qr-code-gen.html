@@ -299,7 +299,13 @@
       
       <label for="bg-color">Background:</label>
       <input type="color" id="bg-color" class="customization-color" value="#ffffff" />
+
+      <button class="btn" id="clear-background-btn">
+          <img src="/images/icons8-transparent-48.png" alt="Clear Background" style="width: 24px; height: 24px;">
+      </button>
     </div>
+
+    
 
     <div class="form-group">
       <button type="button" class="btn" id="generate">Generate</button>
@@ -415,10 +421,21 @@
       });
 
       $('#qr-color, #bg-color, #shape, #gradient-from, #gradient-to, #qr-size').on('input change', () => {
-        // debounce example
         clearTimeout(window.updateTimer);
         window.updateTimer = setTimeout(updateQRCode, 150);
       });
+
+      $('#clear-background-btn').click(function () {
+        // clear the color input visually
+        $('#bg-color').val('');
+        
+        // update QR with transparency
+        qrCode.update({
+          backgroundOptions: { color: 'transparent' }
+        });
+      });
+
+
 
       $('.preset-bg').click(function () {
         const bg = $(this).data('color');
