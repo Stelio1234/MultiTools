@@ -1,0 +1,21 @@
+<Window
+    x:Class="MultiToolsApp.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MultiToolsApp"
+    Title="MultiTools" Height="700" Width="1000">
+
+    <Grid Background="#121212">
+        <NavigationView x:Name="NavView" PaneTitle="MultiTools Hub" IsBackButtonVisible="Visible">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="Dashboard" Tag="dashboard"/>
+                <NavigationViewItem Content="Timer" Tag="timer"/>
+                <NavigationViewItem Content="Unit Converter" Tag="unitconverter"/>
+                <NavigationViewItem Content="Tip Calculator" Tag="tipcalculator"/>
+                <NavigationViewItem Content="QR Code Generator" Tag="qrcode"/>
+            </NavigationView.MenuItems>
+
+            <Frame x:Name="ContentFrame"/>
+        </NavigationView>
+    </Grid>
+</Window>

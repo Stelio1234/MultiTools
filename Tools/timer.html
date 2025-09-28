@@ -236,6 +236,7 @@
     }
 
     function startTimer() {
+      console.log('timer started')
       if (isRunning) return;
 
       let hours = parseInt(hoursInput.value) || 0;
@@ -243,7 +244,7 @@
       let seconds = parseInt(secondsInput.value) || 0;
       let totalSeconds = hours * 3600 + minutes * 60 + seconds;
       if (totalSeconds <= 0) return;
-
+      console.log('seconds = 0')
       const startTime = Date.now();
       const endTime = startTime + totalSeconds * 1000;
 
@@ -255,6 +256,7 @@
     }
 
     function stopTimer() {
+      console.log(' timer stoped pressed')
       clearInterval(timerInterval);
       isRunning = false;
       localStorage.removeItem('timerStart');
@@ -265,6 +267,7 @@
       timerInterval = setInterval(() => {
         const endTime = parseInt(localStorage.getItem('timerEnd')) || 0;
         const remaining = Math.floor((endTime - Date.now()) / 1000);
+        console.log('timer pressed')
 
         if (remaining <= 0) {
           clearInterval(timerInterval);
@@ -280,16 +283,7 @@
     }
 
 
-    function notgranted() {
-      if (Notification.permission === 'denied');
-        requestBtn();
-    }
-
-    function request() {
-    RequestNotififacationContainer.innerHTML = `
-      <button class='btn' id='requestBtn'>Request Notifications</button>
-    `;
-  }
+    
 
     function notifyUser() {
       if (Notification.permission === 'granted') {
@@ -326,11 +320,8 @@
     }
 
     window.onload = () => {
-      Notification.requestPermission();
       checkAndResumeTimer();
-      notgranted();
     };
-    requestBtn.addEventListener('click', request);
     startBtn.addEventListener('click', startTimer);
     stopBtn.addEventListener('click', stopTimer);
   </script>

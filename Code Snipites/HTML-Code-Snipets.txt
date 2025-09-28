@@ -48,3 +48,15 @@ function notifyUser() {
     <button onclick="closePopup()">Close</button>
   </div>
 </div>
+
+
+function notifyUser() {
+      if (localStorage.getItem('maintenanceNotificationShown') === 'true') return;
+      if (Notification.permission === 'granted') {
+        new Notification('ATTENTION!!!', {
+          body: 'We will be doing a scheduled downtime on Friday 5/23 and the site will be offline till 4/26.',
+          icon: '/MultiTools.jpg'
+        });
+        localStorage.setItem('maintenanceNotificationShown', 'true');
+      }
+    }
