@@ -31,17 +31,18 @@
       --primary-color: #4caf50;
       --primary-color-hover: #45a049;
       --tooltip-bg: #333;
-    }
+    } 
 
     body[data-theme="light"] {
-      --bg-color: #f9f9f9;
-      --container-bg: #fff;
-      --text-color: #222;
-      --text-light: #444;
-      --primary-color: #2e8b57;
-      --primary-color-hover: #276644;
-      --tooltip-bg: #444;
-    }
+  --bg-color: #f2f2f2;           /* Softer off-white background */
+  --container-bg: #ffffff;      /* Clean white but not blinding */
+  --text-color: #222222;        /* Dark grey instead of pure black */
+  --text-light: #444444;        /* Lighter dark grey for secondary text */
+  --primary-color: #3aa776;     /* Slightly calmer green */
+  --primary-color-hover: #2e7b5a; /* Softer hover effect */
+  --tooltip-bg: #333333;        /* Less harsh tooltip background */
+}
+
 
     html { font-size: 100%; box-sizing: border-box; }
     *, *::before, *::after { box-sizing: inherit; }
@@ -194,159 +195,168 @@
 </head>
 <body>
   
-  <main class="container" role="main" aria-label="MultiTools Hub">
-    <header>
-      <h1>MultiTools</h1>
-      <p class="text-light">The Site with Many Tools</p>
-      <p id="welcome" class="text-light" aria-live="polite"></p>
-      <div class="theme-toggle-wrap">
-    <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Toggle dark/light mode">Light Mode</button>
-  </div>
-    </header>
+<main class="container" role="main" aria-label="MultiTools Hub">
+  <header>
+    <h1>MultiTools</h1>
+    <p class="text-light">The Site with Many Tools</p>
+    <p id="welcome" class="text-light" aria-live="polite"></p>
+    <div class="theme-toggle-wrap">
+      <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Toggle dark/light mode">Light Mode</button>
+    </div>
+  </header>
 
-    <section aria-labelledby="common-tools-heading">
-      <h2 id="common-tools-heading">Common Tools</h2>
-      <div class="grid-container">
-        <article class="grid-item">
-          <button onclick="window.location.href='Tools/timer.html'" aria-describedby="tooltip-timer">
-            Timer <span class="badge-new" aria-label="New">New</span>
-          </button>
-          <div id="tooltip-timer" class="tooltip" role="tooltip">Set a countdown for tasks</div>
-        </article>
+  <section aria-labelledby="common-tools-heading">
+    <h2 id="common-tools-heading">Common Tools</h2>
+    <div class="grid-container">
+      <article class="grid-item">
+        <button onclick="window.location.href='Templates/TimeTools/timer.html'" aria-describedby="tooltip-timer">
+          Timer <span class="badge-new" aria-label="New">New</span>
+        </button>
+        <div id="tooltip-timer" class="tooltip" role="tooltip">Set a countdown for tasks</div>
+      </article>
+      <article class="grid-item">
+        <button onclick="window.location.href='Templates/CommonTools/UnitConverter.html'" aria-describedby="tooltip-unitconverter">
+          Unit Converter
+        </button>
+        <div id="tooltip-unitconverter" class="tooltip" role="tooltip">Convert units of measure <strong>Work in progress</strong></div>
+      </article>
+    </div>
+  </section>
 
-        <article class="grid-item">
-          <button onclick="window.location.href='other/construction.html'" aria-describedby="tooltip-unitconverter">
-            Unit Converter
-          </button>
-          <div id="tooltip-unitconverter" class="tooltip" role="tooltip">
-            Convert units of measure <strong>Work in progress</strong>
-          </div>
-        </article>
+  <section aria-labelledby="calculators-heading">
+    <h2 id="calculators-heading">Calculators</h2>
+    <div class="grid-container">
+      <article class="grid-item">
+        <button onclick="window.location.href='Templates/Calculators/tipcalculator.html'" aria-describedby="tooltip-tipcalc">
+          Tip Calculator <span class="badge-new" aria-label="New">New</span>
+        </button>
+        <div id="tooltip-tipcalc" class="tooltip" role="tooltip">Calculates your tip</div>
+      </article>
+    </div>
+  </section>
 
-        <article class="grid-item">
-          <button onclick="window.location.href='Tools/tipcalculator.html'" aria-describedby="tooltip-tipcalc">
-            Tip Calculator <span class="badge-new" aria-label="New">New</span>
-          </button>
-          <div id="tooltip-tipcalc" class="tooltip" role="tooltip">Calculates your tip</div>
-        </article>
-      </div>
-    </section>
+  <section aria-labelledby="dev-tools-heading">
+    <h2 id="dev-tools-heading">Dev Tools</h2>
+    <div class="grid-container">
+      <article class="grid-item">
+        <button onclick="window.location.href='Templates/DevTools/encrypted.html'" aria-describedby="tooltip-encrypter">
+          Text Encrypter & Decrypter <span class="badge-new" aria-label="Work in progress">WIP</span>
+        </button>
+        <div id="tooltip-encrypter" class="tooltip" role="tooltip">Encrypt and decrypt text securely</div>
+      </article>
+      <article class="grid-item">
+        <button onclick="window.location.href='Templates/DevTools/WebClip.html'" aria-describedby="tooltip-webclip">
+          WebClip Generator
+        </button>
+        <div id="tooltip-webclip" class="tooltip" role="tooltip">Generate a webpage clip for previews</div>
+      </article>
+      <article class="grid-item">
+        <button onclick="window.location.href='Templates/DevTools/ipainstaller.html'" aria-describedby="tooltip-ipa">
+          IPA Installer
+        </button>
+        <div id="tooltip-ipa" class="tooltip" role="tooltip">Install IPA files on your device</div>
+      </article>
+    </div>
+  </section>
 
-    <section aria-labelledby="dev-tools-heading">
-      <h2 id="dev-tools-heading">Dev Tools</h2>
-      <div class="grid-container">
-        <article class="grid-item">
-          <button onclick="window.location.href='Tools/encrypted.html'" aria-describedby="tooltip-encrypter">
-            Text Encrypter & Decrypter <span class="badge-new" aria-label="Work in progress">WIP</span>
-          </button>
-          <div id="tooltip-encrypter" class="tooltip" role="tooltip">Encrypt and decrypt text securely</div>
-        </article>
+  <section aria-labelledby="downloader-tools-heading">
+    <h2 id="downloader-tools-heading">Downloaders</h2>
+    <div class="grid-container">
+      <article class="grid-item">
+        <button onclick="window.location.href='Templates/Downloaders/TikTok-Downloader.html'">
+          TikTok Downloader
+        </button>
+      </article>
+      <article class="grid-item">
+        <button onclick="window.location.href='Templates/Downloaders/YT-Downloader.html'">
+          YT Downloader
+        </button>
+      </article>
+    </div>
+  </section>
 
-        <article class="grid-item">
-          <button onclick="window.location.href='Tools/WebClip.html'" aria-describedby="tooltip-webclip">
-            WebClip Generator
-          </button>
-          <div id="tooltip-webclip" class="tooltip" role="tooltip">Generate a webpage clip for previews</div>
-        </article>
+  <section aria-labelledby="generators-heading">
+    <h2 id="generators-heading">Generators</h2>
+    <div class="grid-container">
+      <article class="grid-item">
+        <button onclick="window.location.href='Templates/Generators/gamertag-gen.html'" aria-describedby="tooltip-gamertag">
+          Gamertag Generator
+        </button>
+        <div id="tooltip-gamertag" class="tooltip" role="tooltip">Generate random gamertags</div>
+      </article>
+      <article class="grid-item">
+        <button onclick="window.location.href='Templates/Generators/qr-code-gen.html'" aria-describedby="tooltip-qrcode">
+          QR Code Generator
+        </button>
+        <div id="tooltip-qrcode" class="tooltip" role="tooltip">Generate a QR Code</div>
+      </article>
+      <article class="grid-item">
+        <button onclick="window.location.href='Templates/Generators/password-gen.html'" aria-describedby="tooltip-password">
+          Password Generator
+        </button>
+        <div id="tooltip-password" class="tooltip" role="tooltip">Generate secure passwords</div>
+      </article>
+      <article class="grid-item">
+        <button onclick="window.location.href='Templates/Generators/uuid-generator.html'" aria-describedby="tooltip-uuid">
+          UUID Generator
+        </button>
+        <div id="tooltip-uuid" class="tooltip" role="tooltip">Generate unique UUID's</div>
+      </article>
+    </div>
+  </section>
 
-        <article class="grid-item">
-          <button onclick="window.location.href='other/construction.html'" aria-describedby="tooltip-ipa">
-            IPA Installer
-          </button>
-          <div id="tooltip-ipa" class="tooltip" role="tooltip">Install IPA files on your device</div>
-        </article>
-      </div>
-    </section>
+  <section aria-labelledby="image-tools-heading">
+    <h2 id="image-tools-heading">Image Tools</h2>
+    <div class="grid-container">
+      <article class="grid-item">
+        <button onclick="window.location.href='Templates/ImageTools/imagescale.html'" aria-describedby="tooltip-imgcompressor">
+          Image Compressor
+        </button>
+        <div id="tooltip-imgcompressor" class="tooltip" role="tooltip">
+          Reduce image size <strong>Work in progress</strong>
+        </div>
+      </article>
+      <article class="grid-item">
+        <button onclick="window.location.href='Templates/ImageTools/imagetypeconverter.html'" aria-describedby="tooltip-imgconverter">
+          Image Converter
+        </button>
+        <div id="tooltip-imgconverter" class="tooltip" role="tooltip">
+          Convert image format (e.g., JPG to PNG) <strong>Work in progress</strong>
+        </div>
+      </article>
+    </div>
+  </section>
 
-    <section aria-labelledby="image-tools-heading">
-      <h2 id="image-tools-heading">Image Tools</h2>
-      <div class="grid-container">
-        <article class="grid-item">
-          <button onclick="window.location.href='other/construction.html'" aria-describedby="tooltip-imgcompressor">
-            Image Compressor
-          </button>
-          <div id="tooltip-imgcompressor" class="tooltip" role="tooltip">
-            Reduce image size <strong>Work in progress</strong>
-          </div>
-        </article>
-
-        <article class="grid-item">
-          <button onclick="window.location.href='Tools/imagetypeconverter.html'" aria-describedby="tooltip-imgconverter">
-            Image Converter
-          </button>
-          <div id="tooltip-imgconverter" class="tooltip" role="tooltip">
-            Convert image format (e.g., JPG to PNG) <strong>Work in progress</strong>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section aria-labelledby="generators-heading">
-      <h2 id="generators-heading">Generators</h2>
-      <div class="grid-container">
-        <article class="grid-item">
-          <button onclick="window.location.href='Tools/gamertag-gen.html'" aria-describedby="tooltip-gamertag">
-            Gamertag Generator
-          </button>
-          <div id="tooltip-gamertag" class="tooltip" role="tooltip">Generate random gamertags</div>
-        </article>
-
-        <article class="grid-item">
-          <button onclick="window.location.href='Tools/qr-code-gen.html'" aria-describedby="tooltip-qrcode">
-            QR Code Generator
-          </button>
-          <div id="tooltip-qrcode" class="tooltip" role="tooltip">Generate a QR Code</div>
-        </article>
-
-        <article class="grid-item">
-          <button onclick="window.location.href='Tools/password-gen.html'" aria-describedby="tooltip-password">
-            Password Generator
-          </button>
-          <div id="tooltip-password" class="tooltip" role="tooltip">Generate secure passwords</div>
-        </article>
-
-        <article class="grid-item">
-          <button onclick="window.location.href='Tools/uuid-generator.html'" aria-describedby="tooltip-uuid">
-            UUID Generator
-          </button>
-          <div id="tooltip-uuid" class="tooltip" role="tooltip">Generate unique UUID's</div>
-        </article>
-      </div>
-    </section>
-
-    <section aria-labelledby="site-info-heading">
-      <h2 id="site-info-heading">Site Info</h2>
-      <div class="grid-container">
-        <article class="grid-item">
-          <button onclick="window.location.href='other/patchnotes.html'" aria-describedby="tooltip-patchnotes">
-            Patch Notes
-          </button>
-          <div id="tooltip-patchnotes" class="tooltip" role="tooltip">Patch Notes</div>
-        </article>
-
-        <article class="grid-item">
-          <button onclick="window.location.href='other/TOS.html'" aria-describedby="tooltip-tos">
-            Terms of Service
-          </button>
-          <div id="tooltip-tos" class="tooltip" role="tooltip">Terms Of Service</div>
-        </article>
-
-        <article class="grid-item">
-          <button onclick="window.location.href='Other/privicypolicy.html'" aria-describedby="tooltip-privacy">
-            Privacy Policy
-          </button>
-          <div id="tooltip-privacy" class="tooltip" role="tooltip">Privacy Policy</div>
-        </article>
-
-        <article class="grid-item">
-          <button id="settings-btn" aria-describedby="tooltip-settings">
-            Settings
-          </button>
-          <div id="tooltip-settings" class="tooltip" role="tooltip">Settings</div>
-        </article>
-      </div>
-      <div id="admin-section-container" aria-live="polite"></div>
-    </section>
+  <section aria-labelledby="site-info-heading">
+    <h2 id="site-info-heading">Site Info</h2>
+    <div class="grid-container">
+      <article class="grid-item">
+        <button onclick="window.location.href='Templates/Other/patchnotes.html'" aria-describedby="tooltip-patchnotes">
+          Patch Notes
+        </button>
+        <div id="tooltip-patchnotes" class="tooltip" role="tooltip">Patch Notes</div>
+      </article>
+      <article class="grid-item">
+        <button onclick="window.location.href='Templates/TOS.html'" aria-describedby="tooltip-tos">
+          Terms of Service
+        </button>
+        <div id="tooltip-tos" class="tooltip" role="tooltip">Terms Of Service</div>
+      </article>
+      <article class="grid-item">
+        <button onclick="window.location.href='Templates/Other/privicypolicy.html'" aria-describedby="tooltip-privacy">
+          Privacy Policy
+        </button>
+        <div id="tooltip-privacy" class="tooltip" role="tooltip">Privacy Policy</div>
+      </article>
+      <article class="grid-item">
+        <button id="settings-btn" aria-describedby="tooltip-settings">
+          Settings
+        </button>
+        <div id="tooltip-settings" class="tooltip" role="tooltip">Settings</div>
+      </article>
+    </div>
+    <div id="admin-section-container" aria-live="polite"></div>
+  </section>
 
     <p class="text-light">Version 1.6</p>
 
