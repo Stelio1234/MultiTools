@@ -60,3 +60,28 @@ function notifyUser() {
         localStorage.setItem('maintenanceNotificationShown', 'true');
       }
     }
+
+
+
+
+     <section aria-labelledby="image-tools-heading">
+    <h2 id="image-tools-heading">Image Tools</h2>
+    <div class="grid-container">
+      <article class="grid-item">
+        <button onclick="window.location.href='Templates/ImageTools/imagescale.html'" aria-describedby="tooltip-imgcompressor">
+          Image Compressor
+        </button>
+        <div id="tooltip-imgcompressor" class="tooltip" role="tooltip">
+          Reduce image size <strong>Work in progress</strong>
+        </div>
+      </article>
+      <article class="grid-item">
+        <button onclick="window.location.href='Templates/ImageTools/imagetypeconverter.html'" aria-describedby="tooltip-imgconverter">
+          Image Converter
+        </button>
+        <div id="tooltip-imgconverter" class="tooltip" role="tooltip">
+          Convert image format (e.g., JPG to PNG) <strong>Work in progress</strong>
+        </div>
+      </article>
+    </div>
+  </section>
