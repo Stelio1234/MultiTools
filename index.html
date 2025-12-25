@@ -2,577 +2,348 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MultiTools Hub</title>
-  <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg" />
-  <meta name="theme-color" content="#45a049" />
-  <link rel="manifest" href="/manifest.json" />
-  <link rel="stylesheet" href="css/footer.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <script type="module" src="/js/logger.js" defer></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js" defer></script>
-  <meta name="description" content="Multi Tools is a free website offering many useful online tools like YouTube downloader, QR code generator, unit converter, and more – all in one place!" />
+
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
     :root {
-      --padding-container: 2.5rem;
-      --font-h1: 2rem;
-      --font-p: 1.125rem;
-      --button-padding: 1rem;
-      --tooltip-font: 0.875rem;
-      --max-container-width: 37.5rem;
-      --border-radius: 1rem;
-      --box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
-      --transition: all 0.2s ease;
-      /* Dark theme */
-      --bg-color: #121212;
-      --container-bg: #1e1e1e;
-      --text-color: #fff;
-      --text-light: #ccc;
-      --primary-color: #4caf50;
-      --primary-color-hover: #45a049;
-      --tooltip-bg: #333;
-    } 
+      --bg-dark: #0a0a0a;
+      --green: #00ff99;
+      --text-light: #e0e0e0;
+      --card-bg: rgba(255, 255, 255, 0.08);
+    }
 
-    body[data-theme="light"] {
-  --bg-color: #f2f2f2;           /* Softer off-white background */
-  --container-bg: #ffffff;      /* Clean white but not blinding */
-  --text-color: #222222;        /* Dark grey instead of pure black */
-  --text-light: #444444;        /* Lighter dark grey for secondary text */
-  --primary-color: #3aa776;     /* Slightly calmer green */
-  --primary-color-hover: #2e7b5a; /* Softer hover effect */
-  --tooltip-bg: #333333;        /* Less harsh tooltip background */
-}
-
-
-    html { font-size: 100%; box-sizing: border-box; }
-    *, *::before, *::after { box-sizing: inherit; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
 
     body {
-      margin: 0;
-      padding: var(--padding-container);
-      font-family: Arial, Helvetica, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-      transition: background 0.3s, color 0.3s;
-    }
-
-    main.container {
-      background-color: var(--container-bg);
-      max-width: var(--max-container-width);
-      width: 100%;
-      border-radius: var(--border-radius);
-      padding: var(--padding-container);
-      box-shadow: var(--box-shadow);
+      background: linear-gradient(180deg, #000000, #111, #0a0a0a);
+      color: var(--text-light);
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
-      text-align: center;
-      transition: background 0.3s, color 0.3s;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem 1rem;
     }
 
-    h1 { font-size: var(--font-h1); font-weight: 700; margin: 0; }
-    p, .text-light { font-size: var(--font-p); color: var(--text-light); margin-bottom: 1.25rem; text-align: center; }
+    /* ---------- HEADER ---------- */
 
-    .badge-new { color: #ff4; font-weight: 700; margin-left: 0.375rem; }
+    header {
+      width: 100%;
+      max-width: 1200px;
+      margin-bottom: 3rem;
+    }
 
-    .grid-container {
+    .header-inner {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.9375rem;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
     }
-    .grid-item {
-      flex: 1 1 45%;
-      min-width: 12.5rem;
-      position: relative;
+
+    header h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(90deg, #00ff99, #00cc66);
+      -webkit-background-clip: text;
+      color: transparent;
+      font-weight: 700;
+    }
+
+    header p {
+      color: #aaa;
+      font-size: 1.1rem;
+      margin-top: 0.5rem;
+    }
+
+    .action-bar {
       display: flex;
-      justify-content: center;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.45rem 0.7rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 14px;
+      backdrop-filter: blur(10px);
     }
 
-    .tooltip {
-      position: absolute;
-      top: -3.75rem;
-      left: 50%;
-      transform: translateX(-50%) translateY(0.625rem);
-      background-color: var(--tooltip-bg);
-      color: var(--text-color);
-      padding: 0.625rem 0.875rem;
-      border-radius: 0.375rem;
-      font-size: var(--tooltip-font);
-      line-height: 1.4;
-      visibility: hidden;
-      opacity: 0;
-      transition: opacity 0.4s ease, transform 0.4s ease;
-      white-space: normal;
-      max-width: 13.75rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-      z-index: 10;
-      text-align: left;
+    .welcome-text {
+      font-size: 0.85rem;
+      color: #ccc;
+      max-width: 160px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .grid-item:hover .tooltip { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    .grid-item button {
-      flex-grow: 1;
-      padding: var(--button-padding);
-      border-radius: 0.5rem;
-      background-color: var(--primary-color);
+    .login-btn,
+    .download-btn {
+      background: var(--green);
+      color: black;
       border: none;
-      color: var(--text-color);
-      font-size: 1rem;
+      padding: 0.45rem 1rem;
+      border-radius: 10px;
+      font-weight: 600;
       cursor: pointer;
-      transition: var(--transition);
-    }
-    .grid-item button:hover {
-      background-color: var(--primary-color-hover);
-      transform: translateY(-0.125rem);
-      box-shadow: 0 4px 12px rgba(0,255,0,0.3);
+      font-size: 0.85rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .header-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 0.625rem;
-    }
-    .login-btn, .download-btn {
-      padding: 0.625rem 1.25rem;
-      background-color: var(--primary-color);
-      border: none;
-      border-radius: 0.5rem;
-      color: var(--text-color);
-      font-size: 1rem;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    .login-btn:hover, .download-btn:hover {
-      background-color: var(--primary-color-hover);
-      transform: translateY(-0.125rem);
-      box-shadow: 0 4px 12px rgba(0,255,0,0.3);
+    .login-btn:hover,
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 10px var(--green);
     }
 
-    footer { color: var(--text-color); text-align: center; margin-top: 1.25rem; }
-    footer .grid { display: flex; justify-content: center; gap: 0.625rem; }
-    footer .grid a { font-size: 1.5625rem; color: var(--text-color); text-decoration: none; padding: .5rem; }
+    /* ---------- CONTENT ---------- */
 
-    #myPopup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.8);
+    section {
+      width: 100%;
+      max-width: 1200px;
+      margin-bottom: 3rem;
+    }
+
+    section h2 {
+      color: var(--green);
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+    }
+
+    .tool-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 1.5rem;
+      backdrop-filter: blur(10px);
+      text-decoration: none;
+      color: inherit;
+      transform: translateY(20px);
       opacity: 0;
-      width: 18.75rem;
-      padding: 1.25rem;
-      background-color: var(--container-bg);
-      color: var(--text-color);
-      border-radius: 0.5rem;
-      box-shadow: 0 0 1.25rem rgba(0,0,0,0.5);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-      z-index: 9999;
-      pointer-events: none;
+      transition: transform 0.6s ease, opacity 0.6s ease, border-color 0.3s ease;
     }
-    #myPopup.show { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
 
-    button:focus-visible { outline: 2px solid var(--primary-color); outline-offset: 2px; }
+    .tool-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-    @media (min-width: 576px) {
-      :root {
-        --padding-container: 1.25rem;
-        --font-h1: 1.625rem;
-        --font-p: 1rem;
-        --tooltip-font: 0.75rem;
-        --max-container-width: 30rem;
-        --button-padding: 0.875rem;
+    .tool-card:hover {
+      transform: scale(1.05);
+      border-color: var(--green);
+    }
+
+    .tool-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.4rem;
+      color: white;
+    }
+
+    .tool-card p {
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+
+    .badge {
+      background: var(--green);
+      color: black;
+      font-size: 0.8rem;
+      padding: 2px 8px;
+      border-radius: 8px;
+      margin-left: 8px;
+      font-weight: 600;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 2rem 0;
+    }
+
+    /* ---------- MOBILE ---------- */
+
+    @media (max-width: 600px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
       }
-      .grid-item { flex-basis: 40%; }
-    }
-    @media (min-width: 768px) {
-      :root { --padding-container: 1.75rem; --font-h1: 1.875rem; --max-container-width: 40rem; }
+
+      .action-bar {
+        margin-top: 1rem;
+      }
+
+      header h1 {
+        font-size: 2rem;
+      }
+
+      .tool-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
+
 <body>
-  
-<main class="container" role="main" aria-label="MultiTools Hub">
-  <header>
-    <h1>MultiTools</h1>
-    <p class="text-light">The Site with Many Tools</p>
-    <p id="welcome" class="text-light" aria-live="polite"></p>
-  </header>
 
-  <section aria-labelledby="common-tools-heading">
-    <h2 id="common-tools-heading">Common Tools</h2>
-    <div class="grid-container">
-      <article class="grid-item">
-        <button onclick="window.location.href='Templates/TimeTools/timer.html'" aria-describedby="tooltip-timer">
-          Timer <span class="badge-new" aria-label="New">New</span>
-        </button>
-        <div id="tooltip-timer" class="tooltip" role="tooltip">Set a countdown for tasks</div>
-      </article>
-      <article class="grid-item">
-        <button onclick="window.location.href='Templates/CommonTools/UnitConverter.html'" aria-describedby="tooltip-unitconverter">
-          Unit Converter <span class="badge-new" aria-label="New">WIP</span>
-        </button>
-        <div id="tooltip-unitconverter" class="tooltip" role="tooltip">Convert units of measure <strong>Work in progress</strong></div>
-      </article>
-    </div>
-  </section>
-
-  <section aria-labelledby="calculators-heading">
-    <h2 id="calculators-heading">Calculators</h2>
-    <div class="grid-container">
-      <article class="grid-item">
-        <button onclick="window.location.href='Templates/Calculators/tipcalculator.html'" aria-describedby="tooltip-tipcalc">
-          Tip Calculator <span class="badge-new" aria-label="New">New</span>
-        </button>
-        <div id="tooltip-tipcalc" class="tooltip" role="tooltip">Calculates your tip</div>
-      </article>
-    </div>
-  </section>
-
-  <section aria-labelledby="dev-tools-heading">
-    <h2 id="dev-tools-heading">Dev Tools</h2>
-    <div class="grid-container">
-      <article class="grid-item">
-        <button onclick="window.location.href='Templates/DevTools/encrypted.html'" aria-describedby="tooltip-encrypter">
-          Text Encrypter & Decrypter <span class="badge-new" aria-label="Work in progress">WIP</span>
-        </button>
-        <div id="tooltip-encrypter" class="tooltip" role="tooltip">Encrypt and decrypt text securely</div>
-      </article>
-      <article class="grid-item">
-        <button onclick="window.location.href='Templates/DevTools/WebClip.html'" aria-describedby="tooltip-webclip">
-          WebClip Generator
-        </button>
-        <div id="tooltip-webclip" class="tooltip" role="tooltip">Generate a webpage clip for previews</div>
-      </article>
-      <article class="grid-item">
-        <button onclick="window.location.href='Templates/DevTools/ipainstaller.html'" aria-describedby="tooltip-ipa">
-          IPA Installer <span class="badge-new" aria-label="New">WIP</span>
-        </button>
-        <div id="tooltip-ipa" class="tooltip" role="tooltip">Install IPA files on your device</div>
-      </article>
-    </div>
-  </section>
-
-  <section aria-labelledby="downloader-tools-heading">
-    <h2 id="downloader-tools-heading">Downloaders</h2>
-    <p>Both Downloaders are curently not online.</p>
-    <div class="grid-container">
-      <article class="grid-item">
-        <button onclick="window.location.href='Templates/Downloaders/TikTok-Downloader.html'">
-          TikTok Downloader
-        </button>
-      </article>
-      <article class="grid-item">
-        <button onclick="window.location.href='Templates/Downloaders/YT-Downloader.html'">
-          YT Downloader
-        </button>
-      </article>
-    </div>
-  </section>
-
-  <section aria-labelledby="generators-heading">
-    <h2 id="generators-heading">Generators</h2>
-    <div class="grid-container">
-      <article class="grid-item">
-        <button onclick="window.location.href='Templates/Generators/gamertag-gen.html'" aria-describedby="tooltip-gamertag">
-          Gamertag Generator
-        </button>
-        <div id="tooltip-gamertag" class="tooltip" role="tooltip">Generate random gamertags</div>
-      </article>
-      <article class="grid-item">
-        <button onclick="window.location.href='Templates/Generators/qr-code-gen.html'" aria-describedby="tooltip-qrcode">
-          QR Code Generator
-        </button>
-        <div id="tooltip-qrcode" class="tooltip" role="tooltip">Generate a QR Code</div>
-      </article>
-      <article class="grid-item">
-        <button onclick="window.location.href='Templates/Generators/password-gen.html'" aria-describedby="tooltip-password">
-          Password Generator
-        </button>
-        <div id="tooltip-password" class="tooltip" role="tooltip">Generate secure passwords</div>
-      </article>
-      <article class="grid-item">
-        <button onclick="window.location.href='Templates/Generators/uuid-generator.html'" aria-describedby="tooltip-uuid">
-          UUID Generator
-        </button>
-        <div id="tooltip-uuid" class="tooltip" role="tooltip">Generate unique UUID's</div>
-      </article>
-    </div>
-  </section>
-
- 
-
-  <section aria-labelledby="site-info-heading">
-    <h2 id="site-info-heading">Site Info</h2>
-    <div class="grid-container">
-      <article class="grid-item">
-        <button onclick="window.location.href='Templates/Other/patchnotes.html'" aria-describedby="tooltip-patchnotes">
-          Patch Notes
-        </button>
-        <div id="tooltip-patchnotes" class="tooltip" role="tooltip">Patch Notes</div>
-      </article>
-      <article class="grid-item">
-        <button onclick="window.location.href='Templates/Other/TOS.html'" aria-describedby="tooltip-tos">
-          Terms of Service
-        </button>
-        <div id="tooltip-tos" class="tooltip" role="tooltip">Terms Of Service</div>
-      </article>
-      <article class="grid-item">
-        <button onclick="window.location.href='Templates/Other/privicypolicy.html'" aria-describedby="tooltip-privacy">
-          Privacy Policy
-        </button>
-        <div id="tooltip-privacy" class="tooltip" role="tooltip">Privacy Policy</div>
-      </article>
-      <article class="grid-item">
-        <button id="settings-btn" aria-describedby="tooltip-settings">
-          Settings
-        </button>
-        <div id="tooltip-settings" class="tooltip" role="tooltip">Settings</div>
-      </article>
-    </div>
-    <div id="admin-section-container" aria-live="polite"></div>
-  </section>
-
-    <p class="text-light">Version 1.8</p>
-
-    <div class="header-actions" role="region" aria-label="User actions">
-      <button id="login-btn" class="login-btn" aria-live="polite">Log In</button>
-      <button class="download-btn" onclick="window.location.href='Templates/Other/download'">Download</button>
+<header>
+  <div class="header-inner">
+    <div>
+      <h1>MultiTools</h1>
+      <p>The Site with Many Tools</p>
     </div>
 
-    <footer>
-        <div class="grid">
-            <a href="https://discord.gg/ESWhAhR5Pp" 
-            target="_blank" 
-            rel="noopener" 
-            aria-label="Discord" 
-            style="font-size: 25px; background: none; color: #ffffff; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 8px; text-decoration: none;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"/>
-                </svg>
-            </a>
+    <div class="action-bar">
+      <span id="welcome" class="welcome-text"></span>
+      <button id="login-btn" class="login-btn">Log In</button>
+      <button class="download-btn" onclick="window.location.href='Templates/Other/download'">
+        Download
+      </button>
+    </div>
+  </div>
+</header>
 
-            <a href="https://github.com/Stelio1234/MultiTools" 
-            target="_blank" 
-            rel="noopener" 
-            aria-label="GitHub" 
-            style="font-size: 25px; background: none; color: #ffffff; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 8px; text-decoration: none;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38v-1.33c-2.23.49-2.69-1.07-2.69-1.07-.36-.91-.88-1.15-.88-1.15-.72-.49.06-.48.06-.48.8.06 1.22.83 1.22.83.71 1.21 1.86.86 2.31.66.07-.52.28-.86.51-1.06-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82a7.7 7.7 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8z"/>
-                </svg>
-            </a>
+<main id="main-content"></main>
 
-            <a href="https://instagram.com/the.multitools" 
-              target="_blank" 
-              rel="noopener" 
-              aria-label="Instagram" 
-              style="font-size: 25px; background: none; color: #ffffff; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 8px; text-decoration: none;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 448 512">
-                 <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9S160.5 370.8 224.1 370.8 339 319.5 339 255.9 287.7 141 224.1 141zm0 186.6c-39.5 0-71.6-32.1-71.6-71.6s32.1-71.6 71.6-71.6 71.6 32.1 71.6 71.6-32.1 71.6-71.6 71.6zm146.4-194.3c0 14.9-12.1 27-27 27-14.9 0-27-12.1-27-27s12.1-27 27-27 27 12.1 27 27zm76.1 27.2c-.9-19.6-5.2-37-17.1-53.1-12-16.3-27.9-28.3-47.5-37.2C358.6 10.2 299.8 0 224.1 0 148.3 0 89.5 10.2 66 70.2c-19.6 8.9-35.5 20.9-47.5 37.2C6.2 123.2 1.9 140.6 1 160.2.3 180.8 0 198.6 0 256s.3 75.2 1 95.8c.9 19.6 5.2 37 17.1 53.1 12 16.3 27.9 28.3 47.5 37.2 23.5 60 82.3 70.2 158.1 70.2s134.6-10.2 158.1-70.2c19.6-8.9 35.5-20.9 47.5-37.2 11.9-16.1 16.2-33.5 17.1-53.1.7-20.6 1-38.4 1-95.8s-.3-75.2-1-95.8zm-48.3 232.1c-7.8 19.5-22.9 34.6-42.4 42.4-29.4 11.8-99.1 9.1-132.1 9.1s-102.7 2.6-132.1-9.1c-19.5-7.8-34.6-22.9-42.4-42.4-11.8-29.4-9.1-99.1-9.1-132.1s-2.6-102.7 9.1-132.1c7.8-19.5 22.9-34.6 42.4-42.4 29.4-11.8 99.1-9.1 132.1-9.1s102.7-2.6 132.1 9.1c19.5 7.8 34.6 22.9 42.4 42.4 11.8 29.4 9.1 99.1 9.1 132.1s2.7 102.7-9.1 132.1z"/>
-              </svg>
-            </a>
+<footer></footer>
 
-            <a href="https://www.tiktok.com/@multitoolss" 
-              target="_blank" 
-              rel="noopener" 
-              aria-label="TikTok" 
-              style="font-size: 25px; background: none; color: #ffffff; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 8px; text-decoration: none;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 448 512">
-                <path d="M412.19,118.66a109.27,109.27,0,0,1-9.45-5.5,132.87,132.87,0,0,1-24.27-20.62c-18.1-20.71-24.86-41.72-27.35-56.43h.1C349.14,23.9,350,16,350.13,16H267.69V334.78c0,4.28,0,8.51-.18,12.69,0,.52-.05,1-.08,1.56,0,.23,0,.47-.05.71,0,.06,0,.12,0,.18a70,70,0,0,1-35.22,55.56,68.8,68.8,0,0,1-34.11,9c-38.41,0-69.54-31.32-69.54-70s31.13-70,69.54-70a68.9,68.9,0,0,1,21.41,3.39l.1-83.94a153.14,153.14,0,0,0-118,34.52,161.79,161.79,0,0,0-35.3,43.53c-3.48,6-16.61,30.11-18.2,69.24-1,22.21,5.67,45.22,8.85,54.73v.2c2,5.6,9.75,24.71,22.38,40.82A167.53,167.53,0,0,0,115,470.66v-.2l.2.2C155.11,497.78,199.36,496,199.36,496c7.66-.31,33.32,0,62.46-13.81,32.32-15.31,50.72-38.12,50.72-38.12a158.46,158.46,0,0,0,27.64-45.93c7.46-19.61,9.95-43.13,9.95-52.53V176.49c1,.6,14.32,9.41,14.32,9.41s19.19,12.3,49.13,20.31c21.48,5.7,50.42,6.9,50.42,6.9V131.27C453.86,132.37,433.27,129.17,412.19,118.66Z"/>
-              </svg>
-            </a>
-        </div>
-    </footer>
-  </main>
+<!-- ---------- TOOLS SCRIPT ---------- -->
+  <script>
+    const categories = [
+      {
+        title: "Common Tools",
+        tools: [
+          { name: "Timer", link: "Templates/TimeTools/timer.html", badge: "New", desc: "Set a countdown for tasks" },
+          { name: "Unit Converter", link: "Templates/CommonTools/UnitConverter.html", badge: "WIP", desc: "Convert between units easily" },
+        ],
+      },
+      {
+        title: "Calculators",
+        tools: [
+          { name: "Tip Calculator", link: "Templates/Calculators/tipcalculator.html", badge: "New", desc: "Calculate tips instantly" },
+        ],
+      },
+      {
+        title: "Dev Tools",
+        tools: [
+          { name: "Text Encrypter", link: "Templates/DevTools/encrypted.html", badge: "WIP", desc: "Encrypt and decrypt text" },
+          { name: "WebClip Generator", link: "Templates/DevTools/WebClip.html", desc: "Generate webpage previews" },
+          { name: "IPA Installer", link: "Templates/DevTools/ipainstaller.html", badge: "WIP", desc: "Install IPA files on your device" },
+        ],
+      },
+      {
+        title: "Generators",
+        tools: [
+          { name: "Gamertag Generator", link: "Templates/Generators/gamertag-gen.html", desc: "Generate cool gamertags" },
+          { name: "QR Code Generator", link: "Templates/Generators/qr-code-gen.html", desc: "Generate QR Codes" },
+          { name: "Password Generator", link: "Templates/Generators/password-gen.html", desc: "Create strong passwords" },
+          { name: "UUID Generator", link: "Templates/Generators/uuid-generator.html", desc: "Generate UUIDs" },
+        ],
+      },
+      {
+        title: "Site Info",
+        tools: [
+          { name: "Terms of Service", link: "Templates/Other/TOS.html" },
+          { name: "Privacy Policy", link: "Templates/Other/privicypolicy.html" },
+          { name: "Patch Notes", link: "Templates/Other/patchnotes.html" },
+          { name: "Settings", link: "Templates/Other/settings.html" },
+        ],
+      },
+    ];
 
-  <div id="myPopup" role="alert" aria-live="assertive" aria-atomic="true"></div>
+    const main = document.getElementById("main-content");
 
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js" defer></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js" defer></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js" defer></script>
+    categories.forEach(cat => {
+      const section = document.createElement("section");
+      const h2 = document.createElement("h2");
+      h2.textContent = cat.title;
+      section.appendChild(h2);
 
-    <script>
-    function requestNotificationAccess() {
-      if (!('Notification' in window)) return;
-      if (Notification.permission === 'default') {
-        Notification.requestPermission();
-      }
-    }
-    function closePopup() {
-      const popup = document.getElementById("myPopup");
-      if (popup) popup.classList.remove("show");
-    }
+      const grid = document.createElement("div");
+      grid.className = "tool-grid";
 
-    function togglePopup() {
-      const popup = document.getElementById("myPopup");
-      if (popup) popup.classList.toggle("show");
-      window.removeEventListener('load', togglePopup);
-    }
+      cat.tools.forEach(tool => {
+        const a = document.createElement("a");
+        a.href = tool.link;
+        a.className = "tool-card";
+        a.target = "_blank";
+        a.innerHTML = `
+          <h3>${tool.name}${tool.badge ? `<span class='badge'>${tool.badge}</span>` : ""}</h3>
+          ${tool.desc ? `<p>${tool.desc}</p>` : ""}
+        `;
+        grid.appendChild(a);
+      });
 
-    function notifyUser() {
-      if (localStorage.getItem('maintenanceNotificationShown') === 'true') return;
-      if (Notification.permission === 'granted') {
-        new Notification('ATTENTION!!!', {
-          body: 'We will be doing a scheduled downtime on Friday 5/23 and the site will be offline till 4/26.',
-          icon: '/MultiTools.jpg'
-        });
-        localStorage.setItem('maintenanceNotificationShown', 'true');
-      }
-    }
-
-    window.addEventListener('load', () => {
-      requestNotificationAccess();
-      togglePopup();
-      notifyUser();
-      openPopup();
+      section.appendChild(grid);
+      main.appendChild(section);
     });
+
+    // Scroll Animation
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll(".tool-card").forEach(card => observer.observe(card));
   </script>
 
+<!-- ---------- FIREBASE ---------- -->
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 
 <script>
-  const firebaseConfig = {
+  firebase.initializeApp({
     apiKey: "AIzaSyBHSuqEhGYcRd_6GsMDI0bHDy3_5v0lD9g",
     authDomain: "multitools-48cc8.firebaseapp.com",
     projectId: "multitools-48cc8",
     storageBucket: "multitools-48cc8.appspot.com",
     messagingSenderId: "1048886823672",
-    appId: "1:1048886823672:web:71f0ff40e2a9642de2890d",
-    measurementId: "G-JG6J0KRN08"
-  };
+    appId: "1:1048886823672:web:71f0ff40e2a9642de2890d"
+  });
 
-  firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
   const db = firebase.firestore();
 
   window.addEventListener("load", () => {
-    const welcomeDiv = document.getElementById("welcome");
+    const welcome = document.getElementById("welcome");
     const loginBtn = document.getElementById("login-btn");
-    const SettingsBtn = document.getElementById("settings-btn");
-    const YTDownloaderBtn = document.getElementById("YT-Downloader-btn");
-    const adminSectionContainer = document.getElementById("admin-section-container");
 
-    function requestNotificationAccess() {
-      if (!("Notification" in window)) return;
-      if (Notification.permission === "default") {
-        Notification.requestPermission();
-      }
-    }
+    loginBtn.onclick = () => {
+      auth.currentUser ? auth.signOut() : window.location.href = "login.html";
+    };
 
-    
-
-    function togglePopup() {
-      const popup = document.getElementById("myPopup");
-      if (popup) popup.classList.toggle("show");
-    }
-
-    function closePopup() {
-      const popup = document.getElementById("myPopup");
-      if (popup) popup.classList.remove("show");
-    }
-
-    function injectAdminSection() {
-      adminSectionContainer.innerHTML = `
-        <h1>Site Info</h1>
-        <div class="grid-container">
-          <div class="grid-item">
-            <div class="tooltip">Admin Pannel</div>
-            <button onclick="window.location.href='admin.html'">Admin Pannel</button>
-          </div>
-        </div>
-      `;
-    }
-
-    if (loginBtn) {
-      loginBtn.addEventListener("click", () => {
-        if (auth.currentUser) {
-          auth.signOut().catch((err) => console.error("Sign-out error:", err));
-        } else {
-          window.location.href = "login.html";
-        }
-      });
-    }
-
-    if (SettingsBtn) {
-      SettingsBtn.addEventListener("click", () => {
-        if (auth.currentUser) {
-          window.location.href = "settings";
-        }
-      });
-    }
-
-    if (YTDownloaderBtn) {
-      YTDownloaderBtn.addEventListener("click", () => {
-        if (auth.currentUser) {
-          window.location.href = "Tools/YT-Downloader.html";
-        } else {
-          alert("Please log in to access the YouTube Downloader.");
-        }
-      });
-    }
-
-    auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        try {
-          const userDoc = await db.collection("users").doc(user.uid).get();
-          const userData = userDoc.exists ? userDoc.data() : null;
-
-          const username = userData?.username || user.email;
-          welcomeDiv.textContent = `Welcome, ${username}`;
-          loginBtn.textContent = "Log Out";
-          SettingsBtn.textContent = "Settings";
-
-          if (userData?.role === "admin") {
-            injectAdminSection();
-          } else {
-            adminSectionContainer.innerHTML = "";
-          }
-        } catch (err) {
-          console.error("Error fetching user data:", err);
-          welcomeDiv.textContent = `Welcome, ${user.email}`;
-          loginBtn.textContent = "Log Out";
-          SettingsBtn.textContent = "Settings";
-          adminSectionContainer.innerHTML = "";
-        }
-      } else {
-        welcomeDiv.textContent = "You're not logged in.";
+    auth.onAuthStateChanged(async user => {
+      if (!user) {
+        welcome.textContent = "You're not logged in.";
         loginBtn.textContent = "Log In";
-        SettingsBtn.textContent = "Please login to access the settings";
-        adminSectionContainer.innerHTML = "";
+        return;
       }
-    });
 
-    
-   
+      try {
+        const doc = await db.collection("users").doc(user.uid).get();
+        welcome.textContent = `Welcome, ${doc.data()?.username || user.email}`;
+      } catch {
+        welcome.textContent = `Welcome, ${user.email}`;
+      }
+
+      loginBtn.textContent = "Log Out";
+    });
   });
+</script>
 
-    function loadThemeFromStorage() {
-      const saved = localStorage.getItem('theme');
-      if (saved === 'light' || saved === 'dark') return saved;
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    function setTheme(theme) {
-      document.body.setAttribute('data-theme', theme);
-      localStorage.setItem('theme', theme);
-      document.getElementById('theme-toggle-btn').textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
-    }
-    function toggleTheme() {
-      const newTheme = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      setTheme(newTheme);
-    }
-    document.addEventListener('DOMContentLoaded', () => {
-      setTheme(loadThemeFromStorage());
-      document.getElementById('theme-toggle-btn').addEventListener('click', toggleTheme);
-    });
-
-    requestNotificationAccess();
-    togglePopup();
-    notifyUser();
-  </script>
 </body>
 </html>
