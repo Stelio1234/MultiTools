@@ -8,106 +8,187 @@
   <meta name="theme-color" content="#45a049" />
   <link rel="manifest" href="/manifest.json" />
   <style>
-    body {
-      background-color: #121212;
-      color: #ffffff;
-      font-family: Arial, Helvetica, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
 
-    .back-button {
-      padding: 12px 20px;
-      border-radius: 8px;
-      border: none;
-      background-color: #4caf50;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      width: 120px;
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      transition: all 0.2s ease;
-      animation: fadeInUp 1s ease-out;
-    }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
-    @keyframes fadeInUp {
-      0% { opacity: 0; transform: translateY(30px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
+  :root {
+    --bg-dark: #0a0a0a;
+    --green: #54d42c;
+    --text-light: #e0e0e0;
+    --card-bg: rgba(255, 255, 255, 0.08);
+  }
 
-    .back-button:hover {
-      background-color: #45a049;
-      transform: translateY(-2px);
-      box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-    }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+  }
 
-    .container {
-      background-color: #1e1e1e;
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
-    }
+  html, body {
+    height: 100%;
+  }
 
-    h1 { font-size: 32px; margin-bottom: 10px; }
-    h2 { font-size: 16px; color: #aaa; margin-bottom: 20px; }
+  body {
+    background: linear-gradient(180deg, #000000, #111, #0a0a0a);
+    color: var(--text-light);
+    display: flex;              /* IMPORTANT */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;    /* IMPORTANT */
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
 
-    .input-field {
-      width: 80%;
-      padding: 14px;
-      margin: 12px 0;
-      background-color: #2c2c2c;
-      border: none;
-      border-radius: 8px;
-      color: #ffffff;
-      font-size: 16px;
-    }
+  /* ---------- AUTH PAGE LAYOUT ---------- */
+  .container {
+    width: 100%;
+    max-width: 420px;
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 18px;
+    padding: 2.2rem;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    animation: fadeUp 0.7s ease forwards;
+  }
 
-    .input-field:focus {
-      outline: none;
-      border: 2px solid #4caf50;
-      background-color: #333333;
-    }
+  /* ---------- HEADINGS ---------- */
+  .container h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #45a049, #00cc66);
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 0.4rem;
+  }
 
-    .btn, .google-login {
-      padding: 14px;
-      border-radius: 8px;
-      background-color: #4caf50;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      width: 60%;
-      margin-top: 12px;
-      border: none;
-      transition: all 0.2s ease;
-    }
+  .container h2 {
+    font-size: 0.95rem;
+    color: #aaa;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+  }
 
-    .btn:hover, .google-login:hover {
-      background-color: #45a049;
-      transform: translateY(-2px);
-      box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-    }
+  /* ---------- INPUTS ---------- */
+  .input-field {
+    width: 100%;
+    padding: 0.65rem 0.75rem;
+    margin-bottom: 0.9rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.55);
+    color: var(--text-light);
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
 
-    .message { color: #4caf50; font-size: 14px; margin-top: 12px; }
-    .error { color: red; }
-    .link-button {
-      background: none;
-      border: none;
-      color: #4caf50;
-      text-decoration: underline;
-      cursor: pointer;
-      font-size: 14px;
-      margin: 8px auto;
-      display: block;
-    }
-  </style>
+  .input-field::placeholder { color: #777; }
+
+  .input-field:focus {
+    outline: none;
+    border-color: var(--green);
+    box-shadow: 0 0 10px rgba(84, 212, 44, 0.35);
+  }
+
+  /* ---------- BUTTONS ---------- */
+  .btn {
+    width: 100%;
+    background: var(--green);
+    color: #000;
+    border: none;
+    padding: 0.65rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 0.4rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 14px rgba(84, 212, 44, 0.8);
+  }
+
+  .google-login {
+    width: 100%;
+    margin-top: 0.7rem;
+    padding: 0.6rem;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #ddd;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .google-login:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--green);
+    transform: translateY(-1px);
+  }
+
+  /* ---------- LINKS / TEXT ---------- */
+  .message {
+    margin-top: 0.9rem;
+    font-size: 0.8rem;
+    color: #aaa;
+    line-height: 1.4;
+  }
+
+  .message a {
+    color: var(--green);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .message a:hover { text-decoration: underline; }
+
+  .link-button {
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 0.8rem;
+    margin-top: 0.6rem;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .link-button:hover { color: var(--green); }
+
+  .message.error { color: #ff5c5c; }
+
+  /* ---------- BACK BUTTON ---------- */
+  .back-button {
+    margin-top: 1.5rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #ccc;
+    padding: 0.45rem 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .back-button:hover {
+    border-color: var(--green);
+    color: var(--green);
+    box-shadow: 0 0 12px rgba(84, 212, 44, 0.25);
+  }
+
+  /* ---------- ANIMATION ---------- */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---------- MOBILE ---------- */
+  @media (max-width: 480px) {
+    .container { padding: 1.6rem; }
+    .container h1 { font-size: 1.7rem; }
+  }
+</style>
 </head>
 <body>
 <div class="container" id="container">
