@@ -8,7 +8,7 @@
 
   <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg" />
   <meta name="theme-color" content="#45a049" />
-  <link rel="manifest" href="/manifest.json" />
+  <link rel="manifest" href="manifest.json" />
   <meta name="description" content="Multi Tools is a free website offering many useful online tools like YouTube downloader, QR code generator, unit converter, and more – all in one place!" />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -75,21 +75,28 @@
     .action-bar {
       display: flex;
       align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
       gap: 0.6rem;
-      padding: 0.45rem 0.7rem;
+      padding: 0.55rem 0.7rem;
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 14px;
       backdrop-filter: blur(10px);
+      max-width: 560px;
     }
 
+    /* Full username: no ellipsis, allow wrapping */
     .welcome-text {
-      font-size: 0.85rem;
-      color: #ccc;
-      max-width: 160px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-size: 0.9rem;
+      color: #ddd;
+      flex: 1 1 260px;
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+      max-width: none;
+      line-height: 1.25;
+      word-break: break-word;
     }
 
     .login-btn,
@@ -180,9 +187,9 @@
       font-weight: 600;
     }
 
-    /* ---------- LANDING EXTENSIONS ---------- */
-
     .muted { color: #aaa; }
+
+    /* ---------- LANDING ---------- */
 
     .hero {
       background: radial-gradient(800px 300px at 20% 20%, rgba(84, 212, 44, 0.18), transparent 60%),
@@ -268,9 +275,7 @@
       margin-bottom: 0.75rem;
     }
 
-    .panel .tool-grid {
-      grid-template-columns: 1fr;
-    }
+    .panel .tool-grid { grid-template-columns: 1fr; }
 
     .stats-grid {
       display: grid;
@@ -313,26 +318,96 @@
       margin-bottom: 0.4rem;
     }
 
+    /* ---------- CONTROLS (Search + Better Dropdown) ---------- */
+
     .controls {
       display: grid;
-      grid-template-columns: 1fr 240px;
+      grid-template-columns: 1fr 320px;
       gap: 0.9rem;
       margin: 1rem 0 1.3rem;
+      align-items: center;
     }
 
-    .controls input,
-    .controls select {
+    .controls label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .controls input {
       width: 100%;
-      padding: 0.75rem 0.9rem;
+      padding: 0.85rem 1rem;
       border-radius: 14px;
       border: 1px solid rgba(255, 255, 255, 0.14);
       background: rgba(255, 255, 255, 0.06);
       color: white;
       outline: none;
       backdrop-filter: blur(10px);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
     .controls input::placeholder { color: rgba(255, 255, 255, 0.45); }
+
+    .controls input:focus-visible {
+      border-color: rgba(84, 212, 44, 0.65);
+      box-shadow: 0 0 0 3px rgba(84, 212, 44, 0.18);
+    }
+
+    .select-wrap {
+      position: relative;
+    }
+
+    .select-wrap select {
+      width: 100%;
+      padding: 0.85rem 3rem 0.85rem 1rem;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      color: white;
+      outline: none;
+      backdrop-filter: blur(10px);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      cursor: pointer;
+    }
+
+    .select-wrap select:hover {
+      transform: translateY(-1px);
+      border-color: rgba(84, 212, 44, 0.45);
+    }
+
+    .select-wrap select:focus-visible {
+      border-color: rgba(84, 212, 44, 0.65);
+      box-shadow: 0 0 0 3px rgba(84, 212, 44, 0.18);
+    }
+
+    .select-wrap::after {
+      content: "";
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      width: 14px;
+      height: 14px;
+      transform: translateY(-50%);
+      pointer-events: none;
+      opacity: 0.9;
+      background-repeat: no-repeat;
+      background-size: 14px 14px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23e0e0e0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    }
+
+    select option {
+      background: #0b0b0b;
+      color: #fff;
+    }
 
     .empty-state {
       background: rgba(255, 255, 255, 0.06);
@@ -379,6 +454,11 @@
       .features-grid { grid-template-columns: 1fr; }
     }
 
+    @media (max-width: 760px) {
+      .controls { grid-template-columns: 1fr; }
+      .action-bar { max-width: 100%; }
+    }
+
     @media (max-width: 600px) {
       .header-inner {
         flex-direction: column;
@@ -386,21 +466,11 @@
         text-align: center;
       }
 
-      .action-bar {
-        margin-top: 1rem;
-      }
+      .action-bar { margin-top: 1rem; }
 
-      header h1 {
-        font-size: 2rem;
-      }
+      header h1 { font-size: 2rem; }
 
-      .tool-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .controls {
-        grid-template-columns: 1fr;
-      }
+      .tool-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -438,7 +508,7 @@
           </div>
 
           <p class="muted" style="margin-top: 0.9rem; font-size: 0.95rem;">
-            Tip: Use the search below to find tools instantly.
+            Tip: Search tools instantly below.
           </p>
         </div>
 
@@ -490,8 +560,13 @@
       <p class="muted">Search by name/description or filter by category.</p>
 
       <div class="controls">
+        <label for="tool-search">Search tools</label>
         <input id="tool-search" type="search" placeholder="Search tools (e.g., qr, password, timer...)" autocomplete="off" />
-        <select id="category-filter" aria-label="Filter by category"></select>
+
+        <div class="select-wrap">
+          <label for="category-filter">Filter by category</label>
+          <select id="category-filter" aria-label="Filter by category"></select>
+        </div>
       </div>
 
       <div id="tools-container"></div>
@@ -526,6 +601,53 @@
     </div>
   </footer>
 
+  <!-- ---------- FIREBASE ---------- -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <script>
+    firebase.initializeApp({
+      apiKey: "AIzaSyBHSuqEhGYcRd_6GsMDI0bHDy3_5v0lD9g",
+      authDomain: "multitools-48cc8.firebaseapp.com",
+      projectId: "multitools-48cc8",
+      storageBucket: "multitools-48cc8.appspot.com",
+      messagingSenderId: "1048886823672",
+      appId: "1:1048886823672:web:71f0ff40e2a9642de2890d"
+    });
+
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    window.addEventListener("load", () => {
+      const welcome = document.getElementById("welcome");
+      const loginBtn = document.getElementById("login-btn");
+
+      loginBtn.onclick = () => {
+        auth.currentUser ? auth.signOut() : window.location.href = "login.html";
+      };
+
+      auth.onAuthStateChanged(async user => {
+        if (!user) {
+          welcome.textContent = "You're not logged in.";
+          loginBtn.textContent = "Log In";
+          return;
+        }
+
+        try {
+          const doc = await db.collection("users").doc(user.uid).get();
+          const username = doc.data()?.username || user.email || "User";
+          welcome.textContent = `Welcome, ${username}`;
+        } catch {
+          welcome.textContent = `Welcome, ${user.email || "User"}`;
+        }
+
+        loginBtn.textContent = "Log Out";
+      });
+    });
+  </script>
+
+  <!-- ---------- PAGE LOGIC (TOOLS + ANALYTICS) ---------- -->
   <script>
     const categories = [
       {
@@ -539,6 +661,7 @@
         title: "Calculators",
         tools: [
           { name: "Tip Calculator", link: "Templates/Calculators/tipcalculator.html", badge: "New", desc: "Calculate tips instantly" },
+          { name: ""}
         ],
       },
       {
@@ -570,6 +693,8 @@
     ];
 
     const ALL_CATEGORIES = "All Categories";
+    const POPULAR_LIMIT = 3;
+    const EXCLUDE_FROM_POPULAR = new Set(["Site Info"]);
 
     function escapeHtml(value) {
       return String(value)
@@ -584,17 +709,64 @@
       return cats.flatMap(cat => cat.tools.map(t => ({ ...t, category: cat.title })));
     }
 
+    function toBase64Url(str) {
+      const b64 = btoa(unescape(encodeURIComponent(str)));
+      return b64.replaceAll("+", "-").replaceAll("/", "_").replaceAll("=", "");
+    }
+
+    function toolDocId(tool) {
+      return toBase64Url(tool.link || tool.name || "unknown");
+    }
+
+    async function logToolOpen(tool) {
+      if (!window.db) return;
+
+      const id = toolDocId(tool);
+      const ref = db.collection("tool_counts").doc(id);
+
+      const payload = {
+        toolId: id,
+        name: tool.name || "",
+        link: tool.link || "",
+        category: tool.category || "",
+        badge: tool.badge || "",
+        desc: tool.desc || "",
+        count: firebase.firestore.FieldValue.increment(1),
+        lastOpenedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      };
+
+      await ref.set(payload, { merge: true });
+    }
+
+    async function logThenNavigate(tool, href, e) {
+      const isModifiedClick = e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1;
+
+      if (isModifiedClick) {
+        logToolOpen(tool).catch(() => {});
+        return;
+      }
+
+      e.preventDefault();
+
+      const logPromise = logToolOpen(tool).catch(() => {});
+      const timeoutPromise = new Promise(resolve => setTimeout(resolve, 350));
+      await Promise.race([logPromise, timeoutPromise]);
+
+      window.location.href = href;
+    }
+
     function createToolCard(tool, extraClass = "") {
       const a = document.createElement("a");
       a.href = tool.link;
       a.className = `tool-card ${extraClass}`.trim();
-      a.target = "_blank";
-      a.rel = "noopener";
+
       a.innerHTML = `
         <h3>${escapeHtml(tool.name)}${tool.badge ? `<span class="badge">${escapeHtml(tool.badge)}</span>` : ""}</h3>
         ${tool.desc ? `<p>${escapeHtml(tool.desc)}</p>` : ""}
         ${tool.category ? `<p class="muted" style="margin-top:0.6rem;font-size:0.85rem;">${escapeHtml(tool.category)}</p>` : ""}
       `;
+
+      a.addEventListener("click", (e) => logThenNavigate(tool, tool.link, e));
       return a;
     }
 
@@ -604,43 +776,28 @@
       document.getElementById("stat-categories").textContent = String(categories.length);
     }
 
-    function renderPopular() {
-      const popularToolNames = new Set([
-        "Timer",
-        "QR Code Generator",
-        "Password Generator",
-        "Tip Calculator",
-      ]);
-
-      const tools = flattenTools(categories)
-        .filter(t => popularToolNames.has(t.name))
-        .slice(0, 6);
-
-      const el = document.getElementById("popular-tools");
-      el.innerHTML = "";
-
-      tools.forEach(t => {
-        const card = createToolCard({ ...t, category: "" });
-        el.appendChild(card);
-      });
-
-      if (tools.length === 0) {
-        const empty = document.createElement("div");
-        empty.className = "empty-state";
-        empty.textContent = "Add popular tools by listing their names in the popularToolNames set.";
-        el.appendChild(empty);
-      }
+    function categoryCounts() {
+      const counts = new Map();
+      for (const cat of categories) counts.set(cat.title, cat.tools.length);
+      return counts;
     }
 
     function renderCategoryFilter() {
       const select = document.getElementById("category-filter");
       select.innerHTML = "";
 
-      const options = [ALL_CATEGORIES, ...categories.map(c => c.title)];
+      const counts = categoryCounts();
+      const allCount = flattenTools(categories).length;
+
+      const options = [
+        { value: ALL_CATEGORIES, label: `${ALL_CATEGORIES} (${allCount})` },
+        ...categories.map(c => ({ value: c.title, label: `${c.title} (${counts.get(c.title) || 0})` })),
+      ];
+
       for (const opt of options) {
         const o = document.createElement("option");
-        o.value = opt;
-        o.textContent = opt;
+        o.value = opt.value;
+        o.textContent = opt.label;
         select.appendChild(o);
       }
     }
@@ -657,11 +814,13 @@
       for (const cat of categories) {
         if (categoryFilter && cat.title !== categoryFilter) continue;
 
-        const filteredTools = cat.tools.filter(t => {
-          if (!term) return true;
-          const hay = `${t.name} ${t.desc || ""} ${cat.title}`.toLowerCase();
-          return hay.includes(term);
-        });
+        const filteredTools = cat.tools
+          .map(t => ({ ...t, category: cat.title }))
+          .filter(t => {
+            if (!term) return true;
+            const hay = `${t.name} ${t.desc || ""} ${t.category}`.toLowerCase();
+            return hay.includes(term);
+          });
 
         if (filteredTools.length === 0) continue;
 
@@ -676,8 +835,7 @@
         grid.className = "tool-grid";
 
         for (const tool of filteredTools) {
-          const card = createToolCard(tool);
-          grid.appendChild(card);
+          grid.appendChild(createToolCard(tool));
         }
 
         section.appendChild(grid);
@@ -719,57 +877,98 @@
       rerender();
     }
 
-    window.addEventListener("load", () => {
-      renderStats();
-      renderPopular();
-      renderCategoryFilter();
-      wireControls();
-      observeCards();
-    });
-  </script>
+    function buildToolIndexByLink() {
+      const map = new Map();
+      for (const t of flattenTools(categories)) map.set(t.link, t);
+      return map;
+    }
 
-  <!-- ---------- FIREBASE ---------- -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    async function fetchPopularFromDb(limit) {
+      if (!window.db) return [];
 
-  <script>
-    firebase.initializeApp({
-      apiKey: "AIzaSyBHSuqEhGYcRd_6GsMDI0bHDy3_5v0lD9g",
-      authDomain: "multitools-48cc8.firebaseapp.com",
-      projectId: "multitools-48cc8",
-      storageBucket: "multitools-48cc8.appspot.com",
-      messagingSenderId: "1048886823672",
-      appId: "1:1048886823672:web:71f0ff40e2a9642de2890d"
-    });
+      const snap = await db
+        .collection("tool_counts")
+        .orderBy("count", "desc")
+        .limit(limit * 2)
+        .get();
 
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+      const results = [];
+      snap.forEach(doc => results.push(doc.data()));
+      return results;
+    }
 
-    window.addEventListener("load", () => {
-      const welcome = document.getElementById("welcome");
-      const loginBtn = document.getElementById("login-btn");
+    async function renderPopular() {
+      const el = document.getElementById("popular-tools");
+      el.innerHTML = "";
 
-      loginBtn.onclick = () => {
-        auth.currentUser ? auth.signOut() : window.location.href = "login.html";
-      };
+      const byLink = buildToolIndexByLink();
 
-      auth.onAuthStateChanged(async user => {
-        if (!user) {
-          welcome.textContent = "You're not logged in.";
-          loginBtn.textContent = "Log In";
+      try {
+        const raw = await fetchPopularFromDb(POPULAR_LIMIT);
+
+        const popular = raw
+          .map(d => {
+            const known = d.link ? byLink.get(d.link) : null;
+            const tool = known
+              ? { ...known, category: known.category || d.category || "" }
+              : {
+                  name: d.name || "Unknown Tool",
+                  link: d.link || "#",
+                  badge: d.badge || "",
+                  desc: d.desc || "",
+                  category: d.category || "",
+                };
+
+            return { tool, count: Number(d.count || 0) };
+          })
+          .filter(x => x.tool.link && x.tool.link !== "#")
+          .filter(x => !EXCLUDE_FROM_POPULAR.has(x.tool.category || x.tool.category))
+          .slice(0, POPULAR_LIMIT);
+
+        if (popular.length === 0) throw new Error("No popular tools yet");
+
+        for (const item of popular) {
+          const card = createToolCard(
+            { ...item.tool, category: "" },
+            ""
+          );
+
+          const meta = document.createElement("p");
+          meta.className = "muted";
+          meta.style.marginTop = "0.6rem";
+          meta.style.fontSize = "0.85rem";
+          meta.textContent = `${item.count} opens`;
+
+          card.appendChild(meta);
+          el.appendChild(card);
+        }
+      } catch {
+        const fallback = flattenTools(categories)
+          .filter(t => !EXCLUDE_FROM_POPULAR.has(t.category))
+          .slice(0, POPULAR_LIMIT);
+
+        if (fallback.length === 0) {
+          const empty = document.createElement("div");
+          empty.className = "empty-state";
+          empty.textContent = "No popular tools configured yet.";
+          el.appendChild(empty);
           return;
         }
 
-        try {
-          const doc = await db.collection("users").doc(user.uid).get();
-          welcome.textContent = `Welcome, ${doc.data()?.username || user.email}`;
-        } catch {
-          welcome.textContent = `Welcome, ${user.email}`;
+        for (const t of fallback) {
+          el.appendChild(createToolCard({ ...t, category: "" }));
         }
+      }
 
-        loginBtn.textContent = "Log Out";
-      });
+      observeCards();
+    }
+
+    window.addEventListener("load", () => {
+      renderStats();
+      renderCategoryFilter();
+      wireControls();
+      renderPopular().catch(() => {});
+      observeCards();
     });
   </script>
 </body>
