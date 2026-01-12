@@ -405,32 +405,39 @@
 }
 
 
-  function googleLogin() {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  auth.signInWithPopup(provider)
-    .then(async (result) => {
-      const user = result.user;
-      const userDoc = await db.collection("users").doc(user.uid).get();
+ async function login() {
+  try {
+     const username = document.getElementById('username').value.trim();
+     const password = document.getElementById('password').value;
 
-      // If user doesn't exist in Firestore, create it with default role "user"
-      if (!userDoc.exists) {
-        const username = user.displayName || "UnnamedUser" + Math.floor(Math.random() * 10000);
-        await db.collection("users").doc(user.uid).set({
-          username: username,
-          email: user.email,
-          createdAt: new Date(),
-          role: "user",
-        });
+     if (!username || !password) {
+       alert("Enter username and password.");
+       return;
+     }
 
-        await collectUserInfo(user.uid, user.email, username);
-      }
+     console.log("Login clicked:", username);
 
-      window.location.href = "index.html";
-    })
-    .catch((error) => {
-      alert("Google login failed: " + error.message);
-    });
-}
+     const userQuery = await db.collection("users")
+       .where("username", "==", username)
+       .limit(1)
+       .get();
+
+     if (userQuery.empty) {
+       alert("No account found with that username.");
+       return;
+     }
+
+     const userDoc = userQuery.docs[0];
+     const email = userDoc.data().email;
+
+     await auth.signInWithEmailAndPassword(email, password);
+     window.location.href = "index.html";
+
+   } catch (error) {
+     console.error("Login error:", error);
+     alert("Login error: " + (error?.message || error));
+   }
+ }
 
 
   function showRegister() {
