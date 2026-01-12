@@ -309,31 +309,7 @@
     }
   }
 
-  async function login() {
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value;
-
-    const userQuery = await db.collection("users")
-      .where("username", "==", username)
-      .limit(1)
-      .get();
-
-    if (userQuery.empty) {
-      alert("No account found with that username.");
-      return;
-    }
-
-    const userDoc = userQuery.docs[0];
-    const email = userDoc.data().email;
-
-    auth.signInWithEmailAndPassword(email, password)
-      .then(() => {
-        window.location.href = "index.html";
-      })
-      .catch((error) => {
-        alert("Login failed: " + error.message);
-      });
-  }
+  
 
   async function register() {
     const email = document.getElementById('regEmail').value.trim();
@@ -405,40 +381,40 @@
 }
 
 
- async function login() {
+async function login() {
   try {
-     const username = document.getElementById('username').value.trim();
-     const password = document.getElementById('password').value;
+    const usernameRaw = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
 
-     if (!username || !password) {
-       alert("Enter username and password.");
-       return;
-     }
+    if (!usernameRaw || !password) {
+      alert("Enter username and password.");
+      return;
+    }
 
-     console.log("Login clicked:", username);
+    const username = usernameRaw.toLowerCase();
 
-     const userQuery = await db.collection("users")
-       .where("username", "==", username)
-       .limit(1)
-       .get();
+    // Use the usernames mapping (allowed by your rules)
+    const unameDoc = await db.collection("usernames").doc(username).get();
 
-     if (userQuery.empty) {
-       alert("No account found with that username.");
-       return;
-     }
+    if (!unameDoc.exists) {
+      alert("No account found with that username.");
+      return;
+    }
 
-     const userDoc = userQuery.docs[0];
-     const email = userDoc.data().email;
+    const email = unameDoc.data().email;
+    if (!email) {
+      alert("This username is missing an email mapping. Please re-register.");
+      return;
+    }
 
-     await auth.signInWithEmailAndPassword(email, password);
-     window.location.href = "index.html";
+    await auth.signInWithEmailAndPassword(email, password);
+    window.location.href = "index.html";
 
-   } catch (error) {
-     console.error("Login error:", error);
-     alert("Login error: " + (error?.message || error));
-   }
- }
-
+  } catch (error) {
+    console.error("Login error:", error);
+    alert("Login failed: " + (error?.message || error));
+  }
+}
 
   function showRegister() {
     document.getElementById('loginForm').style.display = 'none';
