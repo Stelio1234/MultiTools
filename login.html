@@ -324,7 +324,6 @@
       return;
     }
 
-    // Basic email format check
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       status.textContent = "Invalid email format.";
@@ -401,7 +400,7 @@ async function login() {
   const username = document.getElementById('username').value.trim();
   const password = document.getElementById('password').value;
 
-  const usernameDoc = await db.collection("usernames").doc(username).get();
+  const usernameDoc = await db.collection("users").doc(user.uid).get();
 
   if (!usernameDoc.exists) {
     alert("No account found with that username.");
@@ -427,7 +426,7 @@ function googleLogin() {
       const user = result.user;
       const userDoc = await db.collection("users").doc(user.uid).get();
 
-      // If user doesn't exist in Firestore, create it with default role "user"
+  
       if (!userDoc.exists) {
         const username = user.displayName || "UnnamedUser" + Math.floor(Math.random() * 10000);
         await db.collection("users").doc(user.uid).set({
