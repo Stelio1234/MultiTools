@@ -396,27 +396,35 @@
 }
 
 
+
+
 async function login() {
   const username = document.getElementById('username').value.trim();
   const password = document.getElementById('password').value;
 
-  const userDoc = await db.collection("users").doc(user.uid).get();
+  try {
+    const usernameDoc = await db
+      .collection("usernames")
+      .doc(username)
+      .get();
 
-  if (!userDoc.exists) {
-    alert("No account found with that username.");
-    return;
+    if (!usernameDoc.exists) {
+      alert("No account found with that username.");
+      return;
+    }
+
+    const email = usernameDoc.data().email;
+
+    // 🔑 AUTHENTICATE
+    await auth.signInWithEmailAndPassword(email, password);
+
+    window.location.href = "index.html";
+  } catch (error) {
+    alert("Login failed: " + error.message);
   }
-
-  const email = userDoc.data().email;
-
-  auth.signInWithEmailAndPassword(email, password)
-    .then(() => {
-      window.location.href = "index.html";
-    })
-    .catch((error) => {
-      alert("Login failed: " + error.message);
-    });
 }
+
+
 
 
 function googleLogin() {
