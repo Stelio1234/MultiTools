@@ -404,7 +404,7 @@ async function login() {
 
   try {
     const usernameDoc = await db
-      .collection("usernames")
+      .collection("users")
       .doc(username)
       .get();
 
@@ -415,7 +415,7 @@ async function login() {
 
     const email = usernameDoc.data().email;
 
-    // 🔑 AUTHENTICATE
+
     await auth.signInWithEmailAndPassword(email, password);
 
     window.location.href = "index.html";
