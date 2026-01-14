@@ -400,14 +400,14 @@ async function login() {
   const username = document.getElementById('username').value.trim();
   const password = document.getElementById('password').value;
 
-  const usernameDoc = await db.collection("users").doc(user.uid).get();
+  const userDoc = await db.collection("users").doc(user.uid).get();
 
-  if (!usernameDoc.exists) {
+  if (!userDoc.exists) {
     alert("No account found with that username.");
     return;
   }
 
-  const email = usernameDoc.data().email;
+  const email = userDoc.data().email;
 
   auth.signInWithEmailAndPassword(email, password)
     .then(() => {
