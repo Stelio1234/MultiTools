@@ -404,7 +404,7 @@ async function login() {
 
   try {
     const usernameDoc = await db
-      .collection("users")
+      .collection("usernames")
       .doc(username)
       .get();
 
