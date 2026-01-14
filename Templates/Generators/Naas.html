@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>No as a Service</title>
+  <link rel="icon" type="image/x-icon" href="/MultiTools.jpg" />
+  <meta name="theme-color" content="#45a049" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+    :root {
+      --bg-dark: #0a0a0a;
+      --green: #54d42c;
+      --text-light: #e0e0e0;
+      --card-bg: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background: linear-gradient(180deg, #000000, #111, #0a0a0a);
+      color: var(--text-light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      padding: 2.2rem;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      animation: fadeUp 0.7s ease forwards;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #45a049, #00cc66);
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    #output {
+      background: rgba(0,0,0,0.35);
+      padding: 1rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.2);
+      font-size: 1rem;
+      min-height: 80px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      margin-top: 1rem;
+    }
+
+    .btn {
+      width: 100%;
+      background: var(--green);
+      color: #000;
+      border: none;
+      padding: 0.65rem;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 14px rgba(84, 212, 44, 0.8);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(25px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 1.6rem; }
+      h1 { font-size: 1.7rem; }
+    }
+    .p1 {
+        margin-top: 0.9rem;
+        font-size: 0.8rem;
+        color: #aaa;
+        line-height: 1.4;
+        }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>No as a Service</h1>
+    <div id="output">No</div>
+    <button class="btn" id="fetchBtn">New Reason</button>
+    <ul>
+        <li>This tool is powerd by No-as-a-Service.</li>
+        <li>Click <a href="#">Here</a> for more info</li>
+    </ul>
+  </div>
+
+  <script>
+    const button = document.getElementById('fetchBtn');
+    const outputDiv = document.getElementById('output');
+
+    button.addEventListener('click', async () => {
+      outputDiv.textContent = "Loading...";
+      try {
+        const response = await fetch('https://naas.isalman.dev/no');
+        if (!response.ok) throw new Error('Network response was not ok');
+
+        const data = await response.json(); // JSON response
+        if (!data.reason) throw new Error('No reason found in response');
+
+        outputDiv.textContent = data.reason; // ONLY show the reason
+      } catch (error) {
+        outputDiv.textContent = 'Error: ' + error.message;
+      }
+    });
+  </script>
+
+</body>
+</html>
