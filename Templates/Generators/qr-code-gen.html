@@ -13,426 +13,426 @@
 
 <style>
 :root {
-  --primary: #45a049;
-  --secondary: #24272b;
-  --accent: #222325;
-  --glass: rgba(36, 39, 43, 0.7);
-  --hover: #38a049;
-  --text-light: #fff;
-  --text-dark: #111;
-  --radius: 13px;
-  --soft-shadow: 0 5px 21px rgba(0,0,0,0.14);
+  --primary: #45a049;
+  --secondary: #24272b;
+  --accent: #222325;
+  --glass: rgba(36, 39, 43, 0.7);
+  --hover: #38a049;
+  --text-light: #fff;
+  --text-dark: #111;
+  --radius: 13px;
+  --soft-shadow: 0 5px 21px rgba(0,0,0,0.14);
 }
 
 body {
-  margin: 0;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: linear-gradient(135deg, #202622 0%, #272e21 100%);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 0;
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #202622 0%, #272e21 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
 }
 
 .main-container {
-  display: flex;
-  flex-direction: column;
-  border-radius: var(--radius);
-  box-shadow: var(--soft-shadow);
-  width: 90%;
-  max-width: 1000px;
-  background: var(--accent);
-  backdrop-filter: blur(5px);
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius);
+  box-shadow: var(--soft-shadow);
+  width: 90%;
+  max-width: 1000px;
+  background: var(--accent);
+  backdrop-filter: blur(5px);
+  overflow: hidden;
 }
 
 .header {
-  background: var(--primary);
-  padding: 19px 0 16px 0;
-  text-align: center;
-  font-size: 1.5rem;
-  color: var(--text-light);
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 11px;
-  letter-spacing: 0.5px;
-  border-bottom-left-radius: var(--radius);
-  border-bottom-right-radius: var(--radius);
-  box-shadow: 0 2px 8px rgba(69,160,73,0.11);
+  background: var(--primary);
+  padding: 19px 0 16px 0;
+  text-align: center;
+  font-size: 1.5rem;
+  color: var(--text-light);
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 11px;
+  letter-spacing: 0.5px;
+  border-bottom-left-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+  box-shadow: 0 2px 8px rgba(69,160,73,0.11);
 }
 
 .container {
-  display: flex;
-  padding: 25px;
-  gap: 25px;
-  justify-content: center;
-  align-items: flex-start;
+  display: flex;
+  padding: 25px;
+  gap: 25px;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .controls {
-  flex: 1;
-  background: var(--glass);
-  border-radius: var(--radius);
-  padding: 20px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  box-shadow: var(--soft-shadow);
-  max-width: 450px;
+  flex: 1;
+  background: var(--glass);
+  border-radius: var(--radius);
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  box-shadow: var(--soft-shadow);
+  max-width: 450px;
 }
 
 .settings-group {
-  display: flex;
-  flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .controls label {
-  color: var(--text-light);
-  font-size: 0.7rem;
-  margin-bottom: 6px;
-  letter-spacing: 0.2px;
-  font-weight: 500;
+  color: var(--text-light);
+  font-size: 0.7rem;
+  margin-bottom: 6px;
+  letter-spacing: 0.2px;
+  font-weight: 500;
 }
 
 .controls input, .controls select {
-  padding: 8px;
-  border-radius: 7px;
-  border: none;
-  background: rgba(255,255,255,0.13);
-  color: var(--text-light);
-  font-size: 0.75rem;
-  transition: background 0.2s;
-  width: 100%;
-  box-sizing: border-box;
+  padding: 8px;
+  border-radius: 7px;
+  border: none;
+  background: rgba(255,255,255,0.13);
+  color: var(--text-light);
+  font-size: 0.75rem;
+  transition: background 0.2s;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .button-group {
-  grid-column: span 2;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 10px;
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
 }
 
 .controls button {
-  padding: 12px;
-  border-radius: 7px;
-  border: none;
-  background: var(--primary);
-  color: var(--text-light);
-  font-weight: bold;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: all 0.2s;
+  padding: 12px;
+  border-radius: 7px;
+  border: none;
+  background: var(--primary);
+  color: var(--text-light);
+  font-weight: bold;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 .controls button:hover {
-  background: var(--hover);
-  transform: translateY(-1px);
+  background: var(--hover);
+  transform: translateY(-1px);
 }
 
 .controls .color-input {
-  height: 35px;
-  cursor: pointer;
+  height: 35px;
+  cursor: pointer;
 }
 
 /* Center and scale the QR Preview */
 .preview {
-  flex: 1;
-  background: var(--glass);
-  padding: 40px;
-  border-radius: var(--radius);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--soft-shadow);
-  min-height: 400px;
-  position: sticky;
-  top: 20px;
+  flex: 1;
+  background: var(--glass);
+  padding: 40px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--soft-shadow);
+  min-height: 400px;
+  position: sticky;
+  top: 20px;
 }
 
 #qr-code {
-  background: white;
-  padding: 20px;
-  border-radius: var(--radius);
-  transition: transform 0.3s ease;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: white;
+  padding: 20px;
+  border-radius: var(--radius);
+  transition: transform 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 canvas {
-  max-width: 100% !important;
-  height: auto !important;
+  max-width: 100% !important;
+  height: auto !important;
 }
 
 @media (max-width: 900px) {
-  .container { flex-direction: column; align-items: center; }
-  .controls, .preview { width: 100%; max-width: 100%; }
-  .preview { min-height: auto; position: static; }
-  .main-container { width: 95vw; }
+  .container { flex-direction: column; align-items: center; }
+  .controls, .preview { width: 100%; max-width: 100%; }
+  .preview { min-height: auto; position: static; }
+  .main-container { width: 95vw; }
 }
 </style>
 </head>
 <body>
 <div class="main-container">
-  <div class="header"><i class="fas fa-qrcode"></i>QR Code Generator</div>
-  <div class="container">
-    <div class="controls">
-      
-      <div class="settings-group" style="grid-column: span 2;">
-        <label for="Qr-Type">QR Code Type</label>
-        <select id="Qr-Type">
-          <option value="text">URL or PlainText</option>
-          <option value="wifi">Wifi Network</option>
-          <option value="phone">Phone Number</option>
-          <option value="email">Email Address</option>
-        </select>
-      </div>
+  <div class="header"><i class="fas fa-qrcode"></i>QR Code Generator</div>
+  <div class="container">
+    <div class="controls">
+      
+      <div class="settings-group" style="grid-column: span 2;">
+        <label for="Qr-Type">QR Code Type</label>
+        <select id="Qr-Type">
+          <option value="text">URL or PlainText</option>
+          <option value="wifi">Wifi Network</option>
+          <option value="phone">Phone Number</option>
+          <option value="email">Email Address</option>
+        </select>
+      </div>
 
-      <div id="text-group" class="settings-group" style="grid-column: span 2;">
-        <label for="content">Content</label>
-        <input type="text" id="content" placeholder="Enter URL or Text">
-      </div>
+      <div id="text-group" class="settings-group" style="grid-column: span 2;">
+        <label for="content">Content</label>
+        <input type="text" id="content" placeholder="Enter URL or Text">
+      </div>
 
-      <div id="wifi-group" class="settings-group" style="display: none; grid-column: span 2;">
-        <label>SSID</label>
-        <input type="text" id="wifi-ssid" placeholder="WiFi Name">
-        <label>Password</label>
-        <input type="password" id="wifi-pass" placeholder="Password">
-        <label>Encryption</label>
-        <select id="wifi-type">
-          <option value="WPA">WPA/WPA2</option>
-          <option value="WEP">WEP</option>
-          <option value="nopass">None</option>
-        </select>
-      </div>
+      <div id="wifi-group" class="settings-group" style="display: none; grid-column: span 2;">
+        <label>SSID</label>
+        <input type="text" id="wifi-ssid" placeholder="WiFi Name">
+        <label>Password</label>
+        <input type="password" id="wifi-pass" placeholder="Password">
+        <label>Encryption</label>
+        <select id="wifi-type">
+          <option value="WPA">WPA/WPA2</option>
+          <option value="WEP">WEP</option>
+          <option value="nopass">None</option>
+        </select>
+      </div>
 
-      <div id="phone-group" class="settings-group" style="display: none; grid-column: span 2;">
-        <label>Phone Number</label>
-        <input type="tel" id="phone-num" placeholder="+1234567890">
-      </div>
+      <div id="phone-group" class="settings-group" style="display: none; grid-column: span 2;">
+        <label>Phone Number</label>
+        <input type="tel" id="phone-num" placeholder="+1234567890">
+      </div>
 
-      <div id="email-group" class="settings-group" style="display: none; grid-column: span 2;">
-        <label>Email Address</label>
-        <input type="email" id="email-addr" placeholder="example@mail.com">
-      </div>
+      <div id="email-group" class="settings-group" style="display: none; grid-column: span 2;">
+        <label>Email Address</label>
+        <input type="email" id="email-addr" placeholder="example@mail.com">
+      </div>
 
-      <div class="settings-group">
-        <label for="qrcode-name">File Name</label>
-        <input type="text" id="qrcode-name" placeholder="My QR Code">
-      </div>
+      <div class="settings-group">
+        <label for="qrcode-name">File Name</label>
+        <input type="text" id="qrcode-name" placeholder="My QR Code">
+      </div>
 
-      <div class="settings-group">
-        <label for="size-preset">Size Preset</label>
-        <select id="size-preset">
-          <option value="300">Standard (300px)</option>
-          <option value="150">Small (150px)</option>
-          <option value="600">Large (600px)</option>
-          <option value="1000">Print Quality (1000px)</option>
-          <option value="custom">Manual Custom...</option>
-        </select>
-      </div>
+      <div class="settings-group">
+        <label for="size-preset">Size Preset</label>
+        <select id="size-preset">
+          <option value="300">Standard (300px)</option>
+          <option value="150">Small (150px)</option>
+          <option value="600">Large (600px)</option>
+          <option value="1000">Print Quality (1000px)</option>
+          <option value="custom">Manual Custom...</option>
+        </select>
+      </div>
 
-      <div id="manual-size-group" class="settings-group" style="display:none; grid-column: span 2;">
-        <label for="qr-size">Manual Width/Height (px)</label>
-        <input type="number" id="qr-size" value="300" min="50" max="2000">
-      </div>
+      <div id="manual-size-group" class="settings-group" style="display:none; grid-column: span 2;">
+        <label for="qr-size">Manual Width/Height (px)</label>
+        <input type="number" id="qr-size" value="300" min="50" max="2000">
+      </div>
 
-      <div class="settings-group">
-        <label for="shape">Dot Shape</label>
-        <select id="shape">
-          <option value="square">Square</option>
-          <option value="dots">Dots</option>
-          <option value="rounded">Rounded</option>
-          <option value="extra-rounded">Extra Rounded</option>
-          <option value="classy">Classy</option>
-        </select>
-      </div>
+      <div class="settings-group">
+        <label for="shape">Dot Shape</label>
+        <select id="shape">
+          <option value="square">Square</option>
+          <option value="dots">Dots</option>
+          <option value="rounded">Rounded</option>
+          <option value="extra-rounded">Extra Rounded</option>
+          <option value="classy">Classy</option>
+        </select>
+      </div>
 
-      <div class="settings-group">
-        <label for="gradient-type">Gradient Type</label>
-        <select id="gradient-type">
-          <option value="linear">Linear</option>
-          <option value="radial">Radial</option>
-        </select>
-      </div>
+      <div class="settings-group">
+        <label for="gradient-type">Gradient Type</label>
+        <select id="gradient-type">
+          <option value="linear">Linear</option>
+          <option value="radial">Radial</option>
+        </select>
+      </div>
 
-      <div class="settings-group">
-        <label>Color From</label>
-        <input type="color" id="gradient-from" class="color-input" value="#000000">
-      </div>
+      <div class="settings-group">
+        <label>Color From</label>
+        <input type="color" id="gradient-from" class="color-input" value="#000000">
+      </div>
 
-      <div class="settings-group">
-        <label>Color To</label>
-        <input type="color" id="gradient-to" class="color-input" value="#45a049">
-      </div>
+      <div class="settings-group">
+        <label>Color To</label>
+        <input type="color" id="gradient-to" class="color-input" value="#45a049">
+      </div>
 
-      <div class="settings-group">
-        <label>Background</label>
-        <input type="color" id="bg-color" class="color-input" value="#ffffff">
-      </div>
+      <div class="settings-group">
+        <label>Background</label>
+        <input type="color" id="bg-color" class="color-input" value="#ffffff">
+      </div>
 
-      <div class="settings-group">
-        <label>Transparent</label>
-        <input type="checkbox" id="transparent-bg">
-      </div>
+      <div class="settings-group">
+        <label>Transparent</label>
+        <input type="checkbox" id="transparent-bg">
+      </div>
 
-      <div class="settings-group" style="grid-column: span 2;">
-        <label for="logo">Logo Overlay</label>
-        <input type="file" id="logo" accept="image/*">
-      </div>
+      <div class="settings-group" style="grid-column: span 2;">
+        <label for="logo">Logo Overlay</label>
+        <input type="file" id="logo" accept="image/*">
+      </div>
 
-      <div class="button-group">
-        <button id="gradient-toggle-btn">Use Gradient: On</button>
-        <button id="download">Download PNG</button>
-        <button id="reset" style="background: #555;">Reset All</button>
-        <button class="back-button" onclick="window.history.back()" style="background: #333;">Back</button>
-      </div>
+      <div class="button-group">
+        <button id="gradient-toggle-btn">Use Gradient: On</button>
+        <button id="download">Download PNG</button>
+        <button id="reset" style="background: #555;">Reset All</button>
+        <button class="back-button" onclick="window.history.back()" style="background: #333;">Back</button>
+      </div>
 
-    </div>
+    </div>
 
-    <div class="preview">
-      <div id="qr-code"></div>
-    </div>
-  </div>
+    <div class="preview">
+      <div id="qr-code"></div>
+    </div>
+  </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
-    let useGradient = true;
-    let logoData = "";
+    let useGradient = true;
+    let logoData = "";
 
-    // Initialize the QR Code instance
-    const qrCode = new QRCodeStyling({
-        width: 300,
-        height: 300,
-        type: "canvas",
-        data: "Hello World",
-        dotsOptions: {
-            color: "#000000",
-            type: "square"
-        },
-        backgroundOptions: {
-            color: "#ffffff"
-        },
-    });
+    // Initialize the QR Code instance
+    const qrCode = new QRCodeStyling({
+        width: 300,
+        height: 300,
+        type: "canvas",
+        data: "Hello World",
+        dotsOptions: {
+            color: "#000000",
+            type: "square"
+        },
+        backgroundOptions: {
+            color: "#ffffff"
+        },
+    });
 
-    qrCode.append(document.getElementById("qr-code"));
+    qrCode.append(document.getElementById("qr-code"));
 
-    function updateQRCode() {
-        const type = $('#Qr-Type').val();
-        let finalData = "";
+    function updateQRCode() {
+        const type = $('#Qr-Type').val();
+        let finalData = "";
 
-        // Visibility Logic
-        $('#text-group, #wifi-group, #phone-group, #email-group').hide();
-        if (type === 'wifi') {
-            $('#wifi-group').show();
-            finalData = `WIFI:S:${$('#wifi-ssid').val()};T:${$('#wifi-type').val()};P:${$('#wifi-pass').val()};;`;
-        } else if (type === 'phone') {
-            $('#phone-group').show();
-            finalData = `tel:${$('#phone-num').val()}`;
-        } else if (type === 'email') {
-            $('#email-group').show();
-            finalData = `mailto:${$('#email-addr').val()}`;
-        } else {
-            $('#text-group').show();
-            finalData = $('#content').val() || "Hello World";
-        }
+        // Visibility Logic
+        $('#text-group, #wifi-group, #phone-group, #email-group').hide();
+        if (type === 'wifi') {
+            $('#wifi-group').show();
+            finalData = `WIFI:S:${$('#wifi-ssid').val()};T:${$('#wifi-type').val()};P:${$('#wifi-pass').val()};;`;
+        } else if (type === 'phone') {
+            $('#phone-group').show();
+            finalData = `tel:${$('#phone-num').val()}`;
+        } else if (type === 'email') {
+            $('#email-group').show();
+            finalData = `mailto:${$('#email-addr').val()}`;
+        } else {
+            $('#text-group').show();
+            finalData = $('#content').val() || "Hello World";
+        }
 
-        // Sizing Logic
-        const preset = $('#size-preset').val();
-        let size = 300;
-        if (preset === 'custom') {
-            $('#manual-size-group').show();
-            size = parseInt($('#qr-size').val()) || 300;
-        } else {
-            $('#manual-size-group').hide();
-            size = parseInt(preset);
-        }
+        // Sizing Logic
+        const preset = $('#size-preset').val();
+        let size = 300;
+        if (preset === 'custom') {
+            $('#manual-size-group').show();
+            size = parseInt($('#qr-size').val()) || 300;
+        } else {
+            $('#manual-size-group').hide();
+            size = parseInt(preset);
+        }
 
-        let dotsOptions = {
-            type: $('#shape').val()
-        };
+        let dotsOptions = {
+            type: $('#shape').val()
+        };
 
-        if (useGradient) {
-           
-            dotsOptions.gradient = {
-                type: $('#gradient-type').val(),
-                rotation: 0,
-                colorStops: [
-                    { offset: 0, color: $('#gradient-from').val() },
-                    { offset: 1, color: $('#gradient-to').val() }
-                ]
-            };
-            delete dotsOptions.color; 
-        } else {
-            dotsOptions.color = $('#gradient-from').val();
-            dotsOptions.gradient = null; 
+        if (useGradient) {
+           
+            dotsOptions.gradient = {
+                type: $('#gradient-type').val(),
+                rotation: 0,
+                colorStops: [
+                    { offset: 0, color: $('#gradient-from').val() },
+                    { offset: 1, color: $('#gradient-to').val() }
+                ]
+            };
+            delete dotsOptions.color; 
+        } else {
+            dotsOptions.color = $('#gradient-from').val();
+            dotsOptions.gradient = null; 
 }
 
-        // Apply Updates
-        qrCode.update({
-            width: size,
-            height: size,
-            data: finalData,
-            dotsOptions: dotsOptions,
-            backgroundOptions: {
-                color: $('#transparent-bg').is(":checked") ? "transparent" : $('#bg-color').val()
-            },
-            image: logoData || null,
-            imageOptions: {
-                crossOrigin: "anonymous",
-                margin: 5
-            }
-        });
-    }
+        // Apply Updates
+        qrCode.update({
+            width: size,
+            height: size,
+            data: finalData,
+            dotsOptions: dotsOptions,
+            backgroundOptions: {
+                color: $('#transparent-bg').is(":checked") ? "transparent" : $('#bg-color').val()
+            },
+            image: logoData || null,
+            imageOptions: {
+                crossOrigin: "anonymous",
+                margin: 5
+            }
+        });
+    }
 
-    $(document).ready(function () {
-        // Universal listener for inputs
-        $('input, select').on('input change', updateQRCode);
+    $(document).ready(function () {
+        // Universal listener for inputs
+        $('input, select').on('input change', updateQRCode);
 
-        // Fixed Gradient Toggle: Moved outside of updateQRCode to prevent recursion
-        $('#gradient-toggle-btn').on('click', function () {
-            useGradient = !useGradient;
-            $(this).text(`Use Gradient: ${useGradient ? "On" : "Off"}`);
-            updateQRCode();
-        });
+        // Fixed Gradient Toggle: Moved outside of updateQRCode to prevent recursion
+        $('#gradient-toggle-btn').on('click', function () {
+            useGradient = !useGradient;
+            $(this).text(`Use Gradient: ${useGradient ? "On" : "Off"}`);
+            updateQRCode();
+        });
 
-        // Logo Upload Logic
-        $('#logo').change(function () {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = e => {
-                    logoData = e.target.result;
-                    updateQRCode();
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+        // Logo Upload Logic
+        $('#logo').change(function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    logoData = e.target.result;
+                    updateQRCode();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
 
-        // Download Logic
-        $('#download').click(function () {
-            qrCode.download({
-                name: $('#qrcode-name').val() || "qr-code",
-                extension: "png"
-            });
-        });
+        // Download Logic
+        $('#download').click(function () {
+            qrCode.download({
+                name: $('#qrcode-name').val() || "qr-code",
+                extension: "png"
+            });
+        });
 
-        // Reset Logic
-        $('#reset').click(function () {
-            location.reload();
-        });
+        // Reset Logic
+        $('#reset').click(function () {
+            location.reload();
+        });
 
-        // Initial Run
-        updateQRCode();
-    });
+        // Initial Run
+        updateQRCode();
+    });
 </script>
 </script>
 </body>
