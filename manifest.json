@@ -3,7 +3,7 @@
   "short_name": "MultiTools",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#000000",
+  "background_color": "#45a049",
   "theme_color": "#45a049",
   "orientation": "portrait",
   "icons": [

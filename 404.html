@@ -1,0 +1,438 @@
+<!-- /404.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#45a049" />
+  <title>404 — Page Not Found | MultiTools</title>
+
+  <!--
+    IMPORTANT:
+    This ensures links/assets work even when the URL is /missing/path on GitHub Pages.
+    If your repo name is different, change REPO_NAME.
+  -->
+  <script>
+    (function () {
+      var REPO_NAME = "MultiTools"; // <-- change if your GitHub Pages project path differs
+      var host = window.location.hostname;
+      var path = window.location.pathname || "/";
+      var base = "/";
+
+      if (host.endsWith(".github.io")) {
+        var repoBase = "/" + REPO_NAME + "/";
+        base = path.startsWith(repoBase) ? repoBase : "/";
+      }
+
+      var baseTag = document.createElement("base");
+      baseTag.href = base;
+      document.head.appendChild(baseTag);
+    })();
+  </script>
+
+  <link rel="icon" type="image/x-icon" href="images/MultiTools.jpg" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+    :root {
+      --bg-dark: #0a0a0a;
+      --green: #54d42c;
+      --text-light: #e0e0e0;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --border: rgba(255, 255, 255, 0.14);
+      --muted: #aaa;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: linear-gradient(180deg, #000000, #111, #0a0a0a);
+      color: var(--text-light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    header, main, footer { width: 100%; max-width: 1200px; }
+    header { margin-bottom: 2rem; }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(90deg, #45a049, #00cc66);
+      -webkit-background-clip: text;
+      color: transparent;
+      font-weight: 700;
+    }
+
+    header p { color: var(--muted); font-size: 1.1rem; margin-top: 0.5rem; }
+
+    .action-bar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      padding: 0.55rem 0.7rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 14px;
+      backdrop-filter: blur(10px);
+      max-width: 560px;
+    }
+
+    .welcome-text {
+      font-size: 0.9rem;
+      color: #ddd;
+      flex: 1 1 260px;
+      white-space: normal;
+      word-break: break-word;
+      line-height: 1.25;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(84, 212, 44, 0.55);
+      box-shadow: 0 0 10px rgba(84, 212, 44, 0.25);
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: black;
+      border-color: rgba(84, 212, 44, 0.8);
+    }
+
+    .btn-primary:hover { box-shadow: 0 0 12px rgba(84, 212, 44, 0.45); }
+
+    .hero {
+      background: radial-gradient(800px 300px at 20% 20%, rgba(84, 212, 44, 0.18), transparent 60%),
+                  radial-gradient(800px 300px at 80% 0%, rgba(0, 204, 102, 0.14), transparent 55%);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 18px;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 1.6rem;
+      align-items: start;
+    }
+
+    .hero h2 {
+      color: white;
+      font-size: 2.1rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.15;
+    }
+
+    .subhead {
+      color: #bdbdbd;
+      font-size: 1.05rem;
+      line-height: 1.45;
+      margin-bottom: 1.15rem;
+      max-width: 60ch;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: black;
+      background: var(--green);
+      padding: 0.25rem 0.55rem;
+      border-radius: 10px;
+      margin-left: 0.6rem;
+      vertical-align: middle;
+    }
+
+    .urlbox {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 0.9rem;
+      margin-top: 0.9rem;
+      overflow: auto;
+    }
+
+    .urlbox code {
+      display: block;
+      color: #e8e8e8;
+      font-size: 0.92rem;
+      line-height: 1.35;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 0.75rem;
+    }
+
+    .panel {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 16px;
+      padding: 1.2rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .panel h3 {
+      font-size: 1.05rem;
+      color: white;
+      margin-bottom: 0.75rem;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .tool-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 1.2rem;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .tool-card:hover {
+      transform: scale(1.03);
+      border-color: var(--green);
+      text-decoration: none;
+    }
+
+    .tool-card h4 { font-size: 1.05rem; margin-bottom: 0.35rem; color: white; }
+    .tool-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.35; }
+
+    footer {
+      margin-top: auto;
+      padding: 2.5rem 0 1.5rem;
+      text-align: center;
+    }
+
+    footer .grid {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.4rem;
+      margin-bottom: 1rem;
+    }
+
+    footer .grid a {
+      color: #ccc;
+      transition: transform 0.25s ease, color 0.25s ease, filter 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      text-decoration: none;
+    }
+
+    footer .grid a:hover {
+      transform: scale(1.25);
+      color: var(--green);
+      filter: drop-shadow(0 0 8px var(--green));
+    }
+
+    .muted { color: var(--muted); }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: white;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(-2px); }
+
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .header-inner { flex-direction: column; align-items: center; text-align: center; }
+      header h1 { font-size: 2rem; }
+      .action-bar { max-width: 100%; margin-top: 1rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-inner">
+      <div>
+        <h1>MultiTools</h1>
+        <p>The Site with Many Tools</p>
+      </div>
+
+      <div class="action-bar">
+        <span class="welcome-text">Oops — that page doesn’t exist.</span>
+        <a class="btn btn-primary" href="./index.html">Home</a>
+        <button class="btn" id="back-btn" type="button">Go back</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <h2>404 — Page not found <span class="badge">Lost?</span></h2>
+          <p class="subhead">
+            The link may be broken, the page may have moved, or you typed a URL that doesn’t exist.
+            Use the buttons below to get back to tools fast.
+          </p>
+
+          <div class="urlbox" aria-label="Requested URL">
+            <code id="requested-url">Loading…</code>
+          </div>
+
+          <div class="cta-row">
+            <a class="btn btn-primary" href="./index.html">Go home</a>
+            <a class="btn" href="./index.html#tools">Browse tools</a>
+            <a class="btn" href="https://discord.gg/ESWhAhR5Pp" target="_blank" rel="noopener">Join Discord</a>
+            <button class="btn" id="copy-btn" type="button">Copy URL</button>
+          </div>
+
+          <p class="muted" style="margin-top: 0.95rem; font-size: 0.95rem;">
+            If you got here from inside MultiTools, report the bug in our discord.
+          </p>
+        </div>
+
+        <div class="panel">
+          <h3>Quick links</h3>
+          <div class="tool-grid">
+            <a class="tool-card" href="Templates/TimeTools/timer.html">
+              <h4>Timer</h4>
+              <p>Set a countdown for tasks.</p>
+            </a>
+
+            <a class="tool-card" href="Templates/Generators/qr-code-gen.html">
+              <h4>QR Code Generator</h4>
+              <p>Generate QR codes instantly.</p>
+            </a>
+
+            <a class="tool-card" href="Templates/Generators/password-gen.html">
+              <h4>Password Generator</h4>
+              <p>Create strong passwords.</p>
+            </a>
+
+            <a class="tool-card" href="Templates/Other/patchnotes.html">
+              <h4>Patch Notes</h4>
+              <p>See what’s new and what changed.</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="grid">
+      <a href="https://discord.gg/ESWhAhR5Pp" target="_blank" rel="noopener" aria-label="Discord">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"/>
+        </svg>
+      </a>
+
+      <a href="https://github.com/Stelio1234/MultiTools" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38v-1.33c-2.23.49-2.69-1.07-2.69-1.07-.36-.91-.88-1.15-.88-1.15-.72-.49.06-.48.06-.48.8.06 1.22.83 1.22.83.71 1.21 1.86.86 2.31.66.07-.52.28-.86.51-1.06-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82a7.7 7.7 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+      </a>
+
+      <a href="https://instagram.com/the.multitools" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 448 512">
+          <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9S160.5 370.8 224.1 370.8 339 319.5 339 255.9 287.7 141 224.1 141zm0 186.6c-39.5 0-71.6-32.1-71.6-71.6s32.1-71.6 71.6-71.6 71.6 32.1 71.6 71.6-32.1 71.6-71.6 71.6zm146.4-194.3c0 14.9-12.1 27-27 27-14.9 0-27-12.1-27-27s12.1-27 27-27 27 12.1 27 27zm76.1 27.2c-.9-19.6-5.2-37-17.1-53.1-12-16.3-27.9-28.3-47.5-37.2C358.6 10.2 299.8 0 224.1 0 148.3 0 89.5 10.2 66 70.2c-19.6 8.9-35.5 20.9-47.5 37.2C6.2 123.2 1.9 140.6 1 160.2.3 180.8 0 198.6 0 256s.3 75.2 1 95.8c.9 19.6 5.2 37 17.1 53.1 12 16.3 27.9 28.3 47.5 37.2 23.5 60 82.3 70.2 158.1 70.2s134.6-10.2 158.1-70.2c19.6-8.9 35.5-20.9 47.5-37.2 11.9-16.1 16.2-33.5 17.1-53.1.7-20.6 1-38.4 1-95.8s-.3-75.2-1-95.8zm-48.3 232.1c-7.8 19.5-22.9 34.6-42.4 42.4-29.4 11.8-99.1 9.1-132.1 9.1s-102.7 2.6-132.1-9.1c-19.5-7.8-34.6-22.9-42.4-42.4-11.8-29.4-9.1-99.1-9.1-132.1s-2.6-102.7 9.1-132.1c7.8-19.5 22.9-34.6 42.4-42.4 29.4-11.8 99.1-9.1 132.1-9.1s102.7-2.6 132.1 9.1c19.5 7.8 34.6 22.9 42.4 42.4 11.8 29.4 9.1 99.1 9.1 132.1s2.7 102.7-9.1 132.1z"/>
+        </svg>
+      </a>
+
+      <a href="https://www.tiktok.com/@multitoolss" target="_blank" rel="noopener" aria-label="TikTok">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 448 512">
+          <path d="M412.19,118.66a109.27,109.27,0,0,1-9.45-5.5,132.87,132.87,0,0,1-24.27-20.62c-18.1-20.71-24.86-41.72-27.35-56.43h.1C349.14,23.9,350,16,350.13,16H267.69V334.78c0,4.28,0,8.51-.18,12.69,0,.52-.05,1-.08,1.56,0,.23,0,.47-.05.71,0,.06,0,.12,0,.18a70,70,0,0,1-35.22,55.56,68.8,68.8,0,0,1-34.11,9c-38.41,0-69.54-31.32-69.54-70s31.13-70,69.54-70a68.9,68.9,0,0,1,21.41,3.39l.1-83.94a153.14,153.14,0,0,0-118,34.52,161.79,161.79,0,0,0-35.3,43.53c-3.48,6-16.61,30.11-18.2,69.24-1,22.21,5.67,45.22,8.85,54.73v.2c2,5.6,9.75,24.71,22.38,40.82A167.53,167.53,0,0,0,115,470.66v-.2l.2.2C155.11,497.78,199.36,496,199.36,496c7.66-.31,33.32,0,62.46-13.81,32.32-15.31,50.72-38.12,50.72-38.12a158.46,158.46,0,0,0,27.64-45.93c7.46-19.61,9.95-43.13,9.95-52.53V176.49c1,.6,14.32,9.41,14.32,9.41s19.19,12.3,49.13,20.31c21.48,5.7,50.42,6.9,50.42,6.9V131.27C453.86,132.37,433.27,129.17,412.19,118.66Z"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="muted" style="font-size: 0.95rem;"></div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      var requested = window.location.href;
+      var requestedEl = document.getElementById("requested-url");
+      requestedEl.textContent = requested;
+
+      var toast = document.getElementById("toast");
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add("show");
+        window.setTimeout(function () { toast.classList.remove("show"); }, 1300);
+      }
+
+      document.getElementById("back-btn").addEventListener("click", function () {
+        if (window.history.length > 1) window.history.back();
+        else window.location.href = "index.html";
+      });
+
+      document.getElementById("copy-btn").addEventListener("click", async function () {
+        try {
+          await navigator.clipboard.writeText(requested);
+          showToast("Copied URL to clipboard ");
+        } catch (e) {
+          showToast("Couldn’t copy (browser blocked).");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
