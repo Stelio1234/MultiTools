@@ -423,8 +423,8 @@
     /* ---------- FOOTER ---------- */
 
     footer {
-      margin-top: auto;
-      padding: 2.5rem 0 1.5rem;
+      margin-top: 20px;
+
       text-align: center;
       width: 100%;
       max-width: 1200px;
@@ -441,6 +441,7 @@
     footer .grid a {
       color: #ccc;
       transition: transform 0.25s ease, color 0.25s ease, filter 0.25s ease;
+      
     }
 
     footer .grid a:hover {
@@ -479,6 +480,31 @@
     .Announcements-feed {
       margin-top: 3%;
     }
+
+
+
+
+  .status-wrapper{
+    display:inline-flex;
+    border-radius:4px;
+    overflow:hidden;
+  }
+
+.status-label{
+    background:#5f5f5f;
+    color:white;
+    padding:4px 10px;
+    font-size:14px;
+    font-weight:600;
+}
+
+.status-value{
+    color:white;
+    padding:4px 10px;
+    font-size:14px;
+    font-weight:600;
+    transition:0.2s;
+}
   </style>
 </head>
 
@@ -546,7 +572,12 @@
       <div id="tools-container"></div>
     </section>
   </main>
-
+  <div class="status-wrapper">
+    <div class="status-label">Site Status</div>
+    <a style="text-decoration: none;" href="https://status.themultitools.xyz" class="status-value" id="status-text">
+        loading...
+    </a>
+  </div>
   <footer>
     <div class="grid">
       <a href="https://discord.gg/ESWhAhR5Pp" target="_blank" rel="noopener" aria-label="Discord" style="font-size: 25px; background: none; color: #ffffff; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 8px; text-decoration: none;">
@@ -575,6 +606,44 @@
     </div>
   </footer>
 
+
+  <script>
+async function loadStatus() {
+
+    const url = "https://multitools.statuspage.io/api/v2/status.json";
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    const indicator = data.status.indicator;
+    const description = data.status.description;
+
+    const badge = document.getElementById("status-text");
+
+    badge.textContent = description.toLowerCase();
+
+    switch(indicator){
+
+        case "none":
+            badge.style.background = "#28a745"; // green
+            break;
+
+        case "minor":
+            badge.style.background = "#e6b400"; // yellow
+            break;
+
+        case "major":
+        case "critical":
+            badge.style.background = "#dc3545"; // red
+            break;
+
+        default:
+            badge.style.background = "#6c757d"; // gray
+    }
+}
+
+loadStatus();
+</script>
   <!-- ---------- FIREBASE ---------- -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
@@ -662,7 +731,8 @@
           { name: "Terms of Service", link: "Templates/Other/TOS.html" },
           { name: "Privacy Policy", link: "Templates/Other/privicypolicy.html" },
           { name: "Patch Notes", link: "Templates/Other/patchnotes.html" },
-          { name: "Settings", link: "settings.html" }, 
+          { name: "Settings", link: "settings.html" },
+          
         ],
       },
     ];
