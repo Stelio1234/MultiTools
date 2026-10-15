@@ -4,104 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Settings</title>
-  <link rel="icon" type="image/x-icon" href="/MultiTools.jpg">
-  <meta name="theme-color" content="#45a049">
+  <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
+  <meta name="theme-color" content="#121212">
   <link rel="manifest" href="/manifest.json">
-  <style>
-    body {
-      background-color: #121212;
-      color: #ffffff;
-      font-family: Arial, Helvetica, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-    }
 
-    .container {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      background-color: #1e1e1e;
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
-      width: 100%;
-      max-width: 500px;
-      text-align: center;
-    }
-
-    h2 {
-      font-weight: bold;
-      font-size: large;
-      text-align: center;
-    }
-
-    .grid-item button {
-      width: 100%;
-      padding: 15px;
-      border-radius: 8px;
-      background-color: #4caf50;
-      border: none;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .grid-item button:hover {
-      background-color: #45a049;
-      transform: translateY(-2px);
-      box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-    }
-
-    .grid-container {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 15px;
-    }
-
-    ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      text-align: left;
-    }
-
-    .back-button {
-      padding: 12px 20px;
-      border-radius: 8px;
-      border: none;
-      background-color: #4caf50;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      width: 120px;
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      transition: all 0.2s ease;
-    }
-
-    .back-button:hover {
-      background-color: #45a049;
-      transform: translateY(-2px);
-      box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-    }
-
-    #welcome {
-      color: white;
-    }
-  </style>
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/footer.css" />
 </head>
-<body>
+<body class="tool-page settings-page">
+
   <div class="container">
     <h2>Settings</h2>
 
     <div class="grid-container">
       <div class="grid-item"><button onclick="logout()">Log Out</button></div>
-      <div class="grid-item"><button onclick="deleteAccount()">Delete Account</button></div>
+      <div class="grid-item"><button class="btn-danger" onclick="deleteAccount()">Delete Account</button></div>
     </div>
 
     <ul id="userInfo">
@@ -111,7 +29,7 @@
   </div>
 
   <div id="welcome"></div>
-  <button class="back-button" onclick="window.history.back()">Back</button>
+
 
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
@@ -135,7 +53,7 @@
     auth.onAuthStateChanged((user) => {
       if (user) {
         document.getElementById("userEmail").textContent = user.email;
-        
+
         const provider = user.providerData[0]?.providerId || "Unknown";
         const providerMap = {
           "password": "Email & Password",
@@ -185,5 +103,6 @@
         });
     }
   </script>
+<button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
 </body>
 </html>

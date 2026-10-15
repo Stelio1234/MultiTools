@@ -4,158 +4,36 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Text Encrypter/Decrypter</title>
-      <link rel="icon" type="image/x-icon" href="/MultiTools.jpg">
-    <meta name="theme-color" content="#45a049">
+      <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
+    <meta name="theme-color" content="#121212">
     <link rel="manifest" href="/manifest.json">
    <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
 
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background-color: #121212; /* optional background */
-      font-family: Arial, sans-serif; /* default font */
-    }
- 
 
-    .container {
-      display: none;
-      flex-direction: column;
-      gap: 12px;
-      background-color: #1e1e1e;
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
-      width: 100%;
-      max-width: 500px;
-      text-align: center;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-control {
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
-      background-color: #2c2c2c;
-      color: #ffffff;
-      width: 80%;
-      font-size: 16px;
-    }
-
-    .form-control:focus {
-      outline: none;
-      box-shadow: 0 0 4px 2px #4caf50;
-    }
-
-    .btn, .copy-btn {
-      background-color: #4caf50;
-      border: none;
-      color: white;
-      padding: 12px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 8px;
-      transition: all 0.2s ease;
-    }
-
-    .btn:hover, .copy-btn:hover {
-      background-color: #45a049;
-      transform: translateY(-2px);
-      box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-    }
-
-    h1 {
-      font-size: 24px;
-      margin-bottom: 20px;
-      color: #45a049;
-    }
-
-    #result, #encryptResult, #decryptResult {
-      background-color: #2c2c2c;
-      padding: 12px;
-      border-radius: 8px;
-      word-break: break-word;
-      color: #aaffaa;
-    }
-
-    code {
-      word-wrap: break-word;
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    select.form-control {
-      width: 85%;
-    }
-
-    #menu {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      align-items: center;
-      background-color: #1e1e1e;
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
-    }
-            .back-button {
-            padding: 12px 20px;
-            border-radius: 8px;
-            border: none;
-            background-color: #4caf50;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            width: 120px;
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            transition: all 0.2s ease;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .back-button:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-        }
-  </style>
+  <link rel="stylesheet" href="../../css/index.css" />
+  <link rel="stylesheet" href="../../css/pages.css" />
+  <link rel="stylesheet" href="../../css/footer.css" />
 </head>
-<body>
+<body class="tool-page encrypt-page">
+
 
   <div id="menu">
     <h1>Select Tool</h1>
     <button class="btn" onclick="showSection('encrypt')">Encrypt</button>
     <button class="btn" onclick="showSection('decrypt')">Decrypt</button>
-    <button class="back-button" onclick="window.history.back()">Back</button>
+    <button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
   </div>
 
   <div class="container" id="encrypt-container">
     <h1>Encrypt Text</h1>
     <div class="form-group">
-      <input type="text" class="form-control" id="encryptText" placeholder="Enter text to encrypt" />
+      <input type="text" class="form-control" id="encryptText" placeholder="Enter text to encrypt" aria-label="Enter text to encrypt" />
     </div>
     <div class="form-group">
-      <input type="password" class="form-control" id="encryptPassword" placeholder="Enter password (AES only)" />
+      <input type="password" class="form-control" id="encryptPassword" placeholder="Enter password (AES only)" aria-label="Enter password (AES only)" />
     </div>
     <div class="form-group">
-      <select class="form-control" id="encryptType">
+      <select class="form-control" id="encryptType" aria-label="Encryption format">
         <option value="base64">Base64</option>
       </select>
     </div>
@@ -163,19 +41,19 @@
       <button class="btn" onclick="encrypt()">Encrypt</button>
     </div>
     <div class="form-group" id="encryptResult" style="display: none;"></div>
-    <button class="back-button" onclick="goBack()">Back</button>
+    <button class="back-button" onclick="goBack()">&#8592; Back</button>
   </div>
 
   <div class="container" id="decrypt-container">
     <h1>Decrypt Text</h1>
     <div class="form-group">
-      <input type="text" class="form-control" id="decryptText" placeholder="Enter text to decrypt" />
+      <input type="text" class="form-control" id="decryptText" placeholder="Enter text to decrypt" aria-label="Enter text to decrypt" />
     </div>
     <div class="form-group">
-      <input type="password" class="form-control" id="decryptPassword" placeholder="Enter password (AES only)" />
+      <input type="password" class="form-control" id="decryptPassword" placeholder="Enter password (AES only)" aria-label="Enter password (AES only)" />
     </div>
     <div class="form-group">
-      <select class="form-control" id="decryptType">
+      <select class="form-control" id="decryptType" aria-label="Decryption format">
         <option value="base64">Base64</option>
       </select>
     </div>
@@ -183,7 +61,7 @@
       <button class="btn" onclick="decrypt()">Decrypt</button>
     </div>
     <div class="form-group" id="decryptResult" style="display: none;"></div>
-    <button class="back-button" onclick="goBack()">Back</button>
+    <button class="back-button" onclick="goBack()">&#8592; Back</button>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>

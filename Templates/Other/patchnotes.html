@@ -6,161 +6,33 @@
   <title>Patch Notes | MultiTools</title>
 
   <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg" />
-  <meta name="theme-color" content="#45a049" />
+  <meta name="theme-color" content="#121212" />
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
 
-    :root {
-      --bg-dark: #0a0a0a;
-      --green: #54d42c;
-      --text-light: #e0e0e0;
-      --muted: #aaa;
-      --card-bg: rgba(255, 255, 255, 0.08);
-      --border: rgba(255, 255, 255, 0.14);
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: 'Inter', sans-serif;
-      color: var(--text-light);
-      background: linear-gradient(180deg, #000000, #111, #0a0a0a);
-      display: flex;
-      justify-content: center;
-      padding: 2rem 1rem 5.5rem; /* extra bottom room for floating button */
-    }
-
-    .container {
-      width: 100%;
-      max-width: 900px;
-      background: radial-gradient(800px 300px at 20% 20%, rgba(84, 212, 44, 0.18), transparent 60%),
-                  radial-gradient(800px 300px at 80% 0%, rgba(0, 204, 102, 0.14), transparent 55%),
-                  rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.10);
-      border-radius: 18px;
-      padding: 1.75rem 1.25rem;
-      backdrop-filter: blur(10px);
-      box-shadow: 0px 18px 60px rgba(0, 0, 0, 0.35);
-    }
-
-    header {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-      padding-bottom: 1.1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.10);
-      margin-bottom: 1.2rem;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      font-weight: 800;
-      line-height: 1.1;
-      background: linear-gradient(90deg, #45a049, #00cc66);
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-
-    header p {
-      margin: 0;
-      color: #bdbdbd;
-      line-height: 1.45;
-      font-size: 1rem;
-      max-width: 70ch;
-    }
-
-    .version {
-      padding: 1rem 0;
-      border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
-    }
-    .version:last-child { border-bottom: none; }
-
-    h2 {
-      margin: 0 0 0.6rem;
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: white;
-      display: flex;
-      align-items: baseline;
-      gap: 0.6rem;
-    }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.2rem 0.55rem;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 800;
-      background: rgba(84, 212, 44, 0.18);
-      border: 1px solid rgba(84, 212, 44, 0.28);
-      color: var(--green);
-    }
-
-    ul {
-      margin: 0;
-      padding-left: 1.15rem;
-      color: #d8d8d8;
-      line-height: 1.55;
-    }
-    ul ul { margin-top: 0.5rem; }
-
-    li { margin: 0.25rem 0; }
-
-    a {
-      color: var(--green);
-      text-decoration: none;
-      font-weight: 700;
-    }
-    a:hover {
-      text-decoration: underline;
-      text-underline-offset: 4px;
-      filter: drop-shadow(0 0 8px rgba(84, 212, 44, 0.25));
-    }
-
-    .back-button {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      padding: 0.7rem 1rem;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(255, 255, 255, 0.08);
-      color: white;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .back-button:hover {
-      transform: translateY(-2px);
-      border-color: rgba(84, 212, 44, 0.55);
-      box-shadow: 0 0 10px rgba(84, 212, 44, 0.25);
-    }
-
-    .back-button.primary {
-      background: var(--green);
-      color: black;
-      border-color: rgba(84, 212, 44, 0.8);
-    }
-
-    @media (max-width: 520px) {
-      .container { padding: 1.25rem 1rem; }
-    }
-  </style>
+  <link rel="stylesheet" href="../../css/index.css" />
+  <link rel="stylesheet" href="../../css/pages.css" />
+  <link rel="stylesheet" href="../../css/footer.css" />
 </head>
 
-<body>
+<body class="tool-page document-page">
+
   <main class="container">
     <header>
       <h1>Patch Notes</h1>
       <p>What’s new, what changed, and what’s fixed in MultiTools.</p>
     </header>
+
+    <section class="version">
+      <h2>Version 1.14 <span class="tag">10/14/26</span></h2>
+      <ul>
+        <li>New UI</li>
+        <li>Fixed Bug where you were unable to export Qr-Codes on mobile</li>
+        <li>Fixed UI for mobile</li>
+        <li>Removed tools that are WIP from the Homepage</li>
+        <li>Unit Converter Tool completed</li>
+        <li>Bug Fixes</li>
+      </ul>
+    </section>
 
     <section class="version">
       <h2>Version 1.13 <span class="tag">5/4/26</span></h2>
@@ -254,7 +126,7 @@
         <li>TOS and Privacy Policy has been updated</li>
         <li>Some UI elements have been updated</li>
         <li>There is no longer text at the bottom of the home page saying searching for account</li>
-        <li>QR Code Generator got a major update — click <a href="https://www.themultitools.xyz/Tools/qr-code-gen.html">here</a> to go to the QR Code Generator</li>
+        <li>QR Code Generator got a major update — click <a href="../Generators/qr-code-gen.html">here</a> to go to the QR Code Generator</li>
       </ul>
     </section>
 
@@ -299,6 +171,7 @@
     </section>
   </main>
 
-  <button class="back-button primary" onclick="window.history.back()">Back</button>
+
+<button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
 </body>
 </html>

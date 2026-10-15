@@ -4,135 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Download</title>
-    <link rel="icon" type="image/x-icon" href="/MultiTools.jpg">
-    <meta name="theme-color" content="#45a049">
+    <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
+    <meta name="theme-color" content="#121212">
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
-    <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: Arial, Helvetica, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;    
-            height: auto;
-            margin: 1%;
-            margin-bottom: 1%;
-        }
 
-        html {
-            height: 100%;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            background-color: #1e1e1e;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            max-width: 600px;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 32px;
-            font-weight: bold;
-            color: #ffffff;
-            margin: 0;
-        }
-
-        p {
-            font-size: 18px;
-            color: #cccccc;
-            margin-bottom: 20px;
-        }
-
-        .download-btn {
-            padding: 10px 20px;
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .download-btn:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-        }
-        .back-button {
-            padding: 12px 20px;
-            border-radius: 8px;
-            border: none;
-            background-color: #4caf50;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            width: 120px;
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            transition: all 0.2s ease;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .back-button:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-        }
-
-        .instructions {
-            margin-top: 20px;
-            background-color: #2a2a2a;
-            padding: 20px;
-            border-radius: 12px;
-            color: #eeeeee;
-            font-size: 16px;
-            text-align: left;
-        }
-
-        .instructions h2 {
-            color: #ffffff;
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-
-        .instructions ul {
-            padding-left: 20px;
-        }
-
-        .instructions li {
-            margin-bottom: 10px;
-        }
-
-        .icon {
-            width: 16px;
-            height: 16px;
-            vertical-align: middle;
-            margin-right: 6px;
-        }
-    </style>
+  <link rel="stylesheet" href="../../css/index.css" />
+  <link rel="stylesheet" href="../../css/pages.css" />
+  <link rel="stylesheet" href="../../css/footer.css" />
 </head>
-<body>
+<body class="tool-page document-page">
+
     <div class="container">
         <h1>App Store</h1>
         <p>We are curently trying to get a Apple Developer account so we can publish the app to the App Store.</p>
@@ -162,12 +44,13 @@
         </div>
     </div>
 
-    <button class="back-button" onclick="window.history.back()">Back</button>
+
 
     <script>
         function downloadConfig() {
             window.location.href = 'The MultTools.mobileconfig';
         }
     </script>
+<button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
 </body>
 </html>

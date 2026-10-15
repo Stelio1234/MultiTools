@@ -5,123 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Upscaler</title>
-        <link rel="icon" type="image/x-icon" href="/MultiTools.jpg">
-    <meta name="theme-color" content="#45a049">
+        <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
+    <meta name="theme-color" content="#121212">
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
 
-    <style>
-        body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  background-color: #121212; /* optional background */
-  font-family: Arial, sans-serif; /* default font */
-}
- 
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            background-color: #1e1e1e;
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-        }
-
-        .preview {
-            max-width: 100%;
-            margin: 10px auto;
-            background-color: #2c2c2c;
-            padding: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
-            border-radius: 8px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-control {
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            background-color: #2c2c2c;
-            color: #ffffff;
-            width: 80%;
-            font-size: 16px;
-        }
-
-        .form-control:focus {
-            outline: none;
-            box-shadow: 0 0 4px 2px #4caf50;
-        }
-
-        .btn {
-            background-color: #4caf50;
-            border: none;
-            color: white;
-            padding: 12px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            margin: 5px;
-        }
-
-        .btn:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-        }
-
-        .back-button {
-            padding: 12px 20px;
-            border-radius: 8px;
-            border: none;
-            background-color: #4caf50;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            width: 120px;
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            margin-top: 20px;
-            transition: all 0.2s ease;
-        }
-
-        .back-button:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-        }
-
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #45a049;
-        }
-    </style>
+  <link rel="stylesheet" href="../../css/index.css" />
+  <link rel="stylesheet" href="../../css/pages.css" />
+  <link rel="stylesheet" href="../../css/footer.css" />
 </head>
 
-<body>
+<body class="tool-page upscale-page">
+
     <div class="container">
         <h1>Image Upscaler</h1>
 
         <div class="form-group">
-            <input type="file" class="form-control" id="image-upload" accept="image/*">
+            <input type="file" class="form-control" id="image-upload" accept="image/*" aria-label="Choose an image">
         </div>
 
         <div class="form-group">
-            <select id="scale" class="form-control">
+            <select id="scale" class="form-control" aria-label="Upscale factor">
                 <option value="2">2x Upscale</option>
                 <option value="4">4x Upscale</option>
             </select>
@@ -135,7 +40,7 @@
         <div class="preview" id="result"></div>
     </div>
 
-    <button class="back-button" onclick="window.history.back()">Back</button>
+
 
     <script>
         document.getElementById('upscale').addEventListener('click', () => {
@@ -183,6 +88,7 @@
             reader.readAsDataURL(file);
         });
     </script>
+<button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
 </body>
 
 </html>

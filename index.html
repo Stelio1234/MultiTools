@@ -5,510 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MultiTools</title>
   <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg" />
-  <meta name="theme-color" content="#45a049" />
+  <meta name="theme-color" content="#121212" />
   <link rel="manifest" href="manifest.json" />
   <meta name="description" content="Multi Tools is a free website offering many useful online tools like YouTube downloader, QR code generator, unit converter, and more – all in one place!" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <script type="module" src="/js/logger.js" defer></script>
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-    :root {
-      --bg-dark: #0a0a0a;
-      --green: #54d42c;
-      --text-light: #e0e0e0;
-      --card-bg: rgba(255, 255, 255, 0.08);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
-
-    * { box-sizing: border-box; }
-    html {
-      scroll-behavior: smooth;
-      height: 100%;
-      background: linear-gradient(180deg, #000000, #111, #0a0a0a) 
-    }
-
-    body {
-      background-color: linear-gradient(180deg, #000000, #111, #0a0a0a);
-      background: linear-gradient(180deg, #000000, #111, #0a0a0a);
-      color: var(--text-light);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      padding: 2rem 1rem;
-    }
-
-    /* ---------- HEADER ---------- */
-
-    header {
-      width: 100%;
-      max-width: 1200px;
-      margin-bottom: 2rem;
-    }
-
-    .header-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 1rem;
-    }
-
-    header h1 {
-      font-size: 2.5rem;
-      background: linear-gradient(90deg, #45a049, #00cc66);
-      -webkit-background-clip: text;
-      color: transparent;
-      font-weight: 700;
-    }
-
-    header p {
-      color: #aaa;
-      font-size: 1.1rem;
-      margin-top: 0.5rem;
-    }
-
-    .action-bar {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      padding: 0.55rem 0.7rem;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 14px;
-      backdrop-filter: blur(10px);
-      max-width: 560px;
-    }
-
-    /* Full username: no ellipsis, allow wrapping */
-    .welcome-text {
-      font-size: 0.9rem;
-      color: #ddd;
-      flex: 1 1 260px;
-      white-space: normal;
-      overflow: visible;
-      text-overflow: clip;
-      max-width: none;
-      line-height: 1.25;
-      word-break: break-word;
-    }
-
-    .login-btn,
-    .download-btn {
-      background: var(--green);
-      color: black;
-      border: none;
-      padding: 0.45rem 1rem;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 0.85rem;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .login-btn:hover,
-    .download-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 10px var(--green);
-    }
-
-    /* ---------- BASE CONTENT ---------- */
-
-    main {
-      width: 100%;
-      max-width: 1200px;
-    }
-
-    section {
-      width: 100%;
-      margin-bottom: 3rem;
-    }
-
-    section h2 {
-      color: var(--green);
-      margin-bottom: 1rem;
-      font-size: 1.5rem;
-    }
-
-    .tool-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.2rem;
-    }
-
-    .tool-card {
-      background: var(--card-bg);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 15px;
-      padding: 1.5rem;
-      backdrop-filter: blur(10px);
-      text-decoration: none;
-      color: inherit;
-      transform: translateY(20px);
-      opacity: 0;
-      transition: transform 0.6s ease, opacity 0.6s ease, border-color 0.3s ease;
-    }
-
-    .tool-card.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .tool-card:hover {
-      transform: scale(1.05);
-      border-color: var(--green);
-    }
-
-    .tool-card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 0.4rem;
-      color: white;
-    }
-
-    .tool-card p {
-      color: #aaa;
-      font-size: 0.9rem;
-      line-height: 1.35;
-    }
-
-    .badge {
-      background: var(--green);
-      color: black;
-      font-size: 0.8rem;
-      padding: 2px 8px;
-      border-radius: 8px;
-      margin-left: 8px;
-      font-weight: 600;
-    }
-
-    .muted { color: #aaa; }
-
-    /* ---------- LANDING ---------- */
-
-    .hero {
-      background: radial-gradient(800px 300px at 20% 20%, rgba(84, 212, 44, 0.18), transparent 60%),
-                  radial-gradient(800px 300px at 80% 0%, rgba(0, 204, 102, 0.14), transparent 55%);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 18px;
-      padding: 2rem;
-      backdrop-filter: blur(10px);
-    }
-
-    .hero-inner {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 1.6rem;
-      align-items: start;
-    }
-
-    .hero h2 {
-      color: white;
-      font-size: 2.1rem;
-      margin-bottom: 0.75rem;
-      line-height: 1.15;
-    }
-
-    .hero .subhead {
-      color: #bdbdbd;
-      font-size: 1.05rem;
-      line-height: 1.45;
-      margin-bottom: 1.25rem;
-      max-width: 56ch;
-    }
-
-    .cta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.7rem;
-      margin-top: 0.75rem;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0.6rem 1rem;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(255, 255, 255, 0.08);
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      border-color: rgba(84, 212, 44, 0.55);
-      box-shadow: 0 0 10px rgba(84, 212, 44, 0.25);
-    }
-
-    .btn-primary {
-      background: var(--green);
-      color: black;
-      border-color: rgba(84, 212, 44, 0.8);
-    }
-
-    .btn-primary:hover {
-      box-shadow: 0 0 12px rgba(84, 212, 44, 0.45);
-    }
-
-    .panel {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.10);
-      border-radius: 16px;
-      padding: 1.2rem;
-      backdrop-filter: blur(10px);
-    }
-
-    .panel h3 {
-      font-size: 1.05rem;
-      color: white;
-      margin-bottom: 0.75rem;
-    }
-
-    .panel .tool-grid { grid-template-columns: 1fr; }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.1rem;
-    }
-
-    .stat-card {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.10);
-      border-radius: 16px;
-      padding: 1.25rem;
-      backdrop-filter: blur(10px);
-    }
-
-    .stat-number {
-      font-size: 1.7rem;
-      font-weight: 800;
-      color: white;
-      margin-bottom: 0.25rem;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.1rem;
-    }
-
-    .feature-card {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.10);
-      border-radius: 16px;
-      padding: 1.25rem;
-      backdrop-filter: blur(10px);
-    }
-
-    .feature-card h3 {
-      color: white;
-      font-size: 1.05rem;
-      margin-bottom: 0.4rem;
-    }
-
-    /* ---------- CONTROLS (Search + Better Dropdown) ---------- */
-
-    .controls {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 0.9rem;
-      margin: 1rem 0 1.3rem;
-      align-items: center;
-    }
-
-    .controls label {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      white-space: nowrap;
-      border: 0;
-    }
-
-    .controls input {
-      width: 100%;
-      padding: 0.85rem 1rem;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(255, 255, 255, 0.06);
-      color: white;
-      outline: none;
-      backdrop-filter: blur(10px);
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .controls input::placeholder { color: rgba(255, 255, 255, 0.45); }
-
-    .controls input:focus-visible {
-      border-color: rgba(84, 212, 44, 0.65);
-      box-shadow: 0 0 0 3px rgba(84, 212, 44, 0.18);
-    }
-
-    .select-wrap {
-      position: relative;
-    }
-
-    .select-wrap select {
-      width: 100%;
-      padding: 0.85rem 3rem 0.85rem 1rem;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(255, 255, 255, 0.06);
-      color: white;
-      outline: none;
-      backdrop-filter: blur(10px);
-      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      cursor: pointer;
-    }
-
-    .select-wrap select:hover {
-      transform: translateY(-1px);
-      border-color: rgba(84, 212, 44, 0.45);
-    }
-
-    .select-wrap select:focus-visible {
-      border-color: rgba(84, 212, 44, 0.65);
-      box-shadow: 0 0 0 3px rgba(84, 212, 44, 0.18);
-    }
-
-    .select-wrap::after {
-      content: "";
-      position: absolute;
-      right: 1rem;
-      top: 50%;
-      width: 14px;
-      height: 14px;
-      transform: translateY(-50%);
-      pointer-events: none;
-      opacity: 0.9;
-      background-repeat: no-repeat;
-      background-size: 14px 14px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23e0e0e0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-    }
-
-    select option {
-      background: #0b0b0b;
-      color: #fff;
-    }
-
-    .empty-state {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px dashed rgba(255, 255, 255, 0.18);
-      border-radius: 16px;
-      padding: 1.4rem;
-      color: #bdbdbd;
-    }
-
-    /* ---------- FOOTER ---------- */
-
-    footer {
-      margin-top: 20px;
-
-      text-align: center;
-      width: 100%;
-      max-width: 1200px;
-    }
-
-    footer .grid {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1.4rem;
-      margin-bottom: 1rem;
-    }
-
-    footer .grid a {
-      color: #ccc;
-      transition: transform 0.25s ease, color 0.25s ease, filter 0.25s ease;
-      
-    }
-
-    footer .grid a:hover {
-      transform: scale(1.25);
-      color: var(--green);
-      filter: drop-shadow(0 0 8px var(--green));
-    }
-
-    /* ---------- MOBILE ---------- */
-
-    @media (max-width: 900px) {
-      .hero-inner { grid-template-columns: 1fr; }
-      .stats-grid { grid-template-columns: 1fr; }
-      .features-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 760px) {
-      .controls { grid-template-columns: 1fr; }
-      .action-bar { max-width: 100%; }
-    }
-
-    @media (max-width: 600px) {
-      .header-inner {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
-
-      .action-bar { margin-top: 1rem; }
-
-      header h1 { font-size: 2rem; }
-
-      .tool-grid { grid-template-columns: 1fr; }
-    }
-
-    .Announcements-feed {
-      margin-top: 3%;
-    }
-
-
-
-
-  .status-wrapper{
-    display:inline-flex;
-    border-radius:4px;
-    overflow:hidden;
-  }
-
-.status-label{
-    background:#5f5f5f;
-    color:white;
-    padding:4px 10px;
-    font-size:14px;
-    font-weight:600;
-}
-
-.status-value{
-    color:white;
-    padding:4px 10px;
-    font-size:14px;
-    font-weight:600;
-    transition:0.2s;
-}
-  </style>
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/footer.css" />
 </head>
 
-<body>
+<body class="dashboard-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
   <header>
     <div class="header-inner">
       <div>
@@ -523,7 +33,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="main-content" tabindex="-1">
     <section class="hero" id="top">
       <div class="hero-inner">
         <div>
@@ -538,13 +48,13 @@
 
           <div class="Announcements-feed">
             <h2>Announcements</h2>
-          <p class="subhead" style="margin-bottom: .5%;">
-            MultiTools went offline due to a security issue with firebase authentication. I have fixed the issue and MultiTools is now back online. There was no issue user data.
+          <p class="subhead">
+            After four months, I am back and continuing development on MultiTools. Due to personal reasons, I had to take a break from development. Within the next couple of months, I plan to update the site, adding more tools and features. Also, due to my lack of server hardware, the TikTok and YouTube downloaders will not be available for a while. In the future, I plan to begin development on a new project that will be part of MultiTools, so stay tuned
           </p>
-          <p style="margin-top: .2%;">5/4/26</p>
+          <p class="announcement-date"><time datetime="2026-05-04">10/14/26</time></p>
           </div>
 
-          <p class="muted" style="margin-top: 0.9rem; font-size: 0.95rem;">
+          <p class="hero-tip">
             Tip: Search tools instantly below.
           </p>
         </div>
@@ -572,33 +82,33 @@
       <div id="tools-container"></div>
     </section>
   </main>
+  <footer>
   <div class="status-wrapper">
     <div class="status-label">Site Status</div>
-    <a style="text-decoration: none;" href="https://status.themultitools.xyz" class="status-value" id="status-text">
+    <a href="https://status.themultitools.xyz" class="status-value" id="status-text">
         loading...
     </a>
   </div>
-  <footer>
     <div class="grid">
-      <a href="https://discord.gg/ESWhAhR5Pp" target="_blank" rel="noopener" aria-label="Discord" style="font-size: 25px; background: none; color: #ffffff; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 8px; text-decoration: none;">
+      <a href="https://discord.gg/ESWhAhR5Pp" target="_blank" rel="noopener" aria-label="Discord">
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 16 16">
           <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"/>
         </svg>
       </a>
 
-      <a href="https://github.com/Stelio1234/MultiTools" target="_blank" rel="noopener" aria-label="GitHub" style="font-size: 25px; background: none; color: #ffffff; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 8px; text-decoration: none;">
+      <a href="https://github.com/Stelio1234/MultiTools" target="_blank" rel="noopener" aria-label="GitHub">
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 16 16">
           <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38v-1.33c-2.23.49-2.69-1.07-2.69-1.07-.36-.91-.88-1.15-.88-1.15-.72-.49.06-.48.06-.48.8.06 1.22.83 1.22.83.71 1.21 1.86.86 2.31.66.07-.52.28-.86.51-1.06-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82a7.7 7.7 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8z"/>
         </svg>
       </a>
 
-      <a href="https://instagram.com/the.multitools" target="_blank" rel="noopener" aria-label="Instagram" style="font-size: 25px; background: none; color: #ffffff; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 8px; text-decoration: none;">
+      <a href="https://instagram.com/the.multitools" target="_blank" rel="noopener" aria-label="Instagram">
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 448 512">
           <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9S160.5 370.8 224.1 370.8 339 319.5 339 255.9 287.7 141 224.1 141zm0 186.6c-39.5 0-71.6-32.1-71.6-71.6s32.1-71.6 71.6-71.6 71.6 32.1 71.6 71.6-32.1 71.6-71.6 71.6zm146.4-194.3c0 14.9-12.1 27-27 27-14.9 0-27-12.1-27-27s12.1-27 27-27 27 12.1 27 27zm76.1 27.2c-.9-19.6-5.2-37-17.1-53.1-12-16.3-27.9-28.3-47.5-37.2C358.6 10.2 299.8 0 224.1 0 148.3 0 89.5 10.2 66 70.2c-19.6 8.9-35.5 20.9-47.5 37.2C6.2 123.2 1.9 140.6 1 160.2.3 180.8 0 198.6 0 256s.3 75.2 1 95.8c.9 19.6 5.2 37 17.1 53.1 12 16.3 27.9 28.3 47.5 37.2 23.5 60 82.3 70.2 158.1 70.2s134.6-10.2 158.1-70.2c19.6-8.9 35.5-20.9 47.5-37.2 11.9-16.1 16.2-33.5 17.1-53.1.7-20.6 1-38.4 1-95.8s-.3-75.2-1-95.8zm-48.3 232.1c-7.8 19.5-22.9 34.6-42.4 42.4-29.4 11.8-99.1 9.1-132.1 9.1s-102.7 2.6-132.1-9.1c-19.5-7.8-34.6-22.9-42.4-42.4-11.8-29.4-9.1-99.1-9.1-132.1s-2.6-102.7 9.1-132.1c7.8-19.5 22.9-34.6 42.4-42.4 29.4-11.8 99.1-9.1 132.1-9.1s102.7-2.6 132.1 9.1c19.5 7.8 34.6 22.9 42.4 42.4 11.8 29.4 9.1 99.1 9.1 132.1s2.7 102.7-9.1 132.1z"/>
         </svg>
       </a>
 
-      <a href="https://www.tiktok.com/@multitoolss" target="_blank" rel="noopener" aria-label="TikTok" style="font-size: 25px; background: none; color: #ffffff; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 8px; text-decoration: none;">
+      <a href="https://www.tiktok.com/@multitoolss" target="_blank" rel="noopener" aria-label="TikTok">
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 448 512">
           <path d="M412.19,118.66a109.27,109.27,0,0,1-9.45-5.5,132.87,132.87,0,0,1-24.27-20.62c-18.1-20.71-24.86-41.72-27.35-56.43h.1C349.14,23.9,350,16,350.13,16H267.69V334.78c0,4.28,0,8.51-.18,12.69,0,.52-.05,1-.08,1.56,0,.23,0,.47-.05.71,0,.06,0,.12,0,.18a70,70,0,0,1-35.22,55.56,68.8,68.8,0,0,1-34.11,9c-38.41,0-69.54-31.32-69.54-70s31.13-70,69.54-70a68.9,68.9,0,0,1,21.41,3.39l.1-83.94a153.14,153.14,0,0,0-118,34.52,161.79,161.79,0,0,0-35.3,43.53c-3.48,6-16.61,30.11-18.2,69.24-1,22.21,5.67,45.22,8.85,54.73v.2c2,5.6,9.75,24.71,22.38,40.82A167.53,167.53,0,0,0,115,470.66v-.2l.2.2C155.11,497.78,199.36,496,199.36,496c7.66-.31,33.32,0,62.46-13.81,32.32-15.31,50.72-38.12,50.72-38.12a158.46,158.46,0,0,0,27.64-45.93c7.46-19.61,9.95-43.13,9.95-52.53V176.49c1,.6,14.32,9.41,14.32,9.41s19.19,12.3,49.13,20.31c21.48,5.7,50.42,6.9,50.42,6.9V131.27C453.86,132.37,433.27,129.17,412.19,118.66Z"/>
         </svg>
@@ -622,24 +132,7 @@ async function loadStatus() {
 
     badge.textContent = description.toLowerCase();
 
-    switch(indicator){
-
-        case "none":
-            badge.style.background = "#28a745"; // green
-            break;
-
-        case "minor":
-            badge.style.background = "#e6b400"; // yellow
-            break;
-
-        case "major":
-        case "critical":
-            badge.style.background = "#dc3545"; // red
-            break;
-
-        default:
-            badge.style.background = "#6c757d"; // gray
-    }
+    badge.dataset.status = indicator;
 }
 
 loadStatus();
@@ -696,23 +189,23 @@ loadStatus();
       {
         title: "Common Tools",
         tools: [
-          { name: "Timer", link: "Templates/TimeTools/timer.html", badge: "New", desc: "Set a countdown for tasks" },
-          { name: "Unit Converter", link: "Templates/CommonTools/UnitConverter.html", badge: "WIP", desc: "Convert between units easily" },
+          { name: "Timer", link: "Templates/TimeTools/timer.html", desc: "Set a countdown for tasks" },
+          { name: "Unit Converter", link: "Templates/CommonTools/UnitConverter.html", desc: "Convert units ( Kinda self explanatory lol )" },
         ],
       },
       {
         title: "Calculators",
         tools: [
-          { name: "Tip Calculator", link: "Templates/Calculators/tipcalculator.html", badge: "New", desc: "Calculate tips instantly" },
+          { name: "Tip Calculator", link: "Templates/Calculators/tipcalculator.html", desc: "Calculate tips instantly" },
           
         ],
       },
       {
         title: "Dev Tools",
         tools: [
-          { name: "Text Encrypter", link: "Templates/DevTools/encrypted.html", badge: "WIP", desc: "Encrypt and decrypt text" },
+          { name: "Text Encrypter", link: "Templates/DevTools/encrypted.html", badge: "NEW", desc: "Encrypt and decrypt text" },
           { name: "WebClip Generator", link: "Templates/DevTools/WebClip.html", desc: "Generate webpage previews" },
-          { name: "IPA Installer", link: "Templates/DevTools/ipainstaller.html", badge: "WIP", desc: "Install IPA files on your device" },
+          //{ name: "IPA Installer", link: "Templates/DevTools/ipaintaller.html", badge: "WIP", desc: "Install IPA files on your device" },
         ],
       },
       {
@@ -720,7 +213,7 @@ loadStatus();
         tools: [
           { name: "Gamertag Generator", link: "Templates/Generators/gamertag-gen.html", desc: "Generate cool gamertags" },
           { name: "QR Code Generator", link: "Templates/Generators/qr-code-gen.html", desc: "Generate QR Codes" },
-          { name: "Password Generator", link: "Templates/Generators/password-gen.html", desc: "Create strong passwords" },
+          { name: "Password Generator", link: "Templates/Generators/password-gen.html", desc: "Create passwords" },
           { name: "UUID Generator", link: "Templates/Generators/uuid-generator.html", desc: "Generate UUIDs" },
           { name: "No as a service", link: "Templates/Generators/Naas.html", desc: "An API that returns random rejection reasons"}
         ],
@@ -808,7 +301,7 @@ loadStatus();
       a.innerHTML = `
         <h3>${escapeHtml(tool.name)}${tool.badge ? `<span class="badge">${escapeHtml(tool.badge)}</span>` : ""}</h3>
         ${tool.desc ? `<p>${escapeHtml(tool.desc)}</p>` : ""}
-        ${tool.category ? `<p class="muted" style="margin-top:0.6rem;font-size:0.85rem;">${escapeHtml(tool.category)}</p>` : ""}
+        ${tool.category ? `<p class="muted tool-meta">${escapeHtml(tool.category)}</p>` : ""}
       `;
 
       a.addEventListener("click", (e) => logThenNavigate(tool, tool.link, e));
@@ -889,20 +382,6 @@ loadStatus();
         container.appendChild(empty);
       }
 
-      observeCards();
-    }
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-
-    function observeCards() {
-      document.querySelectorAll(".tool-card:not(.visible)").forEach(card => observer.observe(card));
     }
 
     function wireControls() {
@@ -974,9 +453,7 @@ loadStatus();
           );
 
           const meta = document.createElement("p");
-          meta.className = "muted";
-          meta.style.marginTop = "0.6rem";
-          meta.style.fontSize = "0.85rem";
+          meta.className = "muted tool-meta";
           meta.textContent = `${item.count} opens`;
 
           card.appendChild(meta);
@@ -1000,14 +477,12 @@ loadStatus();
         }
       }
 
-      observeCards();
     }
 
     window.addEventListener("load", () => {
       renderCategoryFilter();
       wireControls();
       renderPopular().catch(() => {});
-      observeCards();
     });
   </script>
   <script src="https://multitools.statuspage.io/embed/script.js"></script>

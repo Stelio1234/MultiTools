@@ -5,187 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>QR Code Generator</title>
 <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg" />
-<meta name="theme-color" content="#45a049" />
+<meta name="theme-color" content="#121212" />
 <link rel="manifest" href="/manifest.json" />
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
 <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
 
-<style>
-:root {
-  --primary: #45a049;
-  --secondary: #24272b;
-  --accent: #222325;
-  --glass: rgba(36, 39, 43, 0.7);
-  --hover: #38a049;
-  --text-light: #fff;
-  --text-dark: #111;
-  --radius: 13px;
-  --soft-shadow: 0 5px 21px rgba(0,0,0,0.14);
-}
 
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: linear-gradient(135deg, #202622 0%, #272e21 100%);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 0;
-}
-
-.main-container {
-  display: flex;
-  flex-direction: column;
-  border-radius: var(--radius);
-  box-shadow: var(--soft-shadow);
-  width: 90%;
-  max-width: 1000px;
-  background: var(--accent);
-  backdrop-filter: blur(5px);
-  overflow: hidden;
-}
-
-.header {
-  background: var(--primary);
-  padding: 19px 0 16px 0;
-  text-align: center;
-  font-size: 1.5rem;
-  color: var(--text-light);
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 11px;
-  letter-spacing: 0.5px;
-  border-bottom-left-radius: var(--radius);
-  border-bottom-right-radius: var(--radius);
-  box-shadow: 0 2px 8px rgba(69,160,73,0.11);
-}
-
-.container {
-  display: flex;
-  padding: 25px;
-  gap: 25px;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-.controls {
-  flex: 1;
-  background: var(--glass);
-  border-radius: var(--radius);
-  padding: 20px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  box-shadow: var(--soft-shadow);
-  max-width: 450px;
-}
-
-.settings-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.controls label {
-  color: var(--text-light);
-  font-size: 0.7rem;
-  margin-bottom: 6px;
-  letter-spacing: 0.2px;
-  font-weight: 500;
-}
-
-.controls input, .controls select {
-  padding: 8px;
-  border-radius: 7px;
-  border: none;
-  background: rgba(255,255,255,0.13);
-  color: var(--text-light);
-  font-size: 0.75rem;
-  transition: background 0.2s;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.button-group {
-  grid-column: span 2;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 10px;
-}
-
-.controls button {
-  padding: 12px;
-  border-radius: 7px;
-  border: none;
-  background: var(--primary);
-  color: var(--text-light);
-  font-weight: bold;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.controls button:hover {
-  background: var(--hover);
-  transform: translateY(-1px);
-}
-
-.controls .color-input {
-  height: 35px;
-  cursor: pointer;
-}
-
-/* Center and scale the QR Preview */
-.preview {
-  flex: 1;
-  background: var(--glass);
-  padding: 40px;
-  border-radius: var(--radius);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--soft-shadow);
-  min-height: 400px;
-  position: sticky;
-  top: 20px;
-}
-
-#qr-code {
-  background: white;
-  padding: 20px;
-  border-radius: var(--radius);
-  transition: transform 0.3s ease;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-canvas {
-  max-width: 100% !important;
-  height: auto !important;
-}
-
-@media (max-width: 900px) {
-  .container { flex-direction: column; align-items: center; }
-  .controls, .preview { width: 100%; max-width: 100%; }
-  .preview { min-height: auto; position: static; }
-  .main-container { width: 95vw; }
-}
-</style>
+  <link rel="stylesheet" href="../../css/index.css" />
+  <link rel="stylesheet" href="../../css/pages.css" />
+  <link rel="stylesheet" href="../../css/footer.css" />
 </head>
-<body>
-<div class="main-container">
-  <div class="header"><i class="fas fa-qrcode"></i>QR Code Generator</div>
+<body class="workspace-page split-workspace qr-page">
+
+<main class="main-container">
+  <div class="qr-heading">
+  </div>
   <div class="container">
     <div class="controls">
-      
-      <div class="settings-group" style="grid-column: span 2;">
+      <h1 class="title">QR Code Generator</h1>
+
+      <div class="settings-group full-span">
         <label for="Qr-Type">QR Code Type</label>
         <select id="Qr-Type">
           <option value="text">URL or PlainText</option>
@@ -195,17 +35,17 @@ canvas {
         </select>
       </div>
 
-      <div id="text-group" class="settings-group" style="grid-column: span 2;">
+      <div id="text-group" class="settings-group full-span">
         <label for="content">Content</label>
         <input type="text" id="content" placeholder="Enter URL or Text">
       </div>
 
-      <div id="wifi-group" class="settings-group" style="display: none; grid-column: span 2;">
-        <label>SSID</label>
+      <div id="wifi-group" class="settings-group full-span" style="display: none;">
+        <label for="wifi-ssid">SSID</label>
         <input type="text" id="wifi-ssid" placeholder="WiFi Name">
-        <label>Password</label>
+        <label for="wifi-pass">Password</label>
         <input type="password" id="wifi-pass" placeholder="Password">
-        <label>Encryption</label>
+        <label for="wifi-type">Encryption</label>
         <select id="wifi-type">
           <option value="WPA">WPA/WPA2</option>
           <option value="WEP">WEP</option>
@@ -213,16 +53,17 @@ canvas {
         </select>
       </div>
 
-      <div id="phone-group" class="settings-group" style="display: none; grid-column: span 2;">
-        <label>Phone Number</label>
+      <div id="phone-group" class="settings-group full-span" style="display: none;">
+        <label for="phone-num">Phone Number</label>
         <input type="tel" id="phone-num" placeholder="+1234567890">
       </div>
 
-      <div id="email-group" class="settings-group" style="display: none; grid-column: span 2;">
-        <label>Email Address</label>
+      <div id="email-group" class="settings-group full-span" style="display: none;">
+        <label for="email-addr">Email Address</label>
         <input type="email" id="email-addr" placeholder="example@mail.com">
       </div>
 
+      <h2 class="qr-section-title qr-section-divider full-span">Export settings</h2>
       <div class="settings-group">
         <label for="qrcode-name">File Name</label>
         <input type="text" id="qrcode-name" placeholder="My QR Code">
@@ -239,11 +80,12 @@ canvas {
         </select>
       </div>
 
-      <div id="manual-size-group" class="settings-group" style="display:none; grid-column: span 2;">
+      <div id="manual-size-group" class="settings-group full-span" style="display:none;">
         <label for="qr-size">Manual Width/Height (px)</label>
         <input type="number" id="qr-size" value="300" min="50" max="2000">
       </div>
 
+      <h2 class="qr-section-title qr-section-divider full-span">Appearance</h2>
       <div class="settings-group">
         <label for="shape">Dot Shape</label>
         <select id="shape">
@@ -264,44 +106,46 @@ canvas {
       </div>
 
       <div class="settings-group">
-        <label>Color From</label>
+        <label for="gradient-from">Color From</label>
         <input type="color" id="gradient-from" class="color-input" value="#000000">
       </div>
 
       <div class="settings-group">
-        <label>Color To</label>
+        <label for="gradient-to">Color To</label>
         <input type="color" id="gradient-to" class="color-input" value="#45a049">
       </div>
 
       <div class="settings-group">
-        <label>Background</label>
+        <label for="bg-color">Background</label>
         <input type="color" id="bg-color" class="color-input" value="#ffffff">
       </div>
 
-      <div class="settings-group">
-        <label>Transparent</label>
+      <div class="settings-group qr-checkbox-field">
+        <label for="transparent-bg">Transparent</label>
         <input type="checkbox" id="transparent-bg">
       </div>
 
-      <div class="settings-group" style="grid-column: span 2;">
+      <div class="settings-group full-span">
         <label for="logo">Logo Overlay</label>
         <input type="file" id="logo" accept="image/*">
       </div>
 
       <div class="button-group">
-        <button id="gradient-toggle-btn">Use Gradient: On</button>
-        <button id="download">Download PNG</button>
-        <button id="reset" style="background: #555;">Reset All</button>
-        <button class="back-button" onclick="window.history.back()" style="background: #333;">Back</button>
+        <button class="btn-secondary" id="gradient-toggle-btn">Use Gradient: On</button>
+
+        <button class="btn-secondary" id="reset" data-secondary-action="true">Reset All</button>
+
       </div>
 
     </div>
 
-    <div class="preview">
-      <div id="qr-code"></div>
-    </div>
+    <section class="preview" aria-labelledby="qr-preview-title">
+      <h2 id="qr-preview-title">Preview</h2>
+      <div class="qr-preview-stage"><div id="qr-code"></div></div>
+      <button class="btn-primary" id="download" type="button">Download PNG</button>
+    </section>
   </div>
-</div>
+</main>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
@@ -361,7 +205,7 @@ canvas {
         };
 
         if (useGradient) {
-           
+
             dotsOptions.gradient = {
                 type: $('#gradient-type').val(),
                 rotation: 0,
@@ -435,5 +279,6 @@ canvas {
     });
 </script>
 </script>
+<button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
 </body>
 </html>

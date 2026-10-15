@@ -4,78 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Purchace Optios</title>
-        <link rel="icon" type="image/x-icon" href="/MultiTools.jpg">
-    <meta name="theme-color" content="#45a049">
+        <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
+    <meta name="theme-color" content="#121212">
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
+  <link rel="stylesheet" href="../../css/index.css" />
+  <link rel="stylesheet" href="../../css/pages.css" />
+  <link rel="stylesheet" href="../../css/footer.css" />
 </head>
-<style> 
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: Arial, Helvetica, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;    
-            height: 100vh;
-            height: auto;
-            margin: 1%;
-            margin-bottom: 1%;
-            overflow: scroll;
-        }
-        html {
-            height: 100%;
-        }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            background-color: #1e1e1e;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            max-width: 800px;
-            text-align: center;
-        }
-        .grid-item button {
-            width: 100%;
-            padding: 15px;
-            border-radius: 8px;
-            background-color: #4caf50;
-            border: none;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
+<body class="tool-page subscriptions-page">
 
-        .grid-item button:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-        }
-
-        /* Grid layout for buttons */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 2 columns */
-            gap: 15px; /* Spacing between buttons */
-            justify-content: center;
-            align-items: center;
-        }
-        li {
-            text-align: left;
-            list-style: circle;
-            gap: 10px;
-        }
-        ul {
-            text-align: left;
-            gap: 10px;
-        }
-</style>
-<body>
     <div class="container">
         <div class="grid-container">
             <div class="grid-item">
@@ -86,7 +25,7 @@
                     <li></li>
                     <li></li>
                     <li></li>
-                    <li></li> 
+                    <li></li>
                 </ul>
             </div>
             <ul>
@@ -119,5 +58,6 @@
 
 </script>
 
+<button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
 </body>
 </html>

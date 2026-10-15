@@ -1,7 +1,23 @@
-footer {
-    width: 100%;
-    background-color: #1e1e1e;
-    height: 20px;
-    position: relative;
-    
+
+footer, .footer { color: var(--text-secondary); border-color: var(--border); }
+footer a, .footer a { color: var(--text-secondary); text-underline-offset: .2em; }
+footer a:hover, .footer a:hover { color: var(--text); filter: none; box-shadow: none; }
+footer a:focus-visible, .footer a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+@scope (:root:has(.dashboard-page)) {
+
+footer { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; padding-block: var(--space-5); border-top: 1px solid var(--border); }
+.status-wrapper { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2); font-size: var(--font-small); }
+.status-label { color: var(--text-secondary); }
+.status-value { color: var(--text-secondary); overflow-wrap: anywhere; }
+.status-value[data-status="none"] { color: var(--accent); }
+.status-value[data-status="minor"] { color: var(--status-warning); }
+.status-value:is([data-status="major"], [data-status="critical"]) { color: var(--status-error); }
+footer .grid { display: flex; gap: var(--space-1); flex-wrap: wrap; }
+footer .grid a { display: inline-flex; align-items: center; justify-content: center; width: var(--control-height); height: var(--control-height); border-radius: var(--radius); color: var(--text-secondary); transition: color var(--transition), background-color var(--transition); }
+footer .grid a:hover { color: var(--text); background: var(--surface-hover); }
+footer svg { width: 20px; height: 20px; }
+
+
+@media (max-width: 460px) { footer { gap: var(--space-3); } }
 }

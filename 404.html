@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex" />
-  <meta name="theme-color" content="#45a049" />
+  <meta name="theme-color" content="#121212" />
   <title>404 — Page Not Found | MultiTools</title>
 
   <!--
@@ -35,276 +35,14 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
 
-    :root {
-      --bg-dark: #0a0a0a;
-      --green: #54d42c;
-      --text-light: #e0e0e0;
-      --card-bg: rgba(255, 255, 255, 0.08);
-      --border: rgba(255, 255, 255, 0.14);
-      --muted: #aaa;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: linear-gradient(180deg, #000000, #111, #0a0a0a);
-      color: var(--text-light);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      padding: 2rem 1rem;
-    }
-
-    header, main, footer { width: 100%; max-width: 1200px; }
-    header { margin-bottom: 2rem; }
-
-    .header-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 1rem;
-    }
-
-    header h1 {
-      font-size: 2.5rem;
-      background: linear-gradient(90deg, #45a049, #00cc66);
-      -webkit-background-clip: text;
-      color: transparent;
-      font-weight: 700;
-    }
-
-    header p { color: var(--muted); font-size: 1.1rem; margin-top: 0.5rem; }
-
-    .action-bar {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      padding: 0.55rem 0.7rem;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 14px;
-      backdrop-filter: blur(10px);
-      max-width: 560px;
-    }
-
-    .welcome-text {
-      font-size: 0.9rem;
-      color: #ddd;
-      flex: 1 1 260px;
-      white-space: normal;
-      word-break: break-word;
-      line-height: 1.25;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0.6rem 1rem;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(255, 255, 255, 0.08);
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      border-color: rgba(84, 212, 44, 0.55);
-      box-shadow: 0 0 10px rgba(84, 212, 44, 0.25);
-      text-decoration: none;
-    }
-
-    .btn-primary {
-      background: var(--green);
-      color: black;
-      border-color: rgba(84, 212, 44, 0.8);
-    }
-
-    .btn-primary:hover { box-shadow: 0 0 12px rgba(84, 212, 44, 0.45); }
-
-    .hero {
-      background: radial-gradient(800px 300px at 20% 20%, rgba(84, 212, 44, 0.18), transparent 60%),
-                  radial-gradient(800px 300px at 80% 0%, rgba(0, 204, 102, 0.14), transparent 55%);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 18px;
-      padding: 2rem;
-      backdrop-filter: blur(10px);
-    }
-
-    .hero-inner {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 1.6rem;
-      align-items: start;
-    }
-
-    .hero h2 {
-      color: white;
-      font-size: 2.1rem;
-      margin-bottom: 0.75rem;
-      line-height: 1.15;
-    }
-
-    .subhead {
-      color: #bdbdbd;
-      font-size: 1.05rem;
-      line-height: 1.45;
-      margin-bottom: 1.15rem;
-      max-width: 60ch;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: black;
-      background: var(--green);
-      padding: 0.25rem 0.55rem;
-      border-radius: 10px;
-      margin-left: 0.6rem;
-      vertical-align: middle;
-    }
-
-    .urlbox {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 14px;
-      padding: 0.9rem;
-      margin-top: 0.9rem;
-      overflow: auto;
-    }
-
-    .urlbox code {
-      display: block;
-      color: #e8e8e8;
-      font-size: 0.92rem;
-      line-height: 1.35;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    }
-
-    .cta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.7rem;
-      margin-top: 0.75rem;
-    }
-
-    .panel {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.10);
-      border-radius: 16px;
-      padding: 1.2rem;
-      backdrop-filter: blur(10px);
-    }
-
-    .panel h3 {
-      font-size: 1.05rem;
-      color: white;
-      margin-bottom: 0.75rem;
-    }
-
-    .tool-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-
-    .tool-card {
-      background: var(--card-bg);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 15px;
-      padding: 1.2rem;
-      text-decoration: none;
-      color: inherit;
-      transition: transform 0.25s ease, border-color 0.25s ease;
-    }
-
-    .tool-card:hover {
-      transform: scale(1.03);
-      border-color: var(--green);
-      text-decoration: none;
-    }
-
-    .tool-card h4 { font-size: 1.05rem; margin-bottom: 0.35rem; color: white; }
-    .tool-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.35; }
-
-    footer {
-      margin-top: auto;
-      padding: 2.5rem 0 1.5rem;
-      text-align: center;
-    }
-
-    footer .grid {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1.4rem;
-      margin-bottom: 1rem;
-    }
-
-    footer .grid a {
-      color: #ccc;
-      transition: transform 0.25s ease, color 0.25s ease, filter 0.25s ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 8px;
-      text-decoration: none;
-    }
-
-    footer .grid a:hover {
-      transform: scale(1.25);
-      color: var(--green);
-      filter: drop-shadow(0 0 8px var(--green));
-    }
-
-    .muted { color: var(--muted); }
-
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 18px;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      color: white;
-      padding: 10px 12px;
-      border-radius: 12px;
-      font-size: 0.9rem;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 180ms ease, transform 180ms ease;
-    }
-
-    .toast.show { opacity: 1; transform: translateX(-50%) translateY(-2px); }
-
-    @media (max-width: 900px) {
-      .hero-inner { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 600px) {
-      .header-inner { flex-direction: column; align-items: center; text-align: center; }
-      header h1 { font-size: 2rem; }
-      .action-bar { max-width: 100%; margin-top: 1rem; }
-    }
-  </style>
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/footer.css" />
 </head>
 
-<body>
+<body class="dashboard-page error-page">
   <header>
     <div class="header-inner">
       <div>
@@ -315,7 +53,7 @@
       <div class="action-bar">
         <span class="welcome-text">Oops — that page doesn’t exist.</span>
         <a class="btn btn-primary" href="./index.html">Home</a>
-        <button class="btn" id="back-btn" type="button">Go back</button>
+
       </div>
     </div>
   </header>
@@ -328,7 +66,7 @@
           <p class="subhead">
             The link may be broken, the page may have moved, or you typed a URL that doesn’t exist.
             Use the buttons below to get back to tools fast.
-          </p> 
+          </p>
 
           <div class="urlbox" aria-label="Requested URL">
             <code id="requested-url">Loading…</code>
@@ -434,5 +172,6 @@
       });
     })();
   </script>
+<button class="back-button" id="back-btn" type="button">&#8592; Back</button>
 </body>
 </html>

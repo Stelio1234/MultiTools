@@ -4,134 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Advanced Gamer Tag Generator</title>
-        <link rel="icon" type="image/x-icon" href="/MultiTools.jpg">
-    <meta name="theme-color" content="#45a049">
+        <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
+    <meta name="theme-color" content="#121212">
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
-    <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: Arial, Helvetica, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: auto;
-            margin: 1%;
-            margin-bottom: 1%;
-        }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            background-color: #1e1e1e;
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        h2 {
-            margin-bottom: 10px;
-            font-size: 24px;
-            color: #45a049;
-        }
-
-        input, button, select {
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            background-color: #2c2c2c;
-            color: #ffffff;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        input::placeholder {
-            color: #888;
-        }
-
-        button {
-            background-color: #4caf50;
-        }
-
-        button:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-        }
-
-        .name-display {
-            font-size: 22px;
-            font-weight: bold;
-            margin-top: 20px;
-            color: #ffffff;
-        }
-
-        .back-button {
-            padding: 12px 20px;
-            border-radius: 8px;
-            border: none;
-            background-color: #4caf50;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            width: 120px;
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            transition: all 0.2s ease;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .back-button:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-        }
-
-        .copy-button {
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #333;
-            color: #fff;
-            border-radius: 8px;
-            cursor: pointer;
-            border: none;
-            transition: background-color 0.2s ease;
-        }
-
-        .copy-button:hover {
-            background-color: #4caf50;
-            transform: translateY(-2px);
-            box-shadow: 0px 4px 12px rgba(0, 255, 0, 0.3);
-        }
-    </style>
+  <link rel="stylesheet" href="../../css/index.css" />
+  <link rel="stylesheet" href="../../css/pages.css" />
+  <link rel="stylesheet" href="../../css/footer.css" />
 </head>
-<body>
+<body class="tool-page">
+
 
 <div class="container">
     <h2>Advanced Gamer Tag Generator</h2>
     <p>Answer a few questions to create a unique gamer tag!</p>
-    
+
     <label for="favoriteColor">What is your favorite color?</label>
     <input type="text" id="favoriteColor" placeholder="e.g., Red, Blue" />
 
@@ -161,7 +49,7 @@
     <button class="copy-button" id="copyButton" onclick="copyGamerTag()">Copy Gamer Tag</button>
 </div>
 
-<button class="back-button" onclick="window.history.back()">← Back</button>
+
 
 <script>
     function generateGamerTag() {
@@ -202,7 +90,7 @@
             fifa: ['soccer', 'football', 'sports', 'goal', 'field', 'kickoff', 'pass', 'ball', 'stadium', 'team', 'multiplayer', 'match', 'penalty', 'free kick', 'tournament', 'referee', 'defense', 'offense', 'league', 'champions', 'kick', 'corner', 'player', 'formation', 'attack', 'dribble', 'goals', 'futsal', 'national teams', 'international'],
             nba_2k: ['basketball', 'hoops', 'dunk', 'court', 'team', 'championship', 'multiplayer', 'slam dunk', 'pass', 'shoot', 'defense', 'dribble', 'free throw', 'teamwork', 'league', 'player', 'game', 'competition', 'basket', 'tournament', 'pro', 'basketball court', 'gameplay', 'season', 'game mode', 'arena', 'coach', 'championship', 'NBA'],
         };
-        
+
         const animalSynonyms = {
             tiger: ['puma', 'lion', 'cheetah', 'jaguar', 'leopard', 'cougar', 'panther', 'lynx', 'snow leopard', 'caracal', 'siberian tiger', 'bengal tiger', 'white tiger', 'black panther', 'kitten', 'stripes', 'big cat', 'cubs', 'roar', 'claws', 'feline', 'cat', 'wildcat', 'tigeress', 'coyote', 'hyena', 'wildcat', 'puma', 'bobcat'],
             wolf: ['fox', 'coyote', 'husky', 'beast', 'direwolf', 'wild wolf', 'shiba', 'akita', 'jackal', 'dog', 'howl', 'lone wolf', 'tundra wolf', 'gray wolf', 'arctic wolf', 'mountain wolf', 'red wolf', 'timberwolf', 'timber', 'alpha', 'hunter', 'shepherd', 'frost', 'bloodhound', 'pooch', 'runt', 'german shepherd', 'collie', 'poodle'],
@@ -259,5 +147,6 @@
 </script>
 
 
+<button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
 </body>
 </html>

@@ -4,200 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login</title>
-  <link rel="icon" type="image/x-icon" href="/MultiTools.jpg" />
-  <meta name="theme-color" content="#45a049" />
+  <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg" />
+  <meta name="theme-color" content="#121212" />
   <link rel="manifest" href="/manifest.json" />
-  <style>
 
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-  :root {
-    --bg-dark: #0a0a0a;
-    --green: #54d42c;
-    --text-light: #e0e0e0;
-    --card-bg: rgba(255, 255, 255, 0.08);
-  }
-
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
-  }
-
-  html, body {
-    height: 100%;
-  }
-
-  body {
-    background: linear-gradient(180deg, #000000, #111, #0a0a0a);
-    color: var(--text-light);
-    display: flex;              /* IMPORTANT */
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;    /* IMPORTANT */
-    min-height: 100vh;
-    padding: 2rem 1rem;
-  }
-
-  /* ---------- AUTH PAGE LAYOUT ---------- */
-  .container {
-    width: 100%;
-    max-width: 420px;
-    background: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 18px;
-    padding: 2.2rem;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-    animation: fadeUp 0.7s ease forwards;
-  }
-
-  /* ---------- HEADINGS ---------- */
-  .container h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    background: linear-gradient(90deg, #45a049, #00cc66);
-    -webkit-background-clip: text;
-    color: transparent;
-    margin-bottom: 0.4rem;
-  }
-
-  .container h2 {
-    font-size: 0.95rem;
-    color: #aaa;
-    font-weight: 400;
-    margin-bottom: 1.5rem;
-  }
-
-  /* ---------- INPUTS ---------- */
-  .input-field {
-    width: 100%;
-    padding: 0.65rem 0.75rem;
-    margin-bottom: 0.9rem;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(0, 0, 0, 0.55);
-    color: var(--text-light);
-    font-size: 0.9rem;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .input-field::placeholder { color: #777; }
-
-  .input-field:focus {
-    outline: none;
-    border-color: var(--green);
-    box-shadow: 0 0 10px rgba(84, 212, 44, 0.35);
-  }
-
-  /* ---------- BUTTONS ---------- */
-  .btn {
-    width: 100%;
-    background: var(--green);
-    color: #000;
-    border: none;
-    padding: 0.65rem;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 0.4rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 14px rgba(84, 212, 44, 0.8);
-  }
-
-  .google-login {
-    width: 100%;
-    margin-top: 0.7rem;
-    padding: 0.6rem;
-    border-radius: 10px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    color: #ddd;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-  }
-
-  .google-login:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: var(--green);
-    transform: translateY(-1px);
-  }
-
-  /* ---------- LINKS / TEXT ---------- */
-  .message {
-    margin-top: 0.9rem;
-    font-size: 0.8rem;
-    color: #aaa;
-    line-height: 1.4;
-  }
-
-  .message a {
-    color: var(--green);
-    text-decoration: none;
-    font-weight: 600;
-  }
-
-  .message a:hover { text-decoration: underline; }
-
-  .link-button {
-    background: none;
-    border: none;
-    color: #aaa;
-    font-size: 0.8rem;
-    margin-top: 0.6rem;
-    cursor: pointer;
-    padding: 0;
-  }
-
-  .link-button:hover { color: var(--green); }
-
-  .message.error { color: #ff5c5c; }
-
-  /* ---------- BACK BUTTON ---------- */
-  .back-button {
-    margin-top: 1.5rem;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    color: #ccc;
-    padding: 0.45rem 1.2rem;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .back-button:hover {
-    border-color: var(--green);
-    color: var(--green);
-    box-shadow: 0 0 12px rgba(84, 212, 44, 0.25);
-  }
-
-  /* ---------- ANIMATION ---------- */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(25px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ---------- MOBILE ---------- */
-  @media (max-width: 480px) {
-    .container { padding: 1.6rem; }
-    .container h1 { font-size: 1.7rem; }
-  }
-</style>
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/footer.css" />
 </head>
-<body>
+<body class="tool-page auth-page">
+
 <div class="container" id="container">
   <!-- Login Form -->
   <div id="loginForm">
     <h1>Login</h1>
     <h2>Use your username and password</h2>
-    <input type="text" id="username" class="input-field" placeholder="Username" required />
-    <input type="password" id="password" class="input-field" placeholder="Password" required />
+    <input type="text" id="username" class="input-field" placeholder="Username" required aria-label="Username" />
+    <input type="password" id="password" class="input-field" placeholder="Password" required aria-label="Password" />
     <button class="btn" onclick="login()">Login</button>
     <button class="google-login" onclick="googleLogin()">Login With Google</button>
     <button class="link-button" onclick="forgotPassword()">Forgot Password?</button>
@@ -208,9 +31,9 @@
   <div id="registerForm" style="display:none;">
     <h1>Sign Up</h1>
     <h2>Create a new account</h2>
-    <input type="text" id="regUsername" class="input-field" placeholder="Username" required />
-    <input type="email" id="regEmail" class="input-field" placeholder="Email" required />
-    <input type="password" id="regPassword" class="input-field" placeholder="Password" required />
+    <input type="text" id="regUsername" class="input-field" placeholder="Username" required aria-label="Username" />
+    <input type="email" id="regEmail" class="input-field" placeholder="Email" required aria-label="Email" />
+    <input type="password" id="regPassword" class="input-field" placeholder="Password" required aria-label="Password" />
     <button class="btn" onclick="register()">Sign Up</button>
     <button class="google-login" onclick="googleLogin()">Sign Up With Google</button>
     <p class="message">Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
@@ -221,7 +44,7 @@
   </div>
 </div>
 
-<button class="back-button" onclick="window.history.back()">Back</button>
+
 
 <!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
@@ -310,7 +133,7 @@
     }
   }
 
-  
+
 
   async function register() {
     const email = document.getElementById('regEmail').value.trim();
@@ -434,7 +257,7 @@ function googleLogin() {
       const user = result.user;
       const userDoc = await db.collection("users").doc(user.uid).get();
 
-  
+
       if (!userDoc.exists) {
         const username = user.displayName || "UnnamedUser" + Math.floor(Math.random() * 10000);
         await db.collection("users").doc(user.uid).set({
@@ -465,5 +288,6 @@ function googleLogin() {
     document.getElementById('loginForm').style.display = 'block';
   }
 </script>
+<button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
 </body>
 </html>
