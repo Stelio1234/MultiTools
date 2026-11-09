@@ -1,0 +1,378 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null
+        && request.auth.token.auth_time is int
+        && request.time.toMillis() / 1000 - request.auth.token.auth_time < 43200;
+    }
+    function owner() {
+      return signedIn()
+        && request.auth.uid == 'Aeln9VUrU9Q8vNQ4PEYJt4WbuoD2'
+        && request.auth.token.email_verified == true
+        && request.time.toMillis() / 1000 - request.auth.token.auth_time < 1800;
+    }
+    function own(uid) { return signedIn() && request.auth.uid == uid; }
+    function verified() { return signedIn() && request.auth.token.email_verified == true; }
+    function recent() {
+      return signedIn() && request.time.toMillis() / 1000 - request.auth.token.auth_time < 300;
+    }
+    function validUsername(display, key) {
+      return display is string && key is string && display == display.trim()
+        && display.matches('[a-zA-Z0-9][a-zA-Z0-9 _-]{1,30}[a-zA-Z0-9]')
+        && key == display.lower()
+        && !(key in ['admin', 'administrator', 'support', 'owner', 'root', 'system', 'multitools', 'security']);
+    }
+    function usernamesReady() {
+      return exists(/databases/$(database)/documents/username_registry/_policy)
+        && get(/databases/$(database)/documents/username_registry/_policy).data.ready == true
+        && get(/databases/$(database)/documents/username_registry/_policy).data.version == 'ascii-v1';
+    }
+    function usernameOwnedAfter(uid, key) {
+      return getAfter(/databases/$(database)/documents/username_registry/$(key)).data.uid == uid;
+    }
+    function bounded() { return request.query.limit != null && request.query.limit <= 100; }
+    function staff() {
+      return owner() || (verified()
+        && request.time.toMillis() / 1000 - request.auth.token.auth_time < 1800
+        && exists(/databases/$(database)/documents/admin_roles/$(request.auth.uid))
+        && get(/databases/$(database)/documents/admin_roles/$(request.auth.uid)).data.active == true);
+    }
+    function permitted(permission) {
+      return owner() || (staff()
+        && get(/databases/$(database)/documents/admin_roles/$(request.auth.uid)).data.permissions.get(permission, false) == true);
+    }
+    function auditMatches(id, action, target) {
+      let event = getAfter(/databases/$(database)/documents/logs/$(id)).data;
+      return event.kind == 'administration' && event.action == action
+        && event.actorUid == request.auth.uid && event.targetUid == target
+        && event.timestamp == request.time;
+    }
+    function permissionsValid(p) {
+      return p is map
+        && p.keys().hasAll(['readUsers', 'exportEmails', 'manageEmailPreferences', 'viewSecurity'])
+        && p.keys().hasOnly(['readUsers', 'exportEmails', 'manageEmailPreferences', 'viewSecurity', 'managePrivacyRequests'])
+        && p.readUsers is bool && p.exportEmails is bool
+        && p.manageEmailPreferences is bool && p.viewSecurity is bool && p.get('managePrivacyRequests', false) is bool
+        && (!(p.exportEmails || p.manageEmailPreferences || p.get('managePrivacyRequests', false)) || p.readUsers);
+    }
+    function roleIdentityMatches(uid, key) {
+      let profile = get(/databases/$(database)/documents/users/$(uid)).data;
+      let reserved = /databases/$(database)/documents/username_registry/$(key);
+      return profile.username is string && profile.username.trim().size() > 0
+        && profile.username.trim().size() <= 200 && key == profile.username.trim().lower()
+        && key.matches('[^/]+')
+        && (!('usernameKey' in profile)
+          ? (!exists(reserved) || get(reserved).data.uid == uid)
+          : profile.usernameKey == key && get(reserved).data.uid == uid);
+    }
+    match /admin_roles/{uid} {
+      allow get: if own(uid) || permitted('readUsers');
+      allow list: if owner() && bounded();
+      allow create, update: if owner() && uid != request.auth.uid
+        && (request.resource.data.active == false || exists(/databases/$(database)/documents/users/$(uid)))
+        && request.resource.data.keys().hasAll(['active', 'permissions', 'createdAt', 'updatedAt', 'updatedBy', 'auditId', 'usernameKey'])
+        && request.resource.data.keys().hasOnly(['active', 'permissions', 'createdAt', 'updatedAt', 'updatedBy', 'auditId', 'usernameKey'])
+        && request.resource.data.active is bool
+        && request.resource.data.usernameKey is string
+        && (!request.resource.data.active || roleIdentityMatches(uid, request.resource.data.usernameKey))
+        && permissionsValid(request.resource.data.permissions)
+        && request.resource.data.updatedBy == request.auth.uid
+        && request.resource.data.updatedAt == request.time
+        && request.resource.data.auditId is string
+        && (resource == null
+          ? request.resource.data.active && request.resource.data.createdAt == request.time
+          : request.resource.data.createdAt == resource.data.createdAt)
+        && auditMatches(request.resource.data.auditId,
+          request.resource.data.active ? 'administrator_saved' : 'administrator_removed', uid);
+      allow delete: if false;
+    }
+    match /email_preferences/{uid} {
+      allow get: if own(uid) || permitted('readUsers');
+      allow list: if permitted('readUsers') && bounded();
+      allow create, update: if signedIn()
+        && existsAfter(/databases/$(database)/documents/users/$(uid))
+        && (own(uid) || (permitted('manageEmailPreferences') && uid != 'Aeln9VUrU9Q8vNQ4PEYJt4WbuoD2'))
+        && request.resource.data.keys().hasAll(['status', 'suppressed', 'address', 'consentedAt', 'unsubscribedAt', 'updatedAt', 'updatedBy', 'auditId', 'source', 'noticeVersion', 'choice'])
+        && request.resource.data.keys().hasOnly(['status', 'suppressed', 'address', 'consentedAt', 'unsubscribedAt', 'updatedAt', 'updatedBy', 'auditId', 'source', 'noticeVersion', 'choice'])
+        && request.resource.data.status in ['subscribed', 'unsubscribed', 'unknown']
+        && request.resource.data.suppressed is bool
+        && request.resource.data.address is string && request.resource.data.address.size() <= 254
+        && request.resource.data.updatedAt == request.time && request.resource.data.updatedBy == request.auth.uid
+        && request.resource.data.noticeVersion == '2026-11-08'
+        && request.resource.data.source in ['signup', 'settings', 'admin']
+        && request.resource.data.auditId is string
+        && (request.resource.data.status == 'subscribed'
+          ? own(uid) && !request.resource.data.suppressed
+            && (resource == null || (resource.data.get('suppressed', false) == false && resource.data.status != 'suppressed'))
+            && request.resource.data.address == request.auth.token.email.lower()
+            && request.resource.data.consentedAt == request.time && request.resource.data.unsubscribedAt == null
+            && request.resource.data.choice == true && request.resource.data.source in ['signup', 'settings']
+          : request.resource.data.status == 'unknown'
+            ? own(uid) && resource == null && !request.resource.data.suppressed
+              && request.resource.data.address == request.auth.token.email.lower()
+              && request.resource.data.consentedAt == null && request.resource.data.unsubscribedAt == null
+              && request.resource.data.choice == false && request.resource.data.source == 'signup'
+            : request.resource.data.unsubscribedAt == request.time && request.resource.data.choice == false
+              && request.resource.data.consentedAt == (resource == null ? null : resource.data.get('consentedAt', null))
+              && (own(uid) ? request.resource.data.address == request.auth.token.email.lower()
+                : request.resource.data.address == getAfter(/databases/$(database)/documents/users/$(uid)).data.email.lower())
+              && (permitted('manageEmailPreferences') || request.resource.data.suppressed == (resource == null ? false : resource.data.get('suppressed', false)))
+              && (resource == null || resource.data.status != 'suppressed' || request.resource.data.suppressed || permitted('manageEmailPreferences')))
+        && auditMatches(request.resource.data.auditId, 'email_preference_changed', uid);
+      allow delete: if own(uid) && recent() && !existsAfter(/databases/$(database)/documents/users/$(uid));
+    }
+    function cleanupValid(c) {
+      return c is map
+        && c.keys().hasAll(['profile', 'preferences', 'usernameRegistry', 'auth', 'history', 'storage', 'connectedServices'])
+        && c.keys().hasOnly(['profile', 'preferences', 'usernameRegistry', 'auth', 'history', 'storage', 'connectedServices'])
+        && c.profile in ['pending', 'done', 'not_applicable', 'operator_required']
+        && c.preferences in ['pending', 'done', 'not_applicable', 'operator_required']
+        && c.usernameRegistry in ['pending', 'done', 'not_applicable', 'operator_required']
+        && c.auth in ['pending', 'done', 'not_applicable', 'operator_required']
+        && c.history in ['pending', 'done', 'not_applicable', 'operator_required']
+        && c.storage in ['pending', 'done', 'not_applicable', 'operator_required']
+        && c.connectedServices in ['pending', 'done', 'not_applicable', 'operator_required'];
+    }
+    function cleanupComplete(c) {
+      return c.profile in ['done', 'not_applicable'] && c.preferences in ['done', 'not_applicable']
+        && c.usernameRegistry in ['done', 'not_applicable'] && c.auth in ['done', 'not_applicable']
+        && c.history in ['done', 'not_applicable'] && c.storage in ['done', 'not_applicable']
+        && c.connectedServices in ['done', 'not_applicable'];
+    }
+    function requestShape(id) {
+      let r = request.resource.data;
+      return r.keys().hasAll(['requesterUid', 'type', 'details', 'submittedAt', 'updatedAt', 'updatedBy', 'status', 'assignedTo', 'identityVerifiedAt', 'completedAt', 'resultNote', 'cleanup', 'auditId'])
+        && r.keys().hasOnly(['requesterUid', 'type', 'details', 'submittedAt', 'updatedAt', 'updatedBy', 'status', 'assignedTo', 'identityVerifiedAt', 'completedAt', 'resultNote', 'cleanup', 'auditId'])
+        && r.requesterUid is string && r.type in ['access', 'correction', 'portability', 'erasure', 'restriction', 'objection', 'consent_withdrawal']
+        && id == r.requesterUid + '_' + r.type
+        && r.details is string && r.details.size() <= 2000
+        && r.resultNote is string && r.resultNote.size() <= 1000
+        && r.submittedAt is timestamp && r.updatedAt == request.time && r.updatedBy == request.auth.uid
+        && r.assignedTo is string && r.assignedTo.size() <= 128
+        && (r.identityVerifiedAt == null || r.identityVerifiedAt is timestamp)
+        && (r.completedAt == null || r.completedAt is timestamp)
+        && r.auditId is string && cleanupValid(r.cleanup);
+    }
+    function selfSubmission(id) {
+      let r = request.resource.data;
+      return signedIn() && r.requesterUid == request.auth.uid && r.status == 'submitted'
+        && r.submittedAt == request.time && r.assignedTo == '' && r.identityVerifiedAt == null && r.completedAt == null && r.resultNote == ''
+        && r.cleanup == {'profile':'pending', 'preferences':'pending', 'usernameRegistry':'pending', 'auth':'pending', 'history':'pending', 'storage':'pending', 'connectedServices':'pending'}
+        && (resource == null || (resource.data.status in ['completed', 'rejected', 'cancelled'] && request.time > resource.data.updatedAt + duration.value(60, 's')))
+        && auditMatches(r.auditId, 'privacy_request_submitted', r.requesterUid);
+    }
+    function selfCleanup(id) {
+      let r = request.resource.data;
+      return recent() && r.requesterUid == request.auth.uid && r.requesterUid != 'Aeln9VUrU9Q8vNQ4PEYJt4WbuoD2'
+        && r.type == 'erasure' && r.status == 'in_progress' && r.completedAt == null
+        && r.identityVerifiedAt == (resource == null ? null : resource.data.identityVerifiedAt)
+        && r.assignedTo == (resource == null ? '' : resource.data.assignedTo)
+        && r.resultNote == (resource == null ? '' : resource.data.resultNote)
+        && (resource == null || r.details == resource.data.details)
+        && (resource == null ? r.submittedAt == request.time : r.submittedAt == resource.data.submittedAt)
+        && r.cleanup == {'profile':'done', 'preferences':'done', 'usernameRegistry':'done', 'auth':'operator_required', 'history':'operator_required', 'storage':'operator_required', 'connectedServices':'operator_required'}
+        && !existsAfter(/databases/$(database)/documents/users/$(r.requesterUid))
+        && !existsAfter(/databases/$(database)/documents/email_preferences/$(r.requesterUid))
+        && auditMatches(r.auditId, 'privacy_self_cleanup', r.requesterUid);
+    }
+    match /privacy_requests/{id} {
+      allow get: if signedIn() && (resource == null || resource.data.requesterUid == request.auth.uid || permitted('managePrivacyRequests'));
+      allow list: if bounded() && signedIn() && (resource.data.requesterUid == request.auth.uid || permitted('managePrivacyRequests'));
+      allow create, update: if signedIn() && requestShape(id) && (selfSubmission(id) || selfCleanup(id)
+        || (resource != null && permitted('managePrivacyRequests')
+          && request.resource.data.requesterUid == resource.data.requesterUid && request.resource.data.type == resource.data.type
+          && request.resource.data.details == resource.data.details && request.resource.data.submittedAt == resource.data.submittedAt
+          && (resource.data.assignedTo == '' || resource.data.assignedTo == request.auth.uid || owner())
+          && request.resource.data.assignedTo == request.auth.uid
+          && request.resource.data.identityVerifiedAt == (resource.data.identityVerifiedAt != null ? resource.data.identityVerifiedAt : request.resource.data.identityVerifiedAt == null ? null : request.time)
+          && request.resource.data.status in ['awaiting_identity', 'in_review', 'in_progress', 'completed', 'rejected']
+          && (request.resource.data.status == 'completed'
+            ? request.resource.data.identityVerifiedAt != null
+              && request.resource.data.completedAt == (resource.data.status == 'completed' ? resource.data.completedAt : request.time)
+              && (request.resource.data.type != 'erasure' || (cleanupComplete(request.resource.data.cleanup)
+                && !existsAfter(/databases/$(database)/documents/users/$(resource.data.requesterUid))
+                && !existsAfter(/databases/$(database)/documents/email_preferences/$(resource.data.requesterUid))
+                && (request.resource.data.requesterUid != 'Aeln9VUrU9Q8vNQ4PEYJt4WbuoD2' || owner())))
+            : request.resource.data.completedAt == null)
+          && auditMatches(request.resource.data.auditId, 'privacy_request_updated', resource.data.requesterUid)));
+      allow delete: if false;
+    }
+    match /admin_settings/workspace {
+      allow get: if staff();
+      allow create, update: if owner()
+        && request.resource.data.keys().hasAll(['pageSize', 'defaultExportScope', 'updatedAt', 'updatedBy', 'auditId'])
+        && request.resource.data.keys().hasOnly(['pageSize', 'defaultExportScope', 'updatedAt', 'updatedBy', 'auditId'])
+        && request.resource.data.pageSize in [25, 50]
+        && request.resource.data.defaultExportScope in ['all', 'verified', 'marketing', 'date']
+        && request.resource.data.updatedAt == request.time && request.resource.data.updatedBy == request.auth.uid
+        && auditMatches(request.resource.data.auditId, 'workspace_settings_changed', 'workspace');
+      allow delete: if false;
+    }
+    match /username_registry/{key} {
+      allow get: if key == '_policy' || signedIn();
+      allow list: if owner() && bounded();
+      allow create: if signedIn() && key != '_policy' && usernamesReady()
+        && request.resource.data.keys().hasAll(['uid', 'createdAt'])
+        && request.resource.data.keys().hasOnly(['uid', 'createdAt'])
+        && (request.resource.data.uid == request.auth.uid || owner())
+        && request.resource.data.createdAt == request.time
+        && getAfter(/databases/$(database)/documents/users/$(request.resource.data.uid)).data.usernameKey == key
+        && validUsername(getAfter(/databases/$(database)/documents/users/$(request.resource.data.uid)).data.username, key);
+      allow update: if signedIn() && key != '_policy'
+        && request.resource.data == resource.data
+        && (resource.data.uid == request.auth.uid || owner());
+      allow delete: if key != '_policy' && recent()
+        && (resource.data.uid == request.auth.uid || owner())
+        && (!existsAfter(/databases/$(database)/documents/users/$(resource.data.uid))
+          || getAfter(/databases/$(database)/documents/users/$(resource.data.uid)).data.usernameKey != key);
+    }
+    match /users/{uid} {
+      allow get: if own(uid) || permitted('readUsers');
+      allow list: if permitted('readUsers') && bounded();
+      allow create: if own(uid)
+        && request.resource.data.keys().hasAll(['username', 'email', 'createdAt', 'role', 'emailVerified', 'lastLoginAt'])
+        && (!exists(/databases/$(database)/documents/privacy_requests/$(uid + '_erasure'))
+          || get(/databases/$(database)/documents/privacy_requests/$(uid + '_erasure')).data.status in ['rejected', 'cancelled'])
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.role == 'user'
+        && request.resource.data.emailVerified == request.auth.token.email_verified
+        && request.resource.data.createdAt == request.time && request.resource.data.lastLoginAt == request.time
+        && ((request.resource.data.keys().hasAll(['usernameKey'])
+            && request.resource.data.keys().hasOnly(['username', 'usernameKey', 'email', 'createdAt', 'role', 'emailVerified', 'lastLoginAt'])
+            && usernamesReady() && validUsername(request.resource.data.username, request.resource.data.usernameKey)
+            && usernameOwnedAfter(uid, request.resource.data.usernameKey))
+          || (request.resource.data.keys().hasOnly(['username', 'usernameStatus', 'email', 'createdAt', 'role', 'emailVerified', 'lastLoginAt'])
+            && request.resource.data.usernameStatus == 'pending'
+            && validUsername(request.resource.data.username, request.resource.data.username.lower())));
+      allow update: if (own(uid) || owner())
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['lastLoginAt', 'emailVerified', 'username', 'usernameKey', 'auditId', 'usernameStatus'])
+        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['usernameStatus'])
+          || (resource.data.get('usernameStatus', '') == 'pending' && !('usernameStatus' in request.resource.data)))
+        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['lastLoginAt', 'emailVerified'])
+          || (own(uid)
+            && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['lastLoginAt']) || request.resource.data.lastLoginAt == request.time)
+            && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['emailVerified']) || request.resource.data.emailVerified == request.auth.token.email_verified)))
+        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['username', 'usernameKey', 'auditId', 'usernameStatus'])
+          || (recent() && usernamesReady() && validUsername(request.resource.data.username, request.resource.data.usernameKey)
+            && usernameOwnedAfter(uid, request.resource.data.usernameKey)
+            && (resource.data.get('usernameKey', '') == request.resource.data.usernameKey
+              || !existsAfter(/databases/$(database)/documents/username_registry/$(resource.data.get('usernameKey', '_missing'))))
+            && auditMatches(request.resource.data.auditId, 'username_changed', uid)));
+      allow delete: if own(uid) && recent() && uid != 'Aeln9VUrU9Q8vNQ4PEYJt4WbuoD2'
+        && (!('usernameKey' in resource.data) || !existsAfter(/databases/$(database)/documents/username_registry/$(resource.data.usernameKey)));
+    }
+    match /usernames/{username} {
+      allow get: if owner();
+      allow list: if owner() && bounded();
+      allow delete: if recent() && (resource == null || resource.data.uid == request.auth.uid)
+        && request.auth.uid != 'Aeln9VUrU9Q8vNQ4PEYJt4WbuoD2';
+      allow create, update: if false;
+    }
+    match /logs/{id} {
+      allow get: if permitted('viewSecurity');
+      allow list: if permitted('viewSecurity') && bounded();
+      allow create: if browserEvent(id) || administrativeEvent(id);
+      allow update, delete: if false;
+    }
+    function browserEvent(id) {
+      return verified()
+        && request.resource.data.keys().hasOnly(['uid', 'event', 'source', 'bucket', 'timestamp'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.source == 'browser'
+        && request.resource.data.bucket == int(request.time.toMillis() / 60000)
+        && id == request.auth.uid + '_' + string(request.resource.data.bucket)
+        && request.resource.data.timestamp == request.time
+        && request.resource.data.event in ['login_success', 'login_failure', 'logout', 'password_reset_requested', 'admin_view'];
+    }
+    function administrativeEvent(id) {
+      let event = request.resource.data;
+      return signedIn()
+        && event.keys().hasAll(['kind', 'action', 'actorUid', 'targetUid', 'timestamp', 'details', 'outcome'])
+        && event.keys().hasOnly(['kind', 'action', 'actorUid', 'targetUid', 'timestamp', 'details', 'outcome'])
+        && event.kind == 'administration' && event.outcome == 'committed' && event.actorUid == request.auth.uid
+        && event.targetUid is string && event.targetUid.size() <= 128
+        && event.timestamp == request.time && event.details is map
+        && ((event.action in ['administrator_saved', 'administrator_removed'] && owner()
+            && event.details.keys().hasOnly([])
+            && getAfter(/databases/$(database)/documents/admin_roles/$(event.targetUid)).data.auditId == id)
+          || (event.action == 'email_preference_changed' && event.details.keys().hasOnly(['status'])
+            && getAfter(/databases/$(database)/documents/email_preferences/$(event.targetUid)).data.auditId == id
+            && getAfter(/databases/$(database)/documents/email_preferences/$(event.targetUid)).data.updatedAt == request.time
+            && getAfter(/databases/$(database)/documents/email_preferences/$(event.targetUid)).data.updatedBy == request.auth.uid
+            && getAfter(/databases/$(database)/documents/email_preferences/$(event.targetUid)).data.status == event.details.status)
+          || (event.action in ['privacy_request_submitted', 'privacy_request_updated', 'privacy_self_cleanup']
+            && event.details.keys().hasAll(['requestId']) && event.details.keys().hasOnly(['requestId'])
+            && event.details.requestId is string && event.details.requestId.size() <= 200
+            && getAfter(/databases/$(database)/documents/privacy_requests/$(event.details.requestId)).data.auditId == id
+            && getAfter(/databases/$(database)/documents/privacy_requests/$(event.details.requestId)).data.updatedBy == request.auth.uid
+            && getAfter(/databases/$(database)/documents/privacy_requests/$(event.details.requestId)).data.updatedAt == request.time
+            && getAfter(/databases/$(database)/documents/privacy_requests/$(event.details.requestId)).data.requesterUid == event.targetUid)
+          || (event.action == 'privacy_data_exported' && recent() && event.targetUid == request.auth.uid
+            && event.details.keys().hasOnly(['scope']) && event.details.scope == 'profile_preferences')
+          || (event.action == 'username_changed' && (event.targetUid == request.auth.uid || owner())
+            && event.details.keys().hasOnly([])
+            && getAfter(/databases/$(database)/documents/users/$(event.targetUid)).data.auditId == id)
+          || (event.action == 'workspace_settings_changed' && owner() && event.targetUid == 'workspace'
+            && event.details.keys().hasOnly([])
+            && getAfter(/databases/$(database)/documents/admin_settings/workspace).data.auditId == id)
+          || (event.action == 'dashboard_opened' && staff() && event.targetUid == request.auth.uid && event.details.keys().hasOnly([]))
+          || (event.action == 'email_exported' && permitted('exportEmails') && event.targetUid == ''
+            && event.details.keys().hasAll(['count', 'scope', 'format', 'from', 'to'])
+            && event.details.keys().hasOnly(['count', 'scope', 'format', 'from', 'to'])
+            && event.details.count is int && event.details.count > 0 && event.details.count <= 50000
+            && event.details.scope in ['all', 'verified', 'marketing', 'date']
+            && event.details.format in ['csv', 'excel', 'clipboard']
+            && event.details.from is string && event.details.from.size() <= 10
+            && event.details.to is string && event.details.to.size() <= 10));
+    }
+    match /tool_counts/{id} {
+      allow get: if true;
+      allow list: if request.query.limit != null && request.query.limit <= 20;
+      allow create: if verified()
+        && request.resource.data.keys().hasOnly(['toolId', 'name', 'link', 'category', 'badge', 'desc', 'count', 'lastOpenedAt'])
+        && request.resource.data.toolId == id
+        && request.resource.data.name is string && request.resource.data.name.size() <= 100
+        && request.resource.data.category is string && request.resource.data.category.size() <= 50
+        && request.resource.data.badge is string && request.resource.data.badge.size() <= 20
+        && request.resource.data.desc is string && request.resource.data.desc.size() <= 200
+        && knownTool(id, request.resource.data.link)
+        && request.resource.data.count == 1
+        && request.resource.data.lastOpenedAt == request.time;
+      allow update: if verified()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['count', 'lastOpenedAt'])
+        && request.resource.data.count is int
+        && request.resource.data.count == resource.data.count + 1
+        && request.resource.data.count < 2147483647
+        && request.resource.data.lastOpenedAt == request.time
+        && request.time > resource.data.lastOpenedAt + duration.value(60, 's');
+      allow delete: if false;
+    }
+    function knownTool(id, link) {
+      return link is string && id == toolIds()[link];
+    }
+    function toolIds() {
+      return {
+        "Templates/TimeTools/timer.html": "VGVtcGxhdGVzL1RpbWVUb29scy90aW1lci5odG1s",
+        "Templates/CommonTools/UnitConverter.html": "VGVtcGxhdGVzL0NvbW1vblRvb2xzL1VuaXRDb252ZXJ0ZXIuaHRtbA",
+        "Templates/Calculators/tipcalculator.html": "VGVtcGxhdGVzL0NhbGN1bGF0b3JzL3RpcGNhbGN1bGF0b3IuaHRtbA",
+        "Templates/DevTools/encrypted.html": "VGVtcGxhdGVzL0RldlRvb2xzL2VuY3J5cHRlZC5odG1s",
+        "Templates/DevTools/WebClip.html": "VGVtcGxhdGVzL0RldlRvb2xzL1dlYkNsaXAuaHRtbA",
+        "Templates/Generators/gamertag-gen.html": "VGVtcGxhdGVzL0dlbmVyYXRvcnMvZ2FtZXJ0YWctZ2VuLmh0bWw",
+        "Templates/Generators/qr-code-gen.html": "VGVtcGxhdGVzL0dlbmVyYXRvcnMvcXItY29kZS1nZW4uaHRtbA",
+        "Templates/Generators/password-gen.html": "VGVtcGxhdGVzL0dlbmVyYXRvcnMvcGFzc3dvcmQtZ2VuLmh0bWw",
+        "Templates/Generators/uuid-generator.html": "VGVtcGxhdGVzL0dlbmVyYXRvcnMvdXVpZC1nZW5lcmF0b3IuaHRtbA",
+        "Templates/Generators/Naas.html": "VGVtcGxhdGVzL0dlbmVyYXRvcnMvTmFhcy5odG1s",
+        "Templates/Other/TOS.html": "VGVtcGxhdGVzL090aGVyL1RPUy5odG1s",
+        "Templates/Other/privicypolicy.html": "VGVtcGxhdGVzL090aGVyL3ByaXZpY3lwb2xpY3kuaHRtbA",
+        "Templates/Other/patchnotes.html": "VGVtcGxhdGVzL090aGVyL3BhdGNobm90ZXMuaHRtbA",
+        "settings.html": "c2V0dGluZ3MuaHRtbA"
+};
+    }
+    match /{collection}/{id} {
+      allow get: if permitted('viewSecurity') && collection in ['tool_usage', 'page_views', 'session_logs', 'error_logs'];
+      allow list: if permitted('viewSecurity') && bounded() && collection in ['tool_usage', 'page_views', 'session_logs', 'error_logs'];
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}

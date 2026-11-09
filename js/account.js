@@ -39,7 +39,13 @@
       preference = doc.data(); preferenceLoaded = true;
       const status = MarketingPolicy.status(preference), suppressed = preference?.suppressed === true || preference?.status === 'suppressed';
       const addressMatches = String(preference?.address || '').toLowerCase() === String(context.user.email || '').toLowerCase();
-      get('emailPreferenceStatus').textContent = `Marketing subscription: ${status === 'subscribed' && !addressMatches ? 'unknown for your current email address' : status}. Registration alone does not subscribe you.`;
+      const currentStatus = status === 'subscribed' && !addressMatches ? 'unknown' : status;
+      get('emailPreferenceStatus').textContent = currentStatus === 'subscribed'
+        ? 'Email subscription: subscribed. You have opted in to MultiTools marketing emails.'
+        : currentStatus === 'unsubscribed'
+          ? suppressed ? 'Email subscription: unsubscribed (delivery suppressed).' : 'Email subscription: unsubscribed.'
+          : 'Email subscription: not subscribed — no opt-in is recorded for your current email address.';
+      if (currentStatus === 'subscribed' && !context.user.emailVerified) get('emailPreferenceStatus').textContent += ' Verify your email before marketing messages can be delivered.';
       const changed = preference?.updatedAt?.toDate?.(); if (changed) get('emailPreferenceStatus').textContent += ` Last changed: ${changed.toLocaleString()}.`;
       if (suppressed) get('emailPreferenceStatus').textContent += ' Contact the owner to review suppression.';
     } catch { if (current(context)) { preferenceLoaded = false; get('emailPreferenceStatus').textContent = 'Email preferences are unavailable. Contact support for unsubscribe requests.'; } }
@@ -49,7 +55,10 @@
     try {
       const result = await db.collection('users').doc(context.user.uid).get({ source: 'server' }); if (!current(context)) return;
       profileExists = result.exists;
-      get('currentUsername').textContent = result.data()?.username || 'Your profile setup is incomplete. Use the finish-setup link below.';
+      const data = result.data();
+      get('currentUsername').textContent = data?.usernameStatus === 'pending'
+        ? `${data.username} (pending availability review). Your account is saved; this name is not reserved yet.`
+        : data?.username || 'Your profile setup is incomplete. Use the finish-setup link below.';
       get('finishProfile').hidden = result.exists;
     } catch { if (current(context)) get('currentUsername').textContent = 'Username unavailable. Please try again later.'; }
     if (current(context)) controls();

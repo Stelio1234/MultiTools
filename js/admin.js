@@ -21,7 +21,7 @@
     for (const id of ['role-username', 'role-user-uid', 'privacy-result']) get(id).value = '';
     for (const id of ['users-body', 'recent-users-body', 'recent-events', 'administrators-body', 'email-preview-body', 'activity-body', 'privacy-body', 'admin-account', 'user-details', 'privacy-request-details', 'privacy-cleanup']) get(id).replaceChildren();
     document.querySelectorAll('dialog[open]').forEach(dialog => dialog.close());
-    get('sidebar-email').textContent = ''; get('download-export').disabled = true;
+    get('sidebar-email').textContent = ''; get('download-export').disabled = true; get('copy-email-list').disabled = true; clearCopiedRecipients();
     message('');
     for (const id of ['user-dialog-title', 'role-user-name', 'role-form-status', 'privacy-assignment', 'privacy-update-status']) get(id).textContent = '';
     for (const id of ['profile-total', 'recent-total', 'verified-total', 'unverified-total', 'subscriber-total', 'administrator-total', 'event-total']) get(id).textContent = 'Unavailable';
@@ -97,7 +97,7 @@
     const profile = await enrich({ ...result.data(), id: uid }, true); current(epoch); if (request !== detailsRequest) return; state.selected = profile;
     get('user-dialog-title').textContent = D.name(profile);
     get('user-details').replaceChildren();
-    for (const [label, value] of [['UID', uid], ['Email', profile.email || 'Unavailable'], ['Name', D.name(profile)], ['First name', profile.firstName || 'Not recorded'], ['Last name', profile.lastName || 'Not recorded'], ['Registration', date(profile.createdAt)], ['Last sign-in sync', date(profile.lastLoginAt)], ['Email verification', profile.emailVerified === true ? 'Verified at last sync' : profile.emailVerified === false ? 'Unverified at last sync' : 'Unknown'], ['Auth account status', 'Managed in Firebase Console'], ['Role', profile.accessRole], ['Marketing subscription', D.preference(profile.preference)], ['Consent date', date(profile.preference?.consentedAt)], ['Unsubscribe date', date(profile.preference?.unsubscribedAt)]]) get('user-details').append(node('dt', label), node('dd', value));
+    for (const [label, value] of [['UID', uid], ['Email', profile.email || 'Unavailable'], ['Name', D.name(profile)], ['Username', profile.username || 'Not recorded'], ['Username reservation', profile.usernameStatus === 'pending' ? 'Pending availability review' : profile.usernameKey ? 'Registered' : 'Legacy profile'], ['First name', profile.firstName || 'Not recorded'], ['Last name', profile.lastName || 'Not recorded'], ['Registration', date(profile.createdAt)], ['Last sign-in sync', date(profile.lastLoginAt)], ['Email verification', profile.emailVerified === true ? 'Verified at last sync' : profile.emailVerified === false ? 'Unverified at last sync' : 'Unknown'], ['Auth account status', 'Managed in Firebase Console'], ['Role', profile.accessRole], ['Marketing subscription', D.preference(profile.preference)], ['Consent date', date(profile.preference?.consentedAt)], ['Unsubscribe date', date(profile.preference?.unsubscribedAt)]]) get('user-details').append(node('dt', label), node('dd', value));
     get('user-preference-controls').hidden = state.access.permissions.manageEmailPreferences !== true || (uid === state.ownerUid && !state.access.owner);
     get('manage-user-access').hidden = !state.access.owner || uid === state.ownerUid;
     get('unsubscribe-user').textContent = D.preference(profile.preference) === 'suppressed' ? 'Clear suppression; keep unsubscribed' : 'Record unsubscribe';
@@ -191,14 +191,20 @@
     if (filters.scope === 'marketing' && !['any', 'subscribed'].includes(filters.consent)) throw new Error('Marketing exports require subscribed users.');
     return filters;
   }
+  function clearCopiedRecipients() {
+    get('email-recipient-list').value = ''; get('email-copy-panel').hidden = true; get('email-copy-status').textContent = '';
+  }
   function renderPreview() {
     const start = state.exportPage * 10, rows = state.exportRows.slice(start, start + 10);
-    get('email-preview-body').replaceChildren(...rows.map(record => { const row = node('tr'); for (const value of [record.email, record.firstName || '-', record.lastName || '-', record.registeredAt || 'Unknown', record.verified, record.consent]) row.append(node('td', value)); return row; }));
+    get('email-preview-body').replaceChildren(...rows.map(record => { const row = node('tr'); for (const value of [record.email, record.verified, record.consent]) row.append(node('td', value)); return row; }));
     get('export-count').textContent = `${state.exportRows.length} unique exportable addresses.`;
     get('preview-page-info').textContent = state.exportRows.length ? `${start + 1}-${Math.min(start + 10, state.exportRows.length)} of ${state.exportRows.length}` : 'No matching addresses';
     get('previous-preview').disabled = state.exportPage === 0; get('next-preview').disabled = start + 10 >= state.exportRows.length;
     get('download-export').disabled = !state.exportRows.length || state.exporting || (state.exportFilters?.scope === 'marketing' && !MarketingPolicy.marketingEnabled);
     get('download-export').title = state.exportFilters?.scope === 'marketing' && !MarketingPolicy.marketingEnabled ? 'An approved sender and secure logged-out unsubscribe are required before marketing downloads.' : '';
+    get('copy-email-list').disabled = !state.exportRows.length || state.exporting;
+    get('copy-email-list').textContent = state.exportRows.length ? `Copy ${state.exportRows.length} email${state.exportRows.length === 1 ? '' : 's'} for Gmail` : 'Copy emails for Gmail';
+    if (!state.exportFilters) clearCopiedRecipients();
   }
   function exportCurrent(operation) {
     current(operation.epoch);
@@ -206,12 +212,12 @@
   }
   function beginExport() {
     const operation = { epoch: state.epoch, run: ++state.exportRun }; state.exporting = true;
-    get('cancel-export').hidden = false; get('prepare-export').disabled = true; get('download-export').disabled = true;
+    clearCopiedRecipients(); get('cancel-export').hidden = false; get('prepare-export').disabled = true; get('all-email-users').disabled = true; get('download-export').disabled = true; get('copy-email-list').disabled = true;
     return operation;
   }
   function endExport(operation) {
     if (state.epoch !== operation.epoch) return;
-    state.exporting = false; get('cancel-export').hidden = true; get('prepare-export').disabled = false; renderPreview();
+    state.exporting = false; get('cancel-export').hidden = true; get('prepare-export').disabled = false; get('all-email-users').disabled = false; renderPreview();
   }
   async function scanExport(filters, operation) {
     await requireStaff('exportEmails'); exportCurrent(operation);
@@ -249,7 +255,7 @@
     try {
       const rows = await scanExport(filters, operation); await requireStaff('exportEmails'); exportCurrent(operation);
       state.exportRows = rows; state.exportFilters = filters; state.exportPage = 0; get('export-progress').textContent = 'Preview ready. No email has been sent.';
-      message(rows.length ? 'Email preview prepared. Review the selection before downloading.' : 'No addresses match this selection.');
+      message(rows.length ? 'Email list ready. Use Copy emails for Gmail to copy every matching recipient.' : 'No addresses match this selection. Use Show all users to clear the filters.');
     } finally { endExport(operation); }
   }
   async function downloadExport() {
@@ -268,6 +274,28 @@
       const blob = new Blob([D.csv(fresh, format === 'excel')], { type: 'text/csv;charset=utf-8' }), url = URL.createObjectURL(blob), link = node('a');
       link.href = url; link.download = `multitools-${filters.scope}-emails-${new Date().toISOString().slice(0, 10)}.csv`; document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
       get('export-progress').textContent = 'CSV prepared and audit event recorded.'; message('CSV download started.');
+    } finally { endExport(operation); }
+  }
+  async function copyRecipients() {
+    if (!state.exportFilters || !state.exportRows.length || state.exporting) return;
+    const filters = state.exportFilters, preview = state.exportRows, operation = beginExport();
+    try {
+      get('export-progress').textContent = 'Checking the current recipient list...';
+      const fresh = await scanExport(filters, operation); exportCurrent(operation);
+      if (JSON.stringify(fresh) !== JSON.stringify(preview)) {
+        state.exportRows = fresh; state.exportPage = 0; get('export-progress').textContent = 'The recipient list changed. Review it and click Copy again.';
+        message('The list changed since loading. Review the updated recipients, then copy again.'); return;
+      }
+      await S.audit('email_exported', '', { count: fresh.length, scope: filters.scope, format: 'clipboard', from: filters.from, to: filters.to }); exportCurrent(operation);
+      await requireStaff('exportEmails'); exportCurrent(operation);
+      const text = D.recipientList(fresh);
+      let copied = false;
+      try { await navigator.clipboard.writeText(text); copied = true; } catch { /* Offer a selectable list when the browser blocks clipboard access. */ }
+      exportCurrent(operation);
+      if (!copied) { get('email-recipient-list').value = text; get('email-copy-panel').hidden = false; get('email-recipient-list').focus(); get('email-recipient-list').select(); }
+      get('email-copy-status').textContent = copied ? `${fresh.length} email addresses copied. Paste into Gmail's Bcc field.` : 'Your browser blocked clipboard access. The full list is selected above; press Ctrl+C (or Command+C), then paste into Gmail’s Bcc field.';
+      get('export-progress').textContent = copied ? 'Recipient list copied.' : 'Recipient list ready for manual copying.';
+      message(filters.scope === 'marketing' ? 'Subscribed recipients only; opt-outs and suppression were rechecked.' : 'Recipients prepared for account/service notices.');
     } finally { endExport(operation); }
   }
   async function website() {
@@ -370,7 +398,7 @@
     try {
       const settings = (await db.collection('admin_settings').doc('workspace').get({ source: 'server' })).data(); current(epoch);
       state.pageSize = settings?.pageSize === 50 ? 50 : 25; get('default-page-size').value = String(state.pageSize);
-      const scope = ['all', 'verified', 'marketing', 'date'].includes(settings?.defaultExportScope) ? settings.defaultExportScope : 'marketing'; get('email-scope').value = scope; get('default-export-scope').value = scope;
+      const scope = ['all', 'verified', 'marketing', 'date'].includes(settings?.defaultExportScope) ? settings.defaultExportScope : 'all'; get('email-scope').value = scope; get('default-export-scope').value = scope;
     } catch { if (state.epoch !== epoch) return; state.pageSize = 25; }
     get('admin-status').textContent = 'Administrator session active.'; get('admin-status').hidden = true; get('admin-content').hidden = false;
     unsubscribeRole?.();
@@ -425,7 +453,7 @@
       state.initialized.delete('overview'); state.initialized.delete('users');
       if (attempt === roleAttempt && get('role-dialog').open) get('role-dialog').close();
       message('Administrator access saved and audited.'); await administrators();
-    } catch (error) { if (state.epoch === epoch && attempt === roleAttempt) get('role-form-status').textContent = error.message || 'Administrator access could not be saved.'; }
+    } catch (error) { if (state.epoch === epoch && attempt === roleAttempt) get('role-form-status').textContent = error.code === 'permission-denied' ? 'Firebase rejected this role change. Publish the current firestore.rules for this project, sign in again, and retry. No access change was saved.' : error.message || 'Administrator access could not be saved.'; }
     finally { roleSaving = false; if (state.epoch === epoch) { fields.forEach(([element, disabled]) => { element.disabled = disabled; }); get('save-administrator').disabled = !verifiedRoleIdentity || !get('role-dialog').open; } }
   }); });
   for (const [id, status] of [['unsubscribe-user', 'unsubscribed'], ['suppress-user', 'suppressed']]) get(id).addEventListener('click', () => task(async () => {
@@ -434,8 +462,15 @@
   }));
   get('email-filters').addEventListener('submit', event => { event.preventDefault(); task(prepareExport); });
   get('email-filters').addEventListener('input', event => { if (event.target.id === 'email-format') return; state.exportRun++; state.exportRows = []; state.exportFilters = null; renderPreview(); get('export-progress').textContent = 'Filters changed. Prepare a new preview.'; });
+  get('email-scope').addEventListener('change', () => { if (get('email-scope').value === 'date') get('email-advanced').open = true; });
+  get('all-email-users').addEventListener('click', () => {
+    if (state.exporting) return;
+    get('email-scope').value = 'all'; get('email-search').value = ''; get('email-from').value = ''; get('email-to').value = ''; get('email-consent').value = 'any';
+    task(prepareExport);
+  });
   get('cancel-export').addEventListener('click', () => { state.exportRun++; get('export-progress').textContent = 'Cancelling after the current batch...'; });
   get('download-export').addEventListener('click', () => task(downloadExport));
+  get('copy-email-list').addEventListener('click', () => task(copyRecipients));
   get('previous-preview').addEventListener('click', () => { if (state.exportPage) state.exportPage--; renderPreview(); });
   get('next-preview').addEventListener('click', () => { if ((state.exportPage + 1) * 10 < state.exportRows.length) state.exportPage++; renderPreview(); });
   get('refresh-activity').addEventListener('click', () => task(() => activity())); get('activity-source').addEventListener('change', () => task(() => activity())); get('more-activity').addEventListener('click', () => task(() => activity(false)));

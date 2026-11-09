@@ -54,7 +54,14 @@
     const rows = records.map(record => [record.email, record.firstName, record.lastName, record.registeredAt, record.verified, record.consent]);
     return (excel ? '\uFEFF' : '') + [header, ...rows].map(row => row.map(csvCell).join(',')).join('\r\n') + '\r\n';
   }
-  const api = { permissions, asDate, preference, name, matches, validEmail, exportRecords, csvCell, csv };
+  function recipientList(records) {
+    const seen = new Set();
+    return records.map(record => String(record.email || '').trim()).filter(email => {
+      const key = email.toLowerCase(); if (!validEmail(email) || seen.has(key)) return false;
+      seen.add(key); return true;
+    }).join(', ');
+  }
+  const api = { permissions, asDate, preference, name, matches, validEmail, exportRecords, csvCell, csv, recipientList };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else globalThis.AdminData = api;
 })();

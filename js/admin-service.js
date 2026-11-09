@@ -2,27 +2,39 @@
   'use strict';
   const { auth, db, requireStaff } = MultiTools;
   const timestamp = () => firebase.firestore.FieldValue.serverTimestamp();
+  function requireUser(user) { if (!user || auth.currentUser !== user) throw new Error('Your account changed. Please verify again.'); }
   const event = (action, targetUid, details = {}) => ({ kind: 'administration', outcome: 'committed', action, actorUid: auth.currentUser.uid, targetUid, timestamp: timestamp(), details });
   async function audit(action, targetUid = '', details = {}) {
     await requireStaff(action === 'email_exported' ? 'exportEmails' : undefined);
     return db.collection('logs').add(event(action, targetUid, details));
   }
   async function verifyIdentity(username, uid) {
+    const user = auth.currentUser;
     await requireStaff('owner');
-    if (!uid || uid.includes('/') || UsernamePolicy.validate(username)) throw new Error('Enter a valid username and its Firebase UID.');
+    requireUser(user);
+    if (typeof uid !== 'string' || !uid.trim() || uid.trim().length > 128 || uid.includes('/')) throw new Error('Enter the existing Firebase UID shown in Users or Firebase Authentication.');
+    if (typeof username !== 'string' || !username.trim() || username.trim().length > 200 || username.includes('/')) throw new Error('Enter the stored username shown in Users. Existing usernames do not need to meet new-signup naming rules.');
+    uid = uid.trim();
     const key = UsernamePolicy.normalize(username);
     const [profile, reservation] = await Promise.all([db.collection('users').doc(uid).get({ source: 'server' }), db.collection('username_registry').doc(key).get({ source: 'server' })]);
-    if (!profile.exists || profile.data().usernameKey !== key || UsernamePolicy.normalize(profile.data().username) !== key || reservation.data()?.uid !== uid) throw new Error('Username and UID could not be verified as the same account. Complete the reviewed username migration first if this is a legacy profile.');
-    return { ...profile.data(), id: uid, usernameKey: key };
+    requireUser(user);
+    if (!profile.exists) throw new Error('No profile exists for that UID. Check the UID in Users or ask the user to sign in once.');
+    const data = profile.data();
+    if (UsernamePolicy.normalize(data.username) !== key) throw new Error('That username does not match the selected UID. Use the stored username shown in Users → Details.');
+    if (reservation.exists && reservation.data()?.uid !== uid) throw new Error('That username is reserved for another UID. Resolve the username conflict before granting access.');
+    if (Object.hasOwn(data, 'usernameKey') && (data.usernameKey !== key || !reservation.exists)) throw new Error('This account has an inconsistent username reservation. Review the account before granting access.');
+    return { ...data, id: uid, usernameKey: key };
   }
   async function saveRole(uid, permissions, active = true, options = {}) {
     const access = await requireStaff('owner');
+    const user = auth.currentUser;
     if (!uid || uid === access.uid) throw new Error('The permanent owner cannot be changed.');
     const profile = active ? await verifyIdentity(options.username, uid) : null;
     const ref = db.collection('admin_roles').doc(uid);
     const log = db.collection('logs').doc();
     await db.runTransaction(async transaction => {
       const current = await transaction.get(ref);
+      requireUser(user);
       if (active && !options.edit && current.data()?.active === true) throw new Error('This user is already an administrator. Edit the existing assignment instead.');
       transaction.set(ref, { active, permissions, usernameKey: profile?.usernameKey || current.data()?.usernameKey || '', createdAt: current.exists ? current.data().createdAt : timestamp(), updatedAt: timestamp(), updatedBy: access.uid, auditId: log.id });
       transaction.set(log, event(active ? 'administrator_saved' : 'administrator_removed', uid));

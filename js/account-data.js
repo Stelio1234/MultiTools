@@ -3,6 +3,7 @@
   const { auth, db } = MultiTools;
   const stamp = () => firebase.firestore.FieldValue.serverTimestamp();
   function requireUser(user) { if (!user || auth.currentUser !== user) throw new Error('Your account changed. Please try again.'); }
+  const accountError = (code, message) => Object.assign(new Error(message), { code: 'account/' + code });
   const audit = (action, targetUid, details = {}) => ({ kind: 'administration', outcome: 'committed', action, actorUid: auth.currentUser.uid, targetUid, timestamp: stamp(), details });
   async function usernamesReady() {
     const snapshot = await db.collection('username_registry').doc('_policy').get({ source: 'server' });
@@ -10,26 +11,28 @@
   }
   async function createProfile(username, marketingChoice = false, source = 'signup') {
     const user = auth.currentUser, error = UsernamePolicy.validate(username);
-    if (!user) throw new Error('Sign in before completing your profile.');
-    if (error) throw new Error(error);
-    if (!await usernamesReady()) throw new Error('New username claims are paused until the reviewed username migration is complete. Existing accounts can still sign in with email.');
+    if (!user) throw accountError('session-required', 'Sign in before completing your profile.');
+    if (error) throw accountError('invalid-username', error);
+    const registryReady = await usernamesReady();
     requireUser(user);
     const display = username.trim(), key = UsernamePolicy.normalize(display);
     const profile = db.collection('users').doc(user.uid), registry = db.collection('username_registry').doc(key), pref = db.collection('email_preferences').doc(user.uid), log = db.collection('logs').doc();
-    await db.runTransaction(async transaction => {
-      const current = await transaction.get(profile), reservation = await transaction.get(registry), preference = await transaction.get(pref);
+    return db.runTransaction(async transaction => {
+      const current = await transaction.get(profile), reservation = registryReady ? await transaction.get(registry) : null, preference = await transaction.get(pref);
       const erasure = await transaction.get(db.collection('privacy_requests').doc(user.uid + '_erasure'));
       requireUser(user);
-      if (current.exists) return;
-      if (erasure.exists && !['rejected', 'cancelled'].includes(erasure.data().status)) throw new Error('Account deletion is awaiting completion. Open Settings to retry deletion or contact support.');
-      if (reservation.exists && reservation.data().uid !== user.uid) throw new Error('That username is unavailable. Choose another to finish your existing account.');
-      transaction.set(profile, { username: display, usernameKey: key, email: user.email, createdAt: stamp(), lastLoginAt: stamp(), emailVerified: user.emailVerified, role: 'user' });
-      transaction.set(registry, { uid: user.uid, createdAt: reservation.exists ? reservation.data().createdAt : stamp() });
+      if (current.exists) return { created: false, pending: current.data().usernameStatus === 'pending' };
+      if (erasure.exists && !['rejected', 'cancelled'].includes(erasure.data().status)) throw accountError('erasure-pending', 'Account deletion is awaiting completion. Open Settings to retry deletion or contact support.');
+      const pending = !registryReady || (reservation.exists && reservation.data().uid !== user.uid);
+      const nameData = pending ? { usernameStatus: 'pending' } : { usernameKey: key };
+      transaction.set(profile, { username: display, ...nameData, email: user.email, createdAt: stamp(), lastLoginAt: stamp(), emailVerified: user.emailVerified, role: 'user' });
+      if (!pending) transaction.set(registry, { uid: user.uid, createdAt: reservation.exists ? reservation.data().createdAt : stamp() });
       if (!preference.exists) {
         const status = marketingChoice ? 'subscribed' : 'unknown';
         transaction.set(pref, { status, suppressed: false, address: String(user.email || '').trim().toLowerCase(), consentedAt: marketingChoice ? stamp() : null, unsubscribedAt: null, updatedAt: stamp(), updatedBy: user.uid, auditId: log.id, source, noticeVersion: MarketingPolicy.noticeVersion, choice: marketingChoice });
         transaction.set(log, audit('email_preference_changed', user.uid, { status }));
       }
+      return { created: true, pending };
     });
   }
   async function rename(username, uid = auth.currentUser?.uid) {
@@ -46,6 +49,7 @@
       requireUser(user);
       if (reservation.exists && reservation.data().uid !== uid) throw new Error('That username is unavailable.');
       transaction.update(profile, { username: display, usernameKey: key, auditId: log.id });
+      if (current.data().usernameStatus === 'pending') transaction.update(profile, { usernameStatus: firebase.firestore.FieldValue.delete() });
       transaction.set(next, { uid, createdAt: reservation.exists ? reservation.data().createdAt : stamp() });
       if (previous && old?.data()?.uid === uid) transaction.delete(previous);
       transaction.set(log, audit('username_changed', uid));
