@@ -1,36 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Text Encrypter/Decrypter</title>
-      <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.googleapis.com https://multitools.statuspage.io https://naas.isalman.dev; frame-src https://multitools-48cc8.firebaseapp.com https://accounts.google.com; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Encrypter/Decrypter | MultiTools</title>
+
     <meta name="theme-color" content="#121212">
     <link rel="manifest" href="/manifest.json">
-   <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
 
 
-  <link rel="stylesheet" href="../../css/index.css" />
-  <link rel="stylesheet" href="../../css/pages.css" />
-  <link rel="stylesheet" href="../../css/footer.css" />
-</head>
+
+  <link rel="stylesheet" href="../../css/index.css">
+  <link rel="stylesheet" href="../../css/pages.css">
+  <link rel="stylesheet" href="../../css/footer.css">
+
+<meta name="description" content="Encode and decode UTF-8 text as Base64 locally in your browser. Base64 encoding does not encrypt or protect secrets.">
+<link rel="canonical" href="https://www.themultitools.xyz/Templates/DevTools/encrypted.html">
+<link rel="icon" href="/images/MultiTools.jpg" type="image/jpeg">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<link rel="stylesheet" href="/css/consent.css"><script src="/js/site-consent.js"></script></head>
 <body class="tool-page encrypt-page">
 
 
   <div id="menu">
-    <h1>Select Tool</h1>
-    <button class="btn" onclick="showSection('encrypt')">Encrypt</button>
-    <button class="btn" onclick="showSection('decrypt')">Decrypt</button>
-    <button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
+    <h1>Select Tool</h1><p>Base64 is reversible encoding. It does not protect confidential information.</p>
+    <button class="btn" type="button" data-action="action-1">Encrypt</button>
+    <button class="btn" type="button" data-action="action-2">Decrypt</button>
+    <button class="back-button" type="button" data-history-back>← Back</button>
   </div>
 
   <div class="container" id="encrypt-container">
     <h1>Encrypt Text</h1>
     <div class="form-group">
-      <input type="text" class="form-control" id="encryptText" placeholder="Enter text to encrypt" aria-label="Enter text to encrypt" />
+      <input type="text" class="form-control" id="encryptText" placeholder="Enter text to encrypt" aria-label="Enter text to encrypt">
     </div>
     <div class="form-group">
-      <input type="password" class="form-control" id="encryptPassword" placeholder="Enter password (AES only)" aria-label="Enter password (AES only)" />
+
     </div>
     <div class="form-group">
       <select class="form-control" id="encryptType" aria-label="Encryption format">
@@ -38,19 +42,19 @@
       </select>
     </div>
     <div class="form-group">
-      <button class="btn" onclick="encrypt()">Encrypt</button>
+      <button class="btn" type="button" data-action="action-4">Encrypt</button>
     </div>
     <div class="form-group" id="encryptResult" style="display: none;"></div>
-    <button class="back-button" onclick="goBack()">&#8592; Back</button>
+    <button class="back-button" type="button" data-action="action-5">← Back</button>
   </div>
 
   <div class="container" id="decrypt-container">
     <h1>Decrypt Text</h1>
     <div class="form-group">
-      <input type="text" class="form-control" id="decryptText" placeholder="Enter text to decrypt" aria-label="Enter text to decrypt" />
+      <input type="text" class="form-control" id="decryptText" placeholder="Enter text to decrypt" aria-label="Enter text to decrypt">
     </div>
     <div class="form-group">
-      <input type="password" class="form-control" id="decryptPassword" placeholder="Enter password (AES only)" aria-label="Enter password (AES only)" />
+
     </div>
     <div class="form-group">
       <select class="form-control" id="decryptType" aria-label="Decryption format">
@@ -58,88 +62,11 @@
       </select>
     </div>
     <div class="form-group">
-      <button class="btn" onclick="decrypt()">Decrypt</button>
+      <button class="btn" type="button" data-action="action-6">Decrypt</button>
     </div>
     <div class="form-group" id="decryptResult" style="display: none;"></div>
-    <button class="back-button" onclick="goBack()">&#8592; Back</button>
+    <button class="back-button" type="button" data-action="action-7">← Back</button>
   </div>
+  <script src="/js/pages/templates-devtools-encrypted-1.js"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-  <script>
-    function showSection(id) {
-      document.getElementById('menu').style.display = 'none';
-      document.getElementById(`${id}-container`).style.display = 'flex';
-    }
-
-    function goBack() {
-      document.getElementById('menu').style.display = 'flex';
-      document.getElementById('encrypt-container').style.display = 'none';
-      document.getElementById('decrypt-container').style.display = 'none';
-      document.querySelectorAll("input").forEach(input => input.value = "");
-      document.getElementById("encryptResult").style.display = "none";
-      document.getElementById("decryptResult").style.display = "none";
-    }
-
-    function copyToClipboard(text, button) {
-      navigator.clipboard.writeText(text).then(() => {
-        button.innerText = "Copied!";
-        setTimeout(() => button.innerText = "Copy", 2000);
-      });
-    }
-
-    function encrypt() {
-      const text = document.getElementById('encryptText').value.trim();
-      const password = document.getElementById('encryptPassword').value;
-      const type = document.getElementById('encryptType').value;
-      const result = document.getElementById('encryptResult');
-      if (!text) return alert("Enter text to encrypt");
-
-      let output = "";
-      if (type === "base64") {
-        output = btoa(unescape(encodeURIComponent(text)));
-      } else if (type === "aes") {
-        if (!password) return alert("Enter a password for AES");
-        const salt = CryptoJS.lib.WordArray.random(128 / 8);
-        const key = CryptoJS.PBKDF2(password, salt, { keySize: 256 / 32, iterations: 1000 });
-        const iv = CryptoJS.lib.WordArray.random(128 / 8);
-        const encrypted = CryptoJS.AES.encrypt(text, key, { iv: iv });
-        output = CryptoJS.enc.Base64.stringify(salt.concat(iv).concat(encrypted.ciphertext));
-      }
-
-      result.style.display = "block";
-      result.innerHTML = `Encrypted: <code>${output}</code> <button class="copy-btn" onclick="copyToClipboard(\`${output}\`, this)">Copy</button>`;
-    }
-
-    function decrypt() {
-      const text = document.getElementById('decryptText').value.trim();
-      const password = document.getElementById('decryptPassword').value;
-      const type = document.getElementById('decryptType').value;
-      const result = document.getElementById('decryptResult');
-      if (!text) return alert("Enter text to decrypt");
-
-      let output = "";
-      try {
-        if (type === "base64") {
-          output = decodeURIComponent(escape(atob(text)));
-        } else if (type === "aes") {
-          if (!password) return alert("Enter password for AES");
-          const raw = CryptoJS.enc.Base64.parse(text);
-          const salt = CryptoJS.lib.WordArray.create(raw.words.slice(0, 4));
-          const iv = CryptoJS.lib.WordArray.create(raw.words.slice(4, 8));
-          const ciphertext = CryptoJS.lib.WordArray.create(raw.words.slice(8), raw.sigBytes - 16);
-          const key = CryptoJS.PBKDF2(password, salt, { keySize: 256 / 32, iterations: 1000 });
-          const decrypted = CryptoJS.AES.decrypt({ ciphertext }, key, { iv });
-          output = decrypted.toString(CryptoJS.enc.Utf8);
-          if (!output) throw new Error("Invalid password or corrupted data");
-        }
-
-        result.style.display = "block";
-        result.innerHTML = `Decrypted: <code>${output}</code> <button class="copy-btn" onclick="copyToClipboard(\`${output}\`, this)">Copy</button>`;
-      } catch (e) {
-        result.style.display = "block";
-        result.textContent = "Error: " + e.message;
-      }
-    }
-  </script>
-</body>
-</html>
+<script src="/js/pages/templates-devtools-encrypted-events.js"></script><script src="/js/back-navigation.js"></script></body></html>

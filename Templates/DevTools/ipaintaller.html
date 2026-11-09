@@ -1,58 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>IPA OTA Installer</title>
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.googleapis.com https://multitools.statuspage.io https://naas.isalman.dev; frame-src https://multitools-48cc8.firebaseapp.com https://accounts.google.com; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IPA OTA Installer | MultiTools</title>
 
-  <link rel="stylesheet" href="../../css/index.css" />
-  <link rel="stylesheet" href="../../css/pages.css" />
-  <link rel="stylesheet" href="../../css/footer.css" />
-</head>
+  <link rel="stylesheet" href="../../css/index.css">
+  <link rel="stylesheet" href="../../css/pages.css">
+  <link rel="stylesheet" href="../../css/footer.css">
+
+<meta name="description" content="IPA OTA Installer from MultiTools. Check the current availability of this service.">
+<link rel="canonical" href="https://www.themultitools.xyz/Templates/DevTools/ipaintaller.html">
+<link rel="icon" href="/images/MultiTools.jpg" type="image/jpeg">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/css/consent.css"><script src="/js/site-consent.js"></script></head>
 <body class="tool-page">
 
   <div class="container">
-    <h1>IPA OTA Installer</h1>
+    <h1>IPA OTA Installer</h1><p id="upload-status" role="status"></p>
     <p>Upload your .ipa file to install over-the-air on iOS</p>
 
-    <input type="file" id="fileInput" aria-label="IPA file" />
-    <button onclick="uploadFile()">Upload & Install</button>
+    <input type="file" id="fileInput" aria-label="IPA file">
+    <button type="button" data-action="action-1">Upload &amp; Install</button>
   </div>
 
-  <script>
-    async function uploadFile() {
-      const fileInput = document.getElementById('fileInput');
-      const file = fileInput.files[0];
+  <script src="/js/pages/templates-devtools-ipaintaller-1.js"></script>
+<button class="back-button" type="button" data-history-back>← Back</button>
 
-      if (!file) {
-        alert("Please select an IPA file.");
-        return;
-      }
 
-      const formData = new FormData();
-      formData.append('file', file);
-
-      try {
-        const response = await fetch('/upload', {
-          method: 'POST',
-          body: formData
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          const manifestUrl = encodeURIComponent(result.manifestUrl);
-          const installUrl = `itms-services://?action=download-manifest&url=${manifestUrl}`;
-          window.location.href = installUrl;
-        } else {
-          alert("Upload failed: " + result.message);
-        }
-      } catch (err) {
-        alert("Error uploading file.");
-        console.error(err);
-      }
-    }
-  </script>
-<button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
-</body>
-</html>
+<script src="/js/pages/templates-devtools-ipaintaller-events.js"></script><script src="/js/back-navigation.js"></script></body></html>

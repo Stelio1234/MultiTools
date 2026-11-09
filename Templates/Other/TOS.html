@@ -1,17 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Terms of Service</title>
-  <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg" />
-  <meta name="theme-color" content="#121212" />
-  <link rel="manifest" href="/manifest.json" />
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.googleapis.com https://multitools.statuspage.io https://naas.isalman.dev; frame-src https://multitools-48cc8.firebaseapp.com https://accounts.google.com; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service | MultiTools</title>
 
-  <link rel="stylesheet" href="../../css/index.css" />
-  <link rel="stylesheet" href="../../css/pages.css" />
-  <link rel="stylesheet" href="../../css/footer.css" />
-</head>
+  <meta name="theme-color" content="#121212">
+  <link rel="manifest" href="/manifest.json">
+
+  <link rel="stylesheet" href="../../css/index.css">
+  <link rel="stylesheet" href="../../css/pages.css">
+  <link rel="stylesheet" href="../../css/footer.css">
+
+<meta name="description" content="Terms of Service from MultiTools. Use this free online page in your browser.">
+<link rel="canonical" href="https://www.themultitools.xyz/Templates/Other/TOS.html">
+<link rel="icon" href="/images/MultiTools.jpg" type="image/jpeg">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<link rel="stylesheet" href="/css/consent.css"><script src="/js/site-consent.js"></script></head>
 <body class="tool-page document-page">
 
   <div class="container">
@@ -57,20 +61,7 @@
 
 
   </div>
-<button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
-</body>
-<script>
-  const lastUpdated = new Date(document.lastModified);
-  const formattedDate = lastUpdated.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
+<button class="back-button" type="button" data-history-back>← Back</button>
 
-  const timestampDiv = document.createElement('div');
-  timestampDiv.className = 'timestamp';
-  timestampDiv.textContent = `Last updated: April 26th`;
 
-  document.querySelector('.container').appendChild(timestampDiv);
-</script>
-</html>
+<script src="/js/back-navigation.js"></script></body></html>

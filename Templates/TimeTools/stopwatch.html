@@ -1,21 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Stopwatch</title>
-    <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.googleapis.com https://multitools.statuspage.io https://naas.isalman.dev; frame-src https://multitools-48cc8.firebaseapp.com https://accounts.google.com; object-src 'none'; base-uri 'none'; form-action 'self'">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch | MultiTools</title>
+
     <meta name="theme-color" content="#121212">
     <link rel="manifest" href="/manifest.json">
-    <script type="module" src="/js/logger.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <link rel="stylesheet" href="/vendor/fontawesome-4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
-  <link rel="stylesheet" href="../../css/index.css" />
-  <link rel="stylesheet" href="../../css/pages.css" />
-  <link rel="stylesheet" href="../../css/footer.css" />
-</head>
+  <link rel="stylesheet" href="../../css/index.css">
+  <link rel="stylesheet" href="../../css/pages.css">
+  <link rel="stylesheet" href="../../css/footer.css">
+
+<meta name="description" content="Stopwatch from MultiTools. Use this free online page in your browser.">
+<link rel="canonical" href="https://www.themultitools.xyz/Templates/TimeTools/stopwatch.html">
+<link rel="icon" href="/images/MultiTools.jpg" type="image/jpeg">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<link rel="stylesheet" href="/css/consent.css"><script src="/js/site-consent.js"></script></head>
 <body class="tool-page timer-page stopwatch-page">
 
     <div class="container">
@@ -27,71 +28,13 @@
             <div class="time-display" id="timeDisplay">00:00:00.000</div>
         </div>
         <div class="controls">
-            <button id="startButton">Start</button>
-            <button class="btn-secondary" id="pauseButton">Pause</button>
-            <button class="btn-secondary" id="resetButton">Reset</button>
+            <button id="startButton" type="button">Start</button>
+            <button class="btn-secondary" id="pauseButton" type="button">Pause</button>
+            <button class="btn-secondary" id="resetButton" type="button">Reset</button>
         </div>
     </div>
-<button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
-</body>
-<script>
-    let startTime, timerInterval;
-    let elapsedTime = 0;
+<button class="back-button" type="button" data-history-back>← Back</button>
 
-    const timeDisplay = document.getElementById('timeDisplay');
-    const progressCircle = document.querySelector('.progress-ring-progress');
-    const radius = progressCircle.r.baseVal.value;
-    const circumference = radius * 2 * Math.PI;
+<script src="/js/pages/templates-timetools-stopwatch-1.js"></script>
 
-    progressCircle.style.strokeDasharray = circumference;
-    progressCircle.style.strokeDashoffset = circumference;
-
-    function updateProgress(percentage) {
-        const offset = circumference - (percentage / 100) * circumference;
-        progressCircle.style.strokeDashoffset = offset;
-    }
-
-    function startStopwatch() {
-        if (!timerInterval) {
-            startTime = Date.now() - elapsedTime;
-            timerInterval = setInterval(updateStopwatch, 50);
-        }
-    }
-
-    function pauseStopwatch() {
-        clearInterval(timerInterval);
-        timerInterval = null;
-    }
-
-    function resetStopwatch() {
-        clearInterval(timerInterval);
-        timerInterval = null;
-        elapsedTime = 0;
-        timeDisplay.textContent = '00:00:00.000';
-        updateProgress(0);
-    }
-
-    function updateStopwatch() {
-        elapsedTime = Date.now() - startTime;
-
-        const hours = Math.floor(elapsedTime / 3600000);
-        const minutes = Math.floor((elapsedTime % 3600000) / 60000);
-        const seconds = Math.floor((elapsedTime % 60000) / 1000);
-        const milliseconds = elapsedTime % 1000;
-
-        timeDisplay.textContent = 
-            `${pad(hours)}:${pad(minutes)}:${pad(seconds)}.${pad(milliseconds, 3)}`;
-
-        const percentage = ((elapsedTime % 60000) / 60000) * 100; 
-        updateProgress(percentage);
-    }
-
-    function pad(number, length = 2) {
-        return number.toString().padStart(length, '0');
-    }
-
-    document.getElementById('startButton').addEventListener('click', startStopwatch);
-    document.getElementById('pauseButton').addEventListener('click', pauseStopwatch); 
-    document.getElementById('resetButton').addEventListener('click', resetStopwatch);
-</script>
-</html>
+<script src="/js/back-navigation.js"></script></body></html>

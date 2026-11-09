@@ -1,21 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.googleapis.com https://multitools.statuspage.io https://naas.isalman.dev; frame-src https://multitools-48cc8.firebaseapp.com https://accounts.google.com; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MultiTools</title>
-  <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg" />
-  <meta name="theme-color" content="#121212" />
-  <link rel="manifest" href="manifest.json" />
-  <meta name="description" content="Multi Tools is a free website offering many useful online tools like YouTube downloader, QR code generator, unit converter, and more – all in one place!" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <script type="module" src="/js/logger.js" defer></script>
 
-  <link rel="stylesheet" href="css/index.css" />
-  <link rel="stylesheet" href="css/pages.css" />
-  <link rel="stylesheet" href="css/dashboard.css" />
-  <link rel="stylesheet" href="css/footer.css" />
-</head>
+  <meta name="theme-color" content="#121212">
+  <link rel="manifest" href="manifest.json">
+
+  <link rel="stylesheet" href="/vendor/fontawesome-4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/footer.css">
+
+<meta name="description" content="Free browser tools from MultiTools: create QR codes and passwords, convert units, calculate tips, set timers, and generate UUIDs.">
+<link rel="canonical" href="https://www.themultitools.xyz/">
+<link rel="icon" href="/images/MultiTools.jpg" type="image/jpeg">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<link rel="stylesheet" href="/css/consent.css"><script src="/js/site-consent.js"></script></head>
 
 <body class="dashboard-page">
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -27,8 +31,9 @@
       </div>
 
       <div class="action-bar">
+        <a id="admin-link" class="btn" href="/admin.html" hidden="">Admin</a>
         <span id="welcome" class="welcome-text"></span>
-        <button id="login-btn" class="login-btn">Log In</button>
+        <button id="login-btn" class="login-btn" type="button">Log In</button>
       </div>
     </div>
   </header>
@@ -40,8 +45,8 @@
           <h2>All of tools you need in one place</h2>
           <div class="cta-row">
             <a class="btn btn-primary" href="#tools">Browse tools</a>
-            <a class="btn" href="https://discord.gg/ESWhAhR5Pp" target="_blank" rel="noopener">Join Discord</a>
-            <a class="btn" href="https://github.com/Stelio1234/MultiTools" target="_blank" rel="noopener">View on GitHub</a>
+            <a class="btn" href="https://discord.gg/ESWhAhR5Pp" target="_blank" rel="noopener noreferrer">Join Discord</a>
+            <a class="btn" href="https://github.com/Stelio1234/MultiTools" target="_blank" rel="noopener noreferrer">View on GitHub</a>
             <a class="btn" href="https://beta.themultitools.xyz" rel="noopener">Try Beta</a>
             <a class="btn" href="https://themultitools.xyz/Templates/Other/download.html">Download</a>
           </div>
@@ -51,7 +56,7 @@
           <p class="subhead">
             After four months, I am back and continuing development on MultiTools. Due to personal reasons, I had to take a break from development. Within the next couple of months, I plan to update the site, adding more tools and features. Also, due to my lack of server hardware, the TikTok and YouTube downloaders will not be available for a while. In the future, I plan to begin development on a new project that will be part of MultiTools, so stay tuned
           </p>
-          <p class="announcement-date"><time datetime="2026-05-04">10/14/26</time></p>
+          <p class="announcement-date"><time datetime="2026-10-14">10/14/26</time></p>
           </div>
 
           <p class="hero-tip">
@@ -72,7 +77,7 @@
 
       <div class="controls">
         <label for="tool-search">Search tools</label>
-        <input id="tool-search" type="search" placeholder="Search tools (e.g., qr, password, timer...)" autocomplete="off" />
+        <input id="tool-search" type="search" placeholder="Search tools (e.g., qr, password, timer...)" autocomplete="off">
 
         <div class="select-wrap">
           <label for="category-filter">Filter by category</label>
@@ -90,401 +95,41 @@
     </a>
   </div>
     <div class="grid">
-      <a href="https://discord.gg/ESWhAhR5Pp" target="_blank" rel="noopener" aria-label="Discord">
+      <a href="https://discord.gg/ESWhAhR5Pp" target="_blank" rel="noopener noreferrer" aria-label="Discord">
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 16 16">
-          <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"/>
+          <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"></path>
         </svg>
       </a>
 
-      <a href="https://github.com/Stelio1234/MultiTools" target="_blank" rel="noopener" aria-label="GitHub">
+      <a href="https://github.com/Stelio1234/MultiTools" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 16 16">
-          <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38v-1.33c-2.23.49-2.69-1.07-2.69-1.07-.36-.91-.88-1.15-.88-1.15-.72-.49.06-.48.06-.48.8.06 1.22.83 1.22.83.71 1.21 1.86.86 2.31.66.07-.52.28-.86.51-1.06-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82a7.7 7.7 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8z"/>
+          <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38v-1.33c-2.23.49-2.69-1.07-2.69-1.07-.36-.91-.88-1.15-.88-1.15-.72-.49.06-.48.06-.48.8.06 1.22.83 1.22.83.71 1.21 1.86.86 2.31.66.07-.52.28-.86.51-1.06-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82a7.7 7.7 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8z"></path>
         </svg>
       </a>
 
-      <a href="https://instagram.com/the.multitools" target="_blank" rel="noopener" aria-label="Instagram">
+      <a href="https://instagram.com/the.multitools" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 448 512">
-          <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9S160.5 370.8 224.1 370.8 339 319.5 339 255.9 287.7 141 224.1 141zm0 186.6c-39.5 0-71.6-32.1-71.6-71.6s32.1-71.6 71.6-71.6 71.6 32.1 71.6 71.6-32.1 71.6-71.6 71.6zm146.4-194.3c0 14.9-12.1 27-27 27-14.9 0-27-12.1-27-27s12.1-27 27-27 27 12.1 27 27zm76.1 27.2c-.9-19.6-5.2-37-17.1-53.1-12-16.3-27.9-28.3-47.5-37.2C358.6 10.2 299.8 0 224.1 0 148.3 0 89.5 10.2 66 70.2c-19.6 8.9-35.5 20.9-47.5 37.2C6.2 123.2 1.9 140.6 1 160.2.3 180.8 0 198.6 0 256s.3 75.2 1 95.8c.9 19.6 5.2 37 17.1 53.1 12 16.3 27.9 28.3 47.5 37.2 23.5 60 82.3 70.2 158.1 70.2s134.6-10.2 158.1-70.2c19.6-8.9 35.5-20.9 47.5-37.2 11.9-16.1 16.2-33.5 17.1-53.1.7-20.6 1-38.4 1-95.8s-.3-75.2-1-95.8zm-48.3 232.1c-7.8 19.5-22.9 34.6-42.4 42.4-29.4 11.8-99.1 9.1-132.1 9.1s-102.7 2.6-132.1-9.1c-19.5-7.8-34.6-22.9-42.4-42.4-11.8-29.4-9.1-99.1-9.1-132.1s-2.6-102.7 9.1-132.1c7.8-19.5 22.9-34.6 42.4-42.4 29.4-11.8 99.1-9.1 132.1-9.1s102.7-2.6 132.1 9.1c19.5 7.8 34.6 22.9 42.4 42.4 11.8 29.4 9.1 99.1 9.1 132.1s2.7 102.7-9.1 132.1z"/>
+          <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9S160.5 370.8 224.1 370.8 339 319.5 339 255.9 287.7 141 224.1 141zm0 186.6c-39.5 0-71.6-32.1-71.6-71.6s32.1-71.6 71.6-71.6 71.6 32.1 71.6 71.6-32.1 71.6-71.6 71.6zm146.4-194.3c0 14.9-12.1 27-27 27-14.9 0-27-12.1-27-27s12.1-27 27-27 27 12.1 27 27zm76.1 27.2c-.9-19.6-5.2-37-17.1-53.1-12-16.3-27.9-28.3-47.5-37.2C358.6 10.2 299.8 0 224.1 0 148.3 0 89.5 10.2 66 70.2c-19.6 8.9-35.5 20.9-47.5 37.2C6.2 123.2 1.9 140.6 1 160.2.3 180.8 0 198.6 0 256s.3 75.2 1 95.8c.9 19.6 5.2 37 17.1 53.1 12 16.3 27.9 28.3 47.5 37.2 23.5 60 82.3 70.2 158.1 70.2s134.6-10.2 158.1-70.2c19.6-8.9 35.5-20.9 47.5-37.2 11.9-16.1 16.2-33.5 17.1-53.1.7-20.6 1-38.4 1-95.8s-.3-75.2-1-95.8zm-48.3 232.1c-7.8 19.5-22.9 34.6-42.4 42.4-29.4 11.8-99.1 9.1-132.1 9.1s-102.7 2.6-132.1-9.1c-19.5-7.8-34.6-22.9-42.4-42.4-11.8-29.4-9.1-99.1-9.1-132.1s-2.6-102.7 9.1-132.1c7.8-19.5 22.9-34.6 42.4-42.4 29.4-11.8 99.1-9.1 132.1-9.1s102.7-2.6 132.1 9.1c19.5 7.8 34.6 22.9 42.4 42.4 11.8 29.4 9.1 99.1 9.1 132.1s2.7 102.7-9.1 132.1z"></path>
         </svg>
       </a>
 
-      <a href="https://www.tiktok.com/@multitoolss" target="_blank" rel="noopener" aria-label="TikTok">
+      <a href="https://www.tiktok.com/@multitoolss" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 448 512">
-          <path d="M412.19,118.66a109.27,109.27,0,0,1-9.45-5.5,132.87,132.87,0,0,1-24.27-20.62c-18.1-20.71-24.86-41.72-27.35-56.43h.1C349.14,23.9,350,16,350.13,16H267.69V334.78c0,4.28,0,8.51-.18,12.69,0,.52-.05,1-.08,1.56,0,.23,0,.47-.05.71,0,.06,0,.12,0,.18a70,70,0,0,1-35.22,55.56,68.8,68.8,0,0,1-34.11,9c-38.41,0-69.54-31.32-69.54-70s31.13-70,69.54-70a68.9,68.9,0,0,1,21.41,3.39l.1-83.94a153.14,153.14,0,0,0-118,34.52,161.79,161.79,0,0,0-35.3,43.53c-3.48,6-16.61,30.11-18.2,69.24-1,22.21,5.67,45.22,8.85,54.73v.2c2,5.6,9.75,24.71,22.38,40.82A167.53,167.53,0,0,0,115,470.66v-.2l.2.2C155.11,497.78,199.36,496,199.36,496c7.66-.31,33.32,0,62.46-13.81,32.32-15.31,50.72-38.12,50.72-38.12a158.46,158.46,0,0,0,27.64-45.93c7.46-19.61,9.95-43.13,9.95-52.53V176.49c1,.6,14.32,9.41,14.32,9.41s19.19,12.3,49.13,20.31c21.48,5.7,50.42,6.9,50.42,6.9V131.27C453.86,132.37,433.27,129.17,412.19,118.66Z"/>
+          <path d="M412.19,118.66a109.27,109.27,0,0,1-9.45-5.5,132.87,132.87,0,0,1-24.27-20.62c-18.1-20.71-24.86-41.72-27.35-56.43h.1C349.14,23.9,350,16,350.13,16H267.69V334.78c0,4.28,0,8.51-.18,12.69,0,.52-.05,1-.08,1.56,0,.23,0,.47-.05.71,0,.06,0,.12,0,.18a70,70,0,0,1-35.22,55.56,68.8,68.8,0,0,1-34.11,9c-38.41,0-69.54-31.32-69.54-70s31.13-70,69.54-70a68.9,68.9,0,0,1,21.41,3.39l.1-83.94a153.14,153.14,0,0,0-118,34.52,161.79,161.79,0,0,0-35.3,43.53c-3.48,6-16.61,30.11-18.2,69.24-1,22.21,5.67,45.22,8.85,54.73v.2c2,5.6,9.75,24.71,22.38,40.82A167.53,167.53,0,0,0,115,470.66v-.2l.2.2C155.11,497.78,199.36,496,199.36,496c7.66-.31,33.32,0,62.46-13.81,32.32-15.31,50.72-38.12,50.72-38.12a158.46,158.46,0,0,0,27.64-45.93c7.46-19.61,9.95-43.13,9.95-52.53V176.49c1,.6,14.32,9.41,14.32,9.41s19.19,12.3,49.13,20.31c21.48,5.7,50.42,6.9,50.42,6.9V131.27C453.86,132.37,433.27,129.17,412.19,118.66Z"></path>
         </svg>
       </a>
     </div>
   </footer>
 
 
-  <script>
-async function loadStatus() {
+  <script src="/js/pages/index-1.js"></script>
+<script src="/vendor/firebase-app-compat-13.2.0.js"></script>
+<script src="/vendor/firebase-auth-compat-13.2.0.js"></script>
+<script src="/vendor/firebase-firestore-compat-13.2.0.js"></script>
+<script src="/js/firebase-client.js"></script>
+<script src="/js/home-account.js"></script>
+  <script src="/js/pages/index-2.js"></script>
 
-    const url = "https://multitools.statuspage.io/api/v2/status.json";
 
-    const response = await fetch(url);
-    const data = await response.json();
 
-    const indicator = data.status.indicator;
-    const description = data.status.description;
-
-    const badge = document.getElementById("status-text");
-
-    badge.textContent = description.toLowerCase();
-
-    badge.dataset.status = indicator;
-}
-
-loadStatus();
-</script>
-  <!-- ---------- FIREBASE ---------- -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-
-  <script>
-    firebase.initializeApp({
-      apiKey: "AIzaSyBHSuqEhGYcRd_6GsMDI0bHDy3_5v0lD9g",
-      authDomain: "multitools-48cc8.firebaseapp.com",
-      projectId: "multitools-48cc8",
-      storageBucket: "multitools-48cc8.firebasestorage.app",
-      messagingSenderId: "1048886823672",
-      appId: "1:1048886823672:web:71f0ff40e2a9642de2890d",
-      measurementId: "G-JG6J0KRN08"
-    });
-
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-
-    window.addEventListener("load", () => {
-      const welcome = document.getElementById("welcome");
-      const loginBtn = document.getElementById("login-btn");
-
-      loginBtn.onclick = () => {
-        auth.currentUser ? auth.signOut() : window.location.href = "login.html";
-      };
-
-      auth.onAuthStateChanged(async user => {
-        if (!user) {
-          welcome.textContent = "You're not logged in.";
-          loginBtn.textContent = "Log In";
-          return;
-        }
-
-        try {
-          const doc = await db.collection("users").doc(user.uid).get();
-          const username = doc.data()?.username || user.email || "User";
-          welcome.textContent = `Welcome, ${username}`;
-        } catch {
-          welcome.textContent = `Welcome, ${user.email || "User"}`;
-        }
-
-        loginBtn.textContent = "Log Out";
-      });
-    });
-  </script>
-
-  <script>
-    const categories = [
-      {
-        title: "Common Tools",
-        tools: [
-          { name: "Timer", link: "Templates/TimeTools/timer.html", desc: "Set a countdown for tasks" },
-          { name: "Unit Converter", link: "Templates/CommonTools/UnitConverter.html", desc: "Convert units ( Kinda self explanatory lol )" },
-        ],
-      },
-      {
-        title: "Calculators",
-        tools: [
-          { name: "Tip Calculator", link: "Templates/Calculators/tipcalculator.html", desc: "Calculate tips instantly" },
-          
-        ],
-      },
-      {
-        title: "Dev Tools",
-        tools: [
-          { name: "Text Encrypter", link: "Templates/DevTools/encrypted.html", badge: "NEW", desc: "Encrypt and decrypt text" },
-          { name: "WebClip Generator", link: "Templates/DevTools/WebClip.html", desc: "Generate webpage previews" },
-          //{ name: "IPA Installer", link: "Templates/DevTools/ipaintaller.html", badge: "WIP", desc: "Install IPA files on your device" },
-        ],
-      },
-      {
-        title: "Generators",
-        tools: [
-          { name: "Gamertag Generator", link: "Templates/Generators/gamertag-gen.html", desc: "Generate cool gamertags" },
-          { name: "QR Code Generator", link: "Templates/Generators/qr-code-gen.html", desc: "Generate QR Codes" },
-          { name: "Password Generator", link: "Templates/Generators/password-gen.html", desc: "Create passwords" },
-          { name: "UUID Generator", link: "Templates/Generators/uuid-generator.html", desc: "Generate UUIDs" },
-          { name: "No as a service", link: "Templates/Generators/Naas.html", desc: "An API that returns random rejection reasons"}
-        ],
-      },
-      {
-        title: "Site Info",
-        tools: [
-          { name: "Terms of Service", link: "Templates/Other/TOS.html" },
-          { name: "Privacy Policy", link: "Templates/Other/privicypolicy.html" },
-          { name: "Patch Notes", link: "Templates/Other/patchnotes.html" },
-          { name: "Settings", link: "settings.html" },
-          
-        ],
-      },
-    ];
-
-    const ALL_CATEGORIES = "All Categories";
-    const POPULAR_LIMIT = 3;
-    const EXCLUDE_FROM_POPULAR = new Set(["Site Info"]);
-
-    function escapeHtml(value) {
-      return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
-    function flattenTools(cats) {
-      return cats.flatMap(cat => cat.tools.map(t => ({ ...t, category: cat.title })));
-    }
-
-    function toBase64Url(str) {
-      const b64 = btoa(unescape(encodeURIComponent(str)));
-      return b64.replaceAll("+", "-").replaceAll("/", "_").replaceAll("=", "");
-    }
-
-    function toolDocId(tool) {
-      return toBase64Url(tool.link || tool.name || "unknown");
-    }
-
-    async function logToolOpen(tool) {
-      if (!window.db) return;
-
-      const id = toolDocId(tool);
-      const ref = db.collection("tool_counts").doc(id);
-
-      const payload = {
-        toolId: id,
-        name: tool.name || "",
-        link: tool.link || "",
-        category: tool.category || "",
-        badge: tool.badge || "",
-        desc: tool.desc || "",
-        count: firebase.firestore.FieldValue.increment(1),
-        lastOpenedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      };
-
-      await ref.set(payload, { merge: true });
-    }
-
-    async function logThenNavigate(tool, href, e) {
-      const isModifiedClick = e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1;
-
-      if (isModifiedClick) {
-        logToolOpen(tool).catch(() => {});
-        return;
-      }
-
-      e.preventDefault();
-
-      const logPromise = logToolOpen(tool).catch(() => {});
-      const timeoutPromise = new Promise(resolve => setTimeout(resolve, 350));
-      await Promise.race([logPromise, timeoutPromise]);
-
-      window.location.href = href;
-    }
-
-    function createToolCard(tool, extraClass = "") {
-      const a = document.createElement("a");
-      a.href = tool.link;
-      a.className = `tool-card ${extraClass}`.trim();
-
-      a.innerHTML = `
-        <h3>${escapeHtml(tool.name)}${tool.badge ? `<span class="badge">${escapeHtml(tool.badge)}</span>` : ""}</h3>
-        ${tool.desc ? `<p>${escapeHtml(tool.desc)}</p>` : ""}
-        ${tool.category ? `<p class="muted tool-meta">${escapeHtml(tool.category)}</p>` : ""}
-      `;
-
-      a.addEventListener("click", (e) => logThenNavigate(tool, tool.link, e));
-      return a;
-    }
-
-
-    function categoryCounts() {
-      const counts = new Map();
-      for (const cat of categories) counts.set(cat.title, cat.tools.length);
-      return counts;
-    }
-
-    function renderCategoryFilter() {
-      const select = document.getElementById("category-filter");
-      select.innerHTML = "";
-
-      const counts = categoryCounts();
-      const allCount = flattenTools(categories).length;
-
-      const options = [
-        { value: ALL_CATEGORIES, label: `${ALL_CATEGORIES} (${allCount})` },
-        ...categories.map(c => ({ value: c.title, label: `${c.title} (${counts.get(c.title) || 0})` })),
-      ];
-
-      for (const opt of options) {
-        const o = document.createElement("option");
-        o.value = opt.value;
-        o.textContent = opt.label;
-        select.appendChild(o);
-      }
-    }
-
-    function renderTools({ searchTerm, categoryTitle }) {
-      const container = document.getElementById("tools-container");
-      container.innerHTML = "";
-
-      const term = (searchTerm || "").trim().toLowerCase();
-      const categoryFilter = categoryTitle && categoryTitle !== ALL_CATEGORIES ? categoryTitle : null;
-
-      let renderedAny = false;
-
-      for (const cat of categories) {
-        if (categoryFilter && cat.title !== categoryFilter) continue;
-
-        const filteredTools = cat.tools
-          .map(t => ({ ...t, category: cat.title }))
-          .filter(t => {
-            if (!term) return true;
-            const hay = `${t.name} ${t.desc || ""} ${t.category}`.toLowerCase();
-            return hay.includes(term);
-          });
-
-        if (filteredTools.length === 0) continue;
-
-        renderedAny = true;
-
-        const section = document.createElement("section");
-        const h2 = document.createElement("h2");
-        h2.textContent = cat.title;
-        section.appendChild(h2);
-
-        const grid = document.createElement("div");
-        grid.className = "tool-grid";
-
-        for (const tool of filteredTools) {
-          grid.appendChild(createToolCard(tool));
-        }
-
-        section.appendChild(grid);
-        container.appendChild(section);
-      }
-
-      if (!renderedAny) {
-        const empty = document.createElement("div");
-        empty.className = "empty-state";
-        empty.textContent = "No tools match your search/filter. Try a different keyword.";
-        container.appendChild(empty);
-      }
-
-    }
-
-    function wireControls() {
-      const search = document.getElementById("tool-search");
-      const filter = document.getElementById("category-filter");
-
-      const rerender = () => renderTools({ searchTerm: search.value, categoryTitle: filter.value });
-
-      search.addEventListener("input", rerender);
-      filter.addEventListener("change", rerender);
-
-      rerender();
-    }
-
-    function buildToolIndexByLink() {
-      const map = new Map();
-      for (const t of flattenTools(categories)) map.set(t.link, t);
-      return map;
-    }
-
-    async function fetchPopularFromDb(limit) {
-      if (!window.db) return [];
-
-      const snap = await db
-        .collection("tool_counts")
-        .orderBy("count", "desc")
-        .limit(limit * 2)
-        .get();
-
-      const results = [];
-      snap.forEach(doc => results.push(doc.data()));
-      return results;
-    }
-
-    async function renderPopular() {
-      const el = document.getElementById("popular-tools");
-      el.innerHTML = "";
-
-      const byLink = buildToolIndexByLink();
-
-      try {
-        const raw = await fetchPopularFromDb(POPULAR_LIMIT);
-
-        const popular = raw
-          .map(d => {
-            const known = d.link ? byLink.get(d.link) : null;
-            const tool = known
-              ? { ...known, category: known.category || d.category || "" }
-              : {
-                  name: d.name || "Unknown Tool",
-                  link: d.link || "#",
-                  badge: d.badge || "",
-                  desc: d.desc || "",
-                  category: d.category || "",
-                };
-
-            return { tool, count: Number(d.count || 0) };
-          })
-          .filter(x => x.tool.link && x.tool.link !== "#")
-          .filter(x => !EXCLUDE_FROM_POPULAR.has(x.tool.category || x.tool.category))
-          .slice(0, POPULAR_LIMIT);
-
-        if (popular.length === 0) throw new Error("No popular tools yet");
-
-        for (const item of popular) {
-          const card = createToolCard(
-            { ...item.tool, category: "" },
-            ""
-          );
-
-          const meta = document.createElement("p");
-          meta.className = "muted tool-meta";
-          meta.textContent = `${item.count} opens`;
-
-          card.appendChild(meta);
-          el.appendChild(card);
-        }
-      } catch {
-        const fallback = flattenTools(categories)
-          .filter(t => !EXCLUDE_FROM_POPULAR.has(t.category))
-          .slice(0, POPULAR_LIMIT);
-
-        if (fallback.length === 0) {
-          const empty = document.createElement("div");
-          empty.className = "empty-state";
-          empty.textContent = "No popular tools configured yet.";
-          el.appendChild(empty);
-          return;
-        }
-
-        for (const t of fallback) {
-          el.appendChild(createToolCard({ ...t, category: "" }));
-        }
-      }
-
-    }
-
-    window.addEventListener("load", () => {
-      renderCategoryFilter();
-      wireControls();
-      renderPopular().catch(() => {});
-    });
-  </script>
-  <script src="https://multitools.statuspage.io/embed/script.js"></script>
-</body>
-</html>
+</body></html>

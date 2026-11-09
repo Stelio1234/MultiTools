@@ -1,21 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>QR Code Generator</title>
-<link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg" />
-<meta name="theme-color" content="#121212" />
-<link rel="manifest" href="/manifest.json" />
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.googleapis.com https://multitools.statuspage.io https://naas.isalman.dev; frame-src https://multitools-48cc8.firebaseapp.com https://accounts.google.com; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Code Generator | MultiTools</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
-<script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+<meta name="theme-color" content="#121212">
+<link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/vendor/fontawesome-6.5.1/css/all.min.css" integrity="sha384-t1nt8BQoYMLFN5p42tRAtuAAFQaCQODekUVeKKZrEnEyp4H2R0RHFz0KWpmj7i8g" crossorigin="anonymous">
+<script src="/vendor/qr-code-styling-1.9.2.js"></script>
 
 
-  <link rel="stylesheet" href="../../css/index.css" />
-  <link rel="stylesheet" href="../../css/pages.css" />
-  <link rel="stylesheet" href="../../css/footer.css" />
-</head>
+  <link rel="stylesheet" href="../../css/index.css">
+  <link rel="stylesheet" href="../../css/pages.css">
+  <link rel="stylesheet" href="../../css/footer.css">
+
+<meta name="description" content="Create and download custom QR codes for text, websites, Wi-Fi, phone numbers, and email addresses.">
+<link rel="canonical" href="https://www.themultitools.xyz/Templates/Generators/qr-code-gen.html">
+<link rel="icon" href="/images/MultiTools.jpg" type="image/jpeg">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<link rel="stylesheet" href="/css/consent.css"><script src="/js/site-consent.js"></script></head>
 <body class="workspace-page split-workspace qr-page">
 
 <main class="main-container">
@@ -131,9 +135,9 @@
       </div>
 
       <div class="button-group">
-        <button class="btn-secondary" id="gradient-toggle-btn">Use Gradient: On</button>
+        <button class="btn-secondary" id="gradient-toggle-btn" type="button">Use Gradient: On</button>
 
-        <button class="btn-secondary" id="reset" data-secondary-action="true">Reset All</button>
+        <button class="btn-secondary" id="reset" data-secondary-action="true" type="button">Reset All</button>
 
       </div>
 
@@ -147,138 +151,9 @@
   </div>
 </main>
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script>
-    let useGradient = true;
-    let logoData = "";
+<script src="/vendor/jquery-3.7.1.min.js"></script>
+<script src="/js/pages/templates-generators-qr-code-gen-1.js"></script>
+<button class="back-button" type="button" data-history-back>← Back</button>
 
-    // Initialize the QR Code instance
-    const qrCode = new QRCodeStyling({
-        width: 300,
-        height: 300,
-        type: "canvas",
-        data: "Hello World",
-        dotsOptions: {
-            color: "#000000",
-            type: "square"
-        },
-        backgroundOptions: {
-            color: "#ffffff"
-        },
-    });
 
-    qrCode.append(document.getElementById("qr-code"));
-
-    function updateQRCode() {
-        const type = $('#Qr-Type').val();
-        let finalData = "";
-
-        // Visibility Logic
-        $('#text-group, #wifi-group, #phone-group, #email-group').hide();
-        if (type === 'wifi') {
-            $('#wifi-group').show();
-            finalData = `WIFI:S:${$('#wifi-ssid').val()};T:${$('#wifi-type').val()};P:${$('#wifi-pass').val()};;`;
-        } else if (type === 'phone') {
-            $('#phone-group').show();
-            finalData = `tel:${$('#phone-num').val()}`;
-        } else if (type === 'email') {
-            $('#email-group').show();
-            finalData = `mailto:${$('#email-addr').val()}`;
-        } else {
-            $('#text-group').show();
-            finalData = $('#content').val() || "Hello World";
-        }
-
-        // Sizing Logic
-        const preset = $('#size-preset').val();
-        let size = 300;
-        if (preset === 'custom') {
-            $('#manual-size-group').show();
-            size = parseInt($('#qr-size').val()) || 300;
-        } else {
-            $('#manual-size-group').hide();
-            size = parseInt(preset);
-        }
-
-        let dotsOptions = {
-            type: $('#shape').val()
-        };
-
-        if (useGradient) {
-
-            dotsOptions.gradient = {
-                type: $('#gradient-type').val(),
-                rotation: 0,
-                colorStops: [
-                    { offset: 0, color: $('#gradient-from').val() },
-                    { offset: 1, color: $('#gradient-to').val() }
-                ]
-            };
-            delete dotsOptions.color; 
-        } else {
-            dotsOptions.color = $('#gradient-from').val();
-            dotsOptions.gradient = null; 
-}
-
-        // Apply Updates
-        qrCode.update({
-            width: size,
-            height: size,
-            data: finalData,
-            dotsOptions: dotsOptions,
-            backgroundOptions: {
-                color: $('#transparent-bg').is(":checked") ? "transparent" : $('#bg-color').val()
-            },
-            image: logoData || null,
-            imageOptions: {
-                crossOrigin: "anonymous",
-                margin: 5
-            }
-        });
-    }
-
-    $(document).ready(function () {
-        // Universal listener for inputs
-        $('input, select').on('input change', updateQRCode);
-
-        // Fixed Gradient Toggle: Moved outside of updateQRCode to prevent recursion
-        $('#gradient-toggle-btn').on('click', function () {
-            useGradient = !useGradient;
-            $(this).text(`Use Gradient: ${useGradient ? "On" : "Off"}`);
-            updateQRCode();
-        });
-
-        // Logo Upload Logic
-        $('#logo').change(function () {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = e => {
-                    logoData = e.target.result;
-                    updateQRCode();
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // Download Logic
-        $('#download').click(function () {
-            qrCode.download({
-                name: $('#qrcode-name').val() || "qr-code",
-                extension: "png"
-            });
-        });
-
-        // Reset Logic
-        $('#reset').click(function () {
-            location.reload();
-        });
-
-        // Initial Run
-        updateQRCode();
-    });
-</script>
-</script>
-<button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
-</body>
-</html>
+<script src="/js/back-navigation.js"></script></body></html>

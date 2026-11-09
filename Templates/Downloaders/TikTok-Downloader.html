@@ -1,25 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TikTok Downloader</title>
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.googleapis.com https://multitools.statuspage.io https://naas.isalman.dev; frame-src https://multitools-48cc8.firebaseapp.com https://accounts.google.com; object-src 'none'; base-uri 'none'; form-action 'self'">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Downloader | MultiTools</title>
     <meta name="theme-color" content="#121212">
     <link rel="manifest" href="/manifest.json">
-    <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
 
-  <link rel="stylesheet" href="../../css/index.css" />
-  <link rel="stylesheet" href="../../css/pages.css" />
-  <link rel="stylesheet" href="../../css/footer.css" />
-</head>
+
+  <link rel="stylesheet" href="../../css/index.css">
+  <link rel="stylesheet" href="../../css/pages.css">
+  <link rel="stylesheet" href="../../css/footer.css">
+
+<meta name="description" content="TikTok Downloader from MultiTools. Check the current availability of this service.">
+<link rel="canonical" href="https://www.themultitools.xyz/Templates/Downloaders/TikTok-Downloader.html">
+<link rel="icon" href="/images/MultiTools.jpg" type="image/jpeg">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/css/consent.css"><script src="/js/site-consent.js"></script></head>
 <body class="tool-page">
 
 <div class="container">
     <div class="title">
         <h1>TikTok Downloader</h1>
     </div>
-    <input id="urlInput" type="text" placeholder="Enter TikTok link..." aria-label="Enter TikTok link..." />
-    <button onclick="downloadVideo()">Download</button>
+    <input id="urlInput" type="text" placeholder="Enter TikTok link..." aria-label="Enter TikTok link...">
+    <button type="button" data-action="action-1">Download</button>
 
     <!-- Loading spinner -->
     <div id="loadingSpinner" class="loading-spinner"></div>
@@ -30,45 +35,7 @@
 
 
 
-<script>
-    async function downloadVideo() {
-        const url = document.getElementById('urlInput').value;
-        const spinner = document.getElementById('loadingSpinner');
-        const errorMessage = document.getElementById('errorMessage');
+<script src="/js/pages/templates-downloaders-tiktok-downloader-1.js"></script>
+<button class="back-button" type="button" data-history-back>← Back</button>
 
-        // Reset previous errors
-        errorMessage.textContent = '';
-        if (!url) {
-            errorMessage.textContent = 'Please enter a valid URL.';
-            return;
-        }
-
-        // Show loading spinner
-        spinner.style.display = 'block';
-
-        try {
-            const response = await fetch(`http://192.168.1.43:5000/download?tiktok_url=${encodeURIComponent(url)}`);
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to download');
-            }
-
-            const blob = await response.blob();
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'tiktok_video.mp4';
-            link.click();
-
-            alert('Download started successfully!');
-        } catch (error) {
-            errorMessage.textContent = error.message;
-        } finally {
-            // Hide loading spinner
-            spinner.style.display = 'none';
-        }
-    }
-</script>
-<button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
-</body>
-</html>
+<script src="/js/pages/templates-downloaders-tiktok-downloader-events.js"></script><script src="/js/back-navigation.js"></script></body></html>

@@ -52,6 +52,7 @@
 
 
 *, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { color-scheme: dark; background: var(--bg); scroll-padding-top: var(--space-5); }
 body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--text); font-family: var(--font-sans); font-size: var(--font-body); line-height: var(--line-body); -webkit-font-smoothing: antialiased; }
 h1, h2, h3, h4, p { margin: 0; }

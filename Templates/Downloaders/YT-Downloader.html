@@ -1,18 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>YouTube Downloader</title>
-<link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg" />
-<meta name="theme-color" content="#121212" />
-<link rel="manifest" href="/manifest.json" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.googleapis.com https://multitools.statuspage.io https://naas.isalman.dev; frame-src https://multitools-48cc8.firebaseapp.com https://accounts.google.com; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube Downloader | MultiTools</title>
 
-  <link rel="stylesheet" href="../../css/index.css" />
-  <link rel="stylesheet" href="../../css/pages.css" />
-  <link rel="stylesheet" href="../../css/footer.css" />
-</head>
+<meta name="theme-color" content="#121212">
+<link rel="manifest" href="/manifest.json">
+<link rel="stylesheet" href="/vendor/fontawesome-6.5.1/css/all.min.css" integrity="sha384-t1nt8BQoYMLFN5p42tRAtuAAFQaCQODekUVeKKZrEnEyp4H2R0RHFz0KWpmj7i8g" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="../../css/index.css">
+  <link rel="stylesheet" href="../../css/pages.css">
+  <link rel="stylesheet" href="../../css/footer.css">
+
+<meta name="description" content="YouTube Downloader from MultiTools. Check the current availability of this service.">
+<link rel="canonical" href="https://www.themultitools.xyz/Templates/Downloaders/YT-Downloader.html">
+<link rel="icon" href="/images/MultiTools.jpg" type="image/jpeg">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/css/consent.css"><script src="/js/site-consent.js"></script></head>
 <body class="workspace-page split-workspace youtube-page">
 
 <div class="main-container">
@@ -21,7 +26,7 @@
     <div class="controls">
       <div>
         <label for="urlInput">YouTube URL</label>
-        <input id="urlInput" type="text" placeholder="Enter YouTube link..." />
+        <input id="urlInput" type="text" placeholder="Enter YouTube link...">
       </div>
       <div>
         <label for="qualitySelect">Quality</label>
@@ -33,7 +38,7 @@
         </select>
       </div>
       <div>
-        <button class="btn-primary" id="run-btn">Download</button>
+        <button class="btn-primary" id="run-btn" type="button">Download</button>
       </div>
     </div>
     <div class="preview">
@@ -44,81 +49,14 @@
       <div id="errorMessage" class="error-message"></div>
       <div id="successMessage" class="success-message"></div>
       <div class="download-link" id="downloadLink" style="display:none;">
-        <button onclick="downloadFile()">Download Video File</button>
+        <button type="button" data-action="action-1">Download Video File</button>
       </div>
     </div>
   </div>
 </div>
 
-<script>
-let currentDownloadId = null;
+<script src="/js/pages/templates-downloaders-yt-downloader-1.js"></script>
+<button class="back-button" type="button" data-history-back>← Back</button>
 
-document.getElementById('run-btn').addEventListener('click', async () => {
-    const url = document.getElementById('urlInput').value.trim();
-    const quality = document.getElementById('qualitySelect').value;
 
-    if (!url) {
-        document.getElementById('errorMessage').textContent = "Please enter a URL.";
-        return;
-    }
-
-    document.getElementById('errorMessage').textContent = "";
-    document.getElementById('successMessage').textContent = "";
-    document.getElementById('loadingSpinner').style.display = "block";
-    document.getElementById('progressFill').style.width = "0%";
-    document.getElementById('progressText').textContent = "0%";
-
-    try {
-        const response = await fetch("http://127.0.0.1:5000/download", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ url, quality })
-        });
-        const data = await response.json();
-
-        if (data.success) {
-            currentDownloadId = data.download_id;
-            document.getElementById('successMessage').textContent = "Download started!";
-            checkProgress();
-        } else {
-            throw new Error(data.error || "Download failed");
-        }
-    } catch (error) {
-        document.getElementById('errorMessage').textContent = error.message;
-    } finally {
-        document.getElementById('loadingSpinner').style.display = "none";
-    }
-});
-
-async function checkProgress() {
-    if (!currentDownloadId) return;
-    try {
-        const resp = await fetch(`http://127.0.0.1:5000/status/${currentDownloadId}`);
-        const data = await resp.json();
-        document.getElementById('progressFill').style.width = `${data.progress}%`;
-        document.getElementById('progressText').textContent = `${data.progress}% - ${data.status}`;
-
-        if (data.status === "completed") {
-            document.getElementById('successMessage').textContent = "Download complete!";
-            document.getElementById('downloadLink').style.display = "block";
-        } else if (data.status === "failed") {
-            document.getElementById('errorMessage').textContent = data.error || "Download failed.";
-        } else {
-            setTimeout(checkProgress, 1000);
-        }
-    } catch (e) {
-        console.error(e);
-    }
-}
-
-function downloadFile() {
-    if (!currentDownloadId) return;
-    const link = document.createElement("a");
-    link.href = `http://127.0.0.1:5000/download/${currentDownloadId}/file`;
-    link.download = "video.mp4";
-    link.click();
-}
-</script>
-<button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
-</body>
-</html>
+<script src="/js/pages/templates-downloaders-yt-downloader-events.js"></script><script src="/js/back-navigation.js"></script></body></html>

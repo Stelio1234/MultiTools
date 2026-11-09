@@ -1,9 +1,8 @@
-name: Deploy Jekyll and Firebase Functions
+name: Validate and deploy static site
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -12,42 +11,26 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "deploy"
+  group: deploy
   cancel-in-progress: false
 
 jobs:
-  # 1️⃣ Build & deploy Jekyll site to GitHub Pages
-  build-and-deploy-jekyll:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      # IMPORTANT: Inject secrets BEFORE the build happens
-      - name: Inject Firebase Secrets
-        run: |
-          sed -i "s/MULTITOOLSAPIKEY/${{ secrets.MULTITOOLSAPIKEY }}/g" index.html
-          sed -i "s/MULTITOOLSAUTHDOMAIN/${{ secrets.MULTITOOLSAUTHDOMAIN }}/g" index.html
-          sed -i "s/MULTITOOLSPROJECTID/${{ secrets.MULTITOOLSPROJECTID }}/g" index.html
-          sed -i "s/MULTITOOLSSTORAGEBUCKET/${{ secrets.MULTITOOLSSTORAGEBUCKET }}/g" index.html
-          sed -i "s/MULTITOOLSSERNDERID/${{ secrets.MULTITOOLSSERNDERID }}/g" index.html
-          sed -i "s/MULTITOOLSAPPID/${{ secrets.MULTITOOLSAPPID }}/g" index.html
-          sed -i "s/MULTITOOLSMESUREMENTID/${{ secrets.MULTITOOLSMESUREMENTID }}/g" index.html
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          source: ./
-          destination: ./_site
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-
-  deploy-jekyll:
-    needs: build-and-deploy-jekyll
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+  deploy:
+    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -56,22 +39,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-  # Deploy Firebase functions
-  deploy-firebase-functions:
-    needs: deploy-jekyll
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-      - name: Install Firebase CLI
-        run: npm install -g firebase-tools
-
-      - name: Deploy Functions
-        run: firebase deploy --only functions --token "${{ secrets.FIREBASE_TOKEN }}"

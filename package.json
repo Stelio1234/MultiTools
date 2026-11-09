@@ -1,0 +1,14 @@
+{
+  "name": "multitools",
+  "private": true,
+  "version": "1.14.0",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs",
+    "test": "npm run check"
+  },
+  "devDependencies": {
+    "html-validate": "^11.20.0",
+    "parse5": "^8.1.1"
+  }
+}

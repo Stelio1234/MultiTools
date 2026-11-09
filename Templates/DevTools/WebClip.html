@@ -1,17 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>iOS Web Clip Generator</title>
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.googleapis.com https://multitools.statuspage.io https://naas.isalman.dev; frame-src https://multitools-48cc8.firebaseapp.com https://accounts.google.com; object-src 'none'; base-uri 'none'; form-action 'self'">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS Web Clip Generator | MultiTools</title>
     <meta name="theme-color" content="#121212">
     <link rel="manifest" href="/manifest.json">
-    <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
 
-  <link rel="stylesheet" href="../../css/index.css" />
-  <link rel="stylesheet" href="../../css/pages.css" />
-  <link rel="stylesheet" href="../../css/footer.css" />
-</head>
+
+  <link rel="stylesheet" href="../../css/index.css">
+  <link rel="stylesheet" href="../../css/pages.css">
+  <link rel="stylesheet" href="../../css/footer.css">
+
+<meta name="description" content="Create an iOS Web Clip configuration profile with your HTTPS website URL, icon, display name, and options.">
+<link rel="canonical" href="https://www.themultitools.xyz/Templates/DevTools/WebClip.html">
+<link rel="icon" href="/images/MultiTools.jpg" type="image/jpeg">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<link rel="stylesheet" href="/css/consent.css"><script src="/js/site-consent.js"></script></head>
 <body class="tool-page webclip-page">
 
 
@@ -20,42 +24,42 @@
         <h1>WebClip Generator</h1>
     </div>
     <!-- Payload Display Name -->
-    <input id="displayNameInput" type="text" placeholder="Enter Display Name..." aria-label="Enter Display Name..." />
+    <input id="displayNameInput" type="text" placeholder="Enter Display Name..." aria-label="Enter Display Name...">
 
     <!-- Link for Web Clip -->
-    <input id="linkInput" type="url" placeholder="Enter URL..." aria-label="Enter URL..." />
+    <input id="linkInput" type="url" placeholder="Enter URL..." aria-label="Enter URL...">
 
     <!-- Payload Description -->
     <textarea id="descriptionInput" placeholder="Enter Description..." rows="3" aria-label="Enter Description..."></textarea>
 
     <!-- Payload Version -->
-    <input id="versionInput" type="number" placeholder="Enter Version Number..." value="1" aria-label="Enter Version Number..." />
+    <input id="versionInput" type="number" placeholder="Enter Version Number..." value="1" aria-label="Enter Version Number...">
 
     <!-- Icon upload -->
-    <input type="file" id="iconInput" accept="image/*" aria-label="Web Clip icon" />
+    <input type="file" id="iconInput" accept="image/*" aria-label="Web Clip icon">
     <div id="preview-container">
-        <img id="preview" alt="Icon Preview" />
-        <span class="delete-icon" onclick="deleteIcon()">×</span>
+        <img id="preview" alt="Icon Preview" src="/images/MultiTools.jpg">
+        <span class="delete-icon" data-action="action-1">×</span>
     </div>
 
     <!-- Removal Passcode -->
-    <input id="removalPasscode" type="text" placeholder="Enter Removal Passcode (Optional)" aria-label="Enter Removal Passcode (Optional)" />
+    <input id="removalPasscode" type="text" placeholder="Enter Removal Passcode (Optional)" aria-label="Enter Removal Passcode (Optional)">
 
     <!-- Removal Date -->
     <div class="checkbox-container">
-        <input type="checkbox" id="removalDateCheckbox" onclick="toggleRemovalDate()" />
+        <input type="checkbox" id="removalDateCheckbox" data-action="action-2">
         <label for="removalDateCheckbox">Include Removal Date</label>
     </div>
 
     <div class="checkbox-container">
-      <input type="checkbox" id="fullscreenCheckbox" />
+      <input type="checkbox" id="fullscreenCheckbox">
       <label for="fullscreenCheckbox">Launch in Full Screen</label>
     </div>
 
     <!-- Removal Date (Visible if checkbox is true) -->
-    <input id="removalDateInput" type="date" placeholder="Enter Removal Date..." style="display:none;" aria-label="Enter Removal Date..." />
+    <input id="removalDateInput" type="date" placeholder="Enter Removal Date..." style="display:none;" aria-label="Enter Removal Date...">
 
-    <button onclick="generateWebClip()">Generate Web Clip</button>
+    <button type="button" data-action="action-3">Generate Web Clip</button>
 
     <!-- Progress Bar -->
     <div class="progress-bar" id="progressBar">
@@ -63,9 +67,6 @@
     </div>
 
     <!-- Download button -->
-    <a id="downloadLink" download="webclip.mobileconfig" style="display:none;">
-        <button>Download Web Clip</button>
-    </a>
 
     <!-- Error message -->
     <div id="errorMessage" class="error-message"></div>
@@ -74,149 +75,12 @@
 <!-- Back Button -->
 
 
-<script>
-    let iconBase64 = '';
-
-    document.getElementById('iconInput').addEventListener('change', function (e) {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = function (event) {
-            iconBase64 = event.target.result;
-            // Show the preview container and set image src
-            const previewContainer = document.getElementById('preview-container');
-            const previewImage = document.getElementById('preview');
-            previewImage.src = iconBase64;
-            previewContainer.style.display = 'inline-block';
-        };
-        reader.readAsDataURL(file);
-    });
-
-    function deleteIcon() {
-        iconBase64 = '';
-        document.getElementById('iconInput').value = '';
-        document.getElementById('preview-container').style.display = 'none';
-        document.getElementById('preview').src = '';
-    }
-
-    function generateUUID() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            const r = Math.random() * 16 | 0;
-            const v = c === 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
-    }
-
-    function generateWebClip() {
-        const displayName = document.getElementById('displayNameInput').value.trim();
-        const description = document.getElementById('descriptionInput').value.trim();
-        const linkInputRaw = document.getElementById('linkInput').value.trim();
-        const removalPasscode = document.getElementById('removalPasscode').value.trim();
-        const removalDateCheckbox = document.getElementById('removalDateCheckbox').checked;
-        const removalDate = document.getElementById('removalDateInput').value;
-        const fullScreen = document.getElementById('fullscreenCheckbox').checked;
-        const version = document.getElementById('versionInput').value;
-
-        if (!displayName || !linkInputRaw || !iconBase64) {
-            alert("Please provide Display Name, URL, and an icon image.");
-            return;
-        }
-
-        let url;
-        if (linkInputRaw.startsWith('http://') || linkInputRaw.startsWith('https://')) {
-            url = linkInputRaw.replace(/^https?:\/\//, '');
-        } else {
-            url = linkInputRaw;
-        }
-
-        document.getElementById('progressBar').style.display = 'block';
-        const progressBar = document.getElementById('progress');
-        progressBar.style.width = '20%';
-
-        const randomUUID = generateUUID();
-        const innerUUID = generateUUID();
-
-        let removalDateTag = '';
-        if (removalDateCheckbox && removalDate) {
-            removalDateTag = `<key>PayloadRemovalDate</key><date>${removalDate}</date>`;
-        }
-
-        let passcodeTag = '';
-        if (removalPasscode) {
-            passcodeTag = `<key>PayloadRemovalPasscode</key><string>${removalPasscode}</string>`;
-        }
-
-        let fullScreenTag = '';
-        if (fullScreen) {
-            fullScreenTag = `<key>FullScreen</key><true/>`;
-        }
-
-        progressBar.style.width = '50%';
-
-        const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-<key>PayloadContent</key>
-<array>
-  <dict>
-    <key>URL</key>
-    <string>https://${url}</string>
-    <key>Icon</key>
-    <data>${iconBase64.split(',')[1]}</data>
-    <key>PayloadDisplayName</key>
-    <string>${displayName}</string>
-    <key>PayloadDescription</key>
-    <string>${description}</string>
-    <key>PayloadVersion</key>
-    <integer>${version}</integer>
-    ${passcodeTag}
-    ${removalDateTag}
-    ${fullScreenTag}
-    <key>PayloadUUID</key>
-    <string>${innerUUID}</string>
-    <key>PayloadIdentifier</key>
-    <string>com.example.webclip.${innerUUID}</string>
-    <key>PayloadType</key>
-    <string>com.apple.webClip.managed</string>
-    <key>Label</key>
-    <string>${displayName}</string>
-  </dict>
-</array>
-<key>PayloadType</key>
-<string>Configuration</string>
-<key>PayloadVersion</key>
-<integer>1</integer>
-<key>PayloadUUID</key>
-<string>${randomUUID}</string>
-<key>PayloadIdentifier</key>
-<string>com.example.webclip.${randomUUID}</string>
-<key>PayloadOrganization</key>
-<string>Your Organization</string>
-</dict>
-</plist>`;
-
-        progressBar.style.width = '80%';
-
-        const blob = new Blob([xml], { type: 'application/x-apple-aspen-config' });
-        const urlBlob = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = urlBlob;
-        a.download = `${displayName}.mobileconfig`;
-        a.click();
-
-        progressBar.style.width = '100%';
-        setTimeout(() => {
-            document.getElementById('progressBar').style.display = 'none';
-            progressBar.style.width = '0';
-        }, 1000);
-    }
-</script>
+<script src="/js/pages/templates-devtools-webclip-1.js"></script>
 
 
 
 
-<button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
-</body>
-</html>
+<button class="back-button" type="button" data-history-back>← Back</button>
+
+
+<script src="/js/pages/templates-devtools-webclip-events.js"></script><script src="/js/back-navigation.js"></script></body></html>

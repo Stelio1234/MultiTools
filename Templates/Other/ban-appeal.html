@@ -1,17 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Access Denied: Your Account Banned</title>
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.googleapis.com https://multitools.statuspage.io https://naas.isalman.dev; frame-src https://multitools-48cc8.firebaseapp.com https://accounts.google.com; object-src 'none'; base-uri 'none'; form-action 'self'">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Appeal | MultiTools</title>
     <meta name="theme-color" content="#121212">
     <link rel="manifest" href="/manifest.json">
-    <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
 
-  <link rel="stylesheet" href="../../css/index.css" />
-  <link rel="stylesheet" href="../../css/pages.css" />
-  <link rel="stylesheet" href="../../css/footer.css" />
-</head>
+
+  <link rel="stylesheet" href="../../css/index.css">
+  <link rel="stylesheet" href="../../css/pages.css">
+  <link rel="stylesheet" href="../../css/footer.css">
+
+<meta name="description" content="Account Appeal from MultiTools. Use this free online page in your browser.">
+<link rel="canonical" href="https://www.themultitools.xyz/Templates/Other/ban-appeal.html">
+<link rel="icon" href="/images/MultiTools.jpg" type="image/jpeg">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/css/consent.css"><script src="/js/site-consent.js"></script></head>
 <body class="tool-page">
 
 
@@ -19,31 +24,17 @@
     <h1>MultiTools Account Appeal</h1>
 
 
-    <div class="secondary-container">
-        <p>Email:</p>
-        <input type="text" id="email" placeholder="myeamil@email.com" aria-label="myeamil@email.com" />
-        <p>Name:</p>
-        <input type="text" id="name" placeholder="My Name" aria-label="My Name" />
-        <p>Enter the reason you were banned:</p>
-        <input type="text" id="message" placeholder="Message" aria-label="Message" />
-    </div>
-
-
-    <script>
-
-    </script>
-
-
-
-
+    <form id="appeal-form"><label for="email">Email</label><input type="email" id="email" required="" maxlength="254" autocomplete="email"><label for="name">Name</label><input type="text" id="name" required="" maxlength="100" autocomplete="name"><label for="message">Appeal details</label><textarea id="message" required="" maxlength="2000"></textarea><button type="submit">Prepare appeal email</button><p>Opens your email app. Review and send the message there.</p></form>
+<script src="/js/pages/templates-other-ban-appeal-1.js"></script>
 </div>
-<button class="btn btn-primary" href="#">Login</button>
+<a class="btn btn-primary" href="/login.html">Login</a>
 
 
 
 
 
 
-<button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
-</body>
-</html>
+<button class="back-button" type="button" data-history-back>← Back</button>
+
+
+<script src="/js/back-navigation.js"></script></body></html>

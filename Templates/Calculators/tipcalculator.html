@@ -1,73 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tip Calculator</title>
-  <meta name="theme-color" content="#121212" />
-  <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.googleapis.com https://multitools.statuspage.io https://naas.isalman.dev; frame-src https://multitools-48cc8.firebaseapp.com https://accounts.google.com; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tip Calculator | MultiTools</title>
+  <meta name="theme-color" content="#121212">
 
 
-  <link rel="stylesheet" href="../../css/index.css" />
-  <link rel="stylesheet" href="../../css/pages.css" />
-  <link rel="stylesheet" href="../../css/footer.css" />
-</head>
+
+  <link rel="stylesheet" href="../../css/index.css">
+  <link rel="stylesheet" href="../../css/pages.css">
+  <link rel="stylesheet" href="../../css/footer.css">
+
+<meta name="description" content="Tip Calculator from MultiTools. Use this free online page in your browser.">
+<link rel="canonical" href="https://www.themultitools.xyz/Templates/Calculators/tipcalculator.html">
+<link rel="icon" href="/images/MultiTools.jpg" type="image/jpeg">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<link rel="stylesheet" href="/css/consent.css"><script src="/js/site-consent.js"></script></head>
 <body class="tool-page">
 
   <main class="container">
     <h2>Tip Calculator</h2>
 
     <label for="bill">Bill Amount ($):</label>
-    <input type="number" id="bill" class="form-control" placeholder="Enter bill amount" min="0" step="0.01" />
+    <input type="number" id="bill" class="form-control" placeholder="Enter bill amount" min="0" step="0.01">
 
     <label for="tip">Tip Percentage (%):</label>
-    <input type="number" id="tip" class="form-control" placeholder="Enter tip percentage" min="0" max="100" step="0.1" />
+    <input type="number" id="tip" class="form-control" placeholder="Enter tip percentage" min="0" max="100" step="0.1">
 
     <label for="people">Number of People:</label>
-    <input type="number" id="people" class="form-control" placeholder="Enter number of people" min="1" value="1" />
+    <input type="number" id="people" class="form-control" placeholder="Enter number of people" min="1" value="1">
 
     <div class="result" id="result">Each person pays: $0.00</div>
 
 
   </main>
 
-<script>
-  const billInput = document.getElementById('bill');
-  const tipInput = document.getElementById('tip');
-  const peopleInput = document.getElementById('people');
-  const resultDiv = document.getElementById('result');
-
-  const updateResult = () => {
-    const bill = parseFloat(billInput.value);
-    const tipPercent = parseFloat(tipInput.value);
-    const people = parseInt(peopleInput.value);
-
-    if (bill < 0 || tipPercent < 0 || people <= 0) {
-      resultDiv.innerHTML = `<span class="error-message">Please enter non-negative values and at least one person.</span>`;
-      return;
-    }
-
-    if (!isNaN(bill) && !isNaN(tipPercent) && !isNaN(people)) {
-      const tipAmount = bill * (tipPercent / 100);
-      const tipPerPerson = tipAmount / people;
-      const totalAmount = bill + tipAmount;
-
-      resultDiv.innerHTML = `
-        Total tip: $${tipAmount.toFixed(2)}<br />
-        Tip per person: $${tipPerPerson.toFixed(2)}<br />
-        <small>Total with tip: $${totalAmount.toFixed(2)}</small>
-      `;
-    } else {
-      resultDiv.textContent = `Total tip: $0.00`;
-    }
-  };
-
-  billInput.addEventListener('input', updateResult);
-  tipInput.addEventListener('input', updateResult);
-  peopleInput.addEventListener('input', updateResult);
-</script>
+<script src="/js/pages/templates-calculators-tipcalculator-1.js"></script>
 
 
-<button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
-</body>
-</html>
+<button class="back-button" type="button" data-history-back>← Back</button>
+
+
+<script src="/js/back-navigation.js"></script></body></html>

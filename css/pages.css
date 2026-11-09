@@ -5,6 +5,11 @@
 .auth-page :is(.btn, .google-login) { width: 100%; }
 .settings-page #userInfo { padding: 0; list-style: none; overflow-wrap: anywhere; }
 .settings-page #welcome:empty { display: none; }
+.settings-page section { border-top: 1px solid var(--border); margin-top: var(--space-5); padding-top: var(--space-5); }
+.settings-page section > * + *, .settings-page form > * + * { margin-top: var(--space-3); }
+.settings-page form { display: grid; }
+.settings-page #privacy-requests { overflow-wrap: anywhere; }
+.auth-page #setupProfileForm > * + * { margin-top: var(--container-gap); }
 .encrypt-page > .container { display: none; }
 .encrypt-page #menu { display: flex; flex-direction: column; gap: var(--space-3); }
 .encrypt-page #menu > * + * { margin-top: 0; }

@@ -1,17 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.googleapis.com https://multitools.statuspage.io https://naas.isalman.dev; frame-src https://multitools-48cc8.firebaseapp.com https://accounts.google.com; object-src 'none'; base-uri 'none'; form-action 'self'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unit Converter</title>
+  <title>Unit Converter | MultiTools</title>
   <meta name="theme-color" content="#121212">
-  <link rel="icon" href="/images/MultiTools.jpg">
+
   <link rel="manifest" href="/manifest.json">
   <link rel="stylesheet" href="../../css/index.css">
   <link rel="stylesheet" href="../../css/pages.css">
   <link rel="stylesheet" href="../../css/footer.css">
-  <script src="../../js/unit-converter.js" defer></script>
-</head>
+  <script src="../../js/unit-converter.js" defer=""></script>
+
+<meta name="description" content="Unit Converter from MultiTools. Use this free online page in your browser.">
+<link rel="canonical" href="https://www.themultitools.xyz/Templates/CommonTools/UnitConverter.html">
+<link rel="icon" href="/images/MultiTools.jpg" type="image/jpeg">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<link rel="stylesheet" href="/css/consent.css"><script src="/js/site-consent.js"></script></head>
 <body class="tool-page converter-page">
   <main class="container">
     <div class="title"><h1>Unit Converter</h1></div>
@@ -26,7 +30,7 @@
       </div>
       <span class="converter-equals" aria-hidden="true">=</span>
       <div class="converter-unit">
-        <output id="conversion-result" for="conversion-value conversion-from conversion-to" aria-label="Converted amount" aria-live="polite">&mdash;</output>
+        <output id="conversion-result" for="conversion-value conversion-from conversion-to" aria-label="Converted amount" aria-live="polite">—</output>
         <label class="sr-only" for="conversion-to">To unit</label>
         <select id="conversion-to"></select>
       </div>
@@ -34,13 +38,14 @@
     <p id="conversion-error" class="error-message" role="alert"></p>
     <p class="converter-formula"><span id="conversion-formula"></span></p>
     <div class="button-group">
-      <button id="conversion-swap" class="btn-secondary" type="button">&#8646; Swap units</button>
+      <button id="conversion-swap" class="btn-secondary" type="button">⇆ Swap units</button>
       <button id="conversion-copy" class="copy-button" type="button">Copy result</button>
     </div>
     <p id="conversion-copy-status" class="muted" role="status"></p>
     <p id="conversion-note" class="muted"></p>
     <noscript><p>Enable JavaScript to use the converter.</p></noscript>
   </main>
-  <button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
-</body>
-</html>
+  <button class="back-button" type="button" data-history-back>← Back</button>
+
+
+<script src="/js/back-navigation.js"></script></body></html>

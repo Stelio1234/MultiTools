@@ -1,108 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Settings</title>
-  <link rel="icon" type="image/x-icon" href="/images/MultiTools.jpg">
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.googleapis.com https://multitools.statuspage.io https://naas.isalman.dev; frame-src https://multitools-48cc8.firebaseapp.com https://accounts.google.com; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings | MultiTools</title>
+
   <meta name="theme-color" content="#121212">
   <link rel="manifest" href="/manifest.json">
 
-  <link rel="stylesheet" href="css/index.css" />
-  <link rel="stylesheet" href="css/pages.css" />
-  <link rel="stylesheet" href="css/footer.css" />
-</head>
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/footer.css">
+
+<meta name="description" content="Manage your MultiTools account, email verification, password reset, and account deletion.">
+<link rel="canonical" href="https://www.themultitools.xyz/settings.html">
+<link rel="icon" href="/images/MultiTools.jpg" type="image/jpeg">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/css/consent.css"><script src="/js/site-consent.js"></script></head>
 <body class="tool-page settings-page">
-
-  <div class="container">
-    <h2>Settings</h2>
-
-    <div class="grid-container">
-      <div class="grid-item"><button onclick="logout()">Log Out</button></div>
-      <div class="grid-item"><button class="btn-danger" onclick="deleteAccount()">Delete Account</button></div>
-    </div>
-
-    <ul id="userInfo">
-      <li><strong>Email:</strong> <span id="userEmail">Loading...</span></li>
-      <li><strong>Sign-in Method:</strong> <span id="signInMethod">Loading...</span></li>
-    </ul>
-  </div>
-
-  <div id="welcome"></div>
-
-
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-
-  <script>
-    // Firebase Config
-    const firebaseConfig = {
-      apiKey: "AIzaSyBHSuqEhGYcRd_6GsMDI0bHDy3_5v0lD9g",
-      authDomain: "multitools-48cc8.firebaseapp.com",
-      projectId: "multitools-48cc8",
-      storageBucket: "multitools-48cc8.firebasestorage.app",
-      messagingSenderId: "1048886823672",
-      appId: "1:1048886823672:web:71f0ff40e2a9642de2890d",
-      measurementId: "G-JG6J0KRN08"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    // Get and display user info
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        document.getElementById("userEmail").textContent = user.email;
-
-        const provider = user.providerData[0]?.providerId || "Unknown";
-        const providerMap = {
-          "password": "Email & Password",
-          "google.com": "Google",
-          "facebook.com": "Facebook",
-          "github.com": "GitHub"
-        };
-        document.getElementById("signInMethod").textContent = providerMap[provider] || provider;
-
-      } else {
-        document.getElementById("userEmail").textContent = "Not signed in";
-        document.getElementById("signInMethod").textContent = "N/A";
-      }
-    });
-
-    function logout() {
-      auth.signOut()
-        .then(() => {
-          console.log("User signed out.");
-          window.location.href = "login";
-        })
-        .catch((error) => {
-          console.error("Logout failed:", error);
-        });
-    }
-
-    function deleteAccount() {
-      const user = auth.currentUser;
-      if (!user) return alert("You're not logged in.");
-
-      const confirmDelete = confirm("Are you sure you want to delete your account? This cannot be undone.");
-      if (!confirmDelete) return;
-
-      user.delete()
-        .then(() => {
-          alert("Account deleted successfully.");
-          window.location.href = "login"; // Or wherever you want to go
-        })
-        .catch((error) => {
-          console.error("Account deletion error:", error);
-          if (error.code === "auth/requires-recent-login") {
-            alert("Please log in again before deleting your account.");
-            // Optional: Redirect to re-auth page
-          } else {
-            alert("Something went wrong. Try again.");
-          }
-        });
-    }
-  </script>
-<button class="back-button" type="button" onclick="window.history.back()">&#8592; Back</button>
-</body>
-</html>
+<p id="account-loading" role="status">Checking account services...</p>
+<main class="container" id="account-content" hidden="">
+<h1>Settings</h1>
+<div class="grid-container">
+<div class="grid-item"><button id="logout" type="button">Log Out</button></div>
+<div class="grid-item"><button class="btn-danger" id="deleteAccount" type="button">Delete Account</button></div>
+</div>
+<ul id="userInfo">
+<li><strong>Email:</strong> <span id="userEmail"></span></li>
+<li><strong>UID:</strong> <span id="userUid"></span></li>
+<li><strong>Sign-in Method:</strong> <span id="signInMethod"></span></li>
+<li><strong>Email verification:</strong> <span id="verificationStatus"></span></li>
+</ul>
+<button id="verifyEmail" type="button">Send verification email</button>
+<button id="refreshVerification" type="button">Refresh verification</button>
+<button id="changePassword" type="button">Reset password</button>
+<a id="admin-link" href="/admin.html" hidden="">Administrator dashboard</a>
+<p id="accountStatus" role="status" class="message"></p>
+<section aria-labelledby="username-title"><h2 id="username-title">Username</h2><p id="currentUsername" class="message"></p><a id="finishProfile" href="/login.html" hidden>Finish account setup</a><form id="rename-form"><label for="newUsername">New username</label><input id="newUsername" pattern="\s*[a-zA-Z0-9][a-zA-Z0-9 _\-]{1,30}[a-zA-Z0-9]\s*" required minlength="3" maxlength="32" autocomplete="username"><p class="message">Use 3–32 letters, numbers, spaces, underscores or hyphens. Start and end with a letter or number. Names are unique regardless of capitalization.</p><button type="submit">Change username</button></form></section>
+<section aria-labelledby="email-preferences-title"><h2 id="email-preferences-title">Email preferences</h2><p id="emailPreferenceStatus" class="message" role="status">Checking preferences...</p><div class="button-group"><button id="subscribeMarketing" type="button">Opt into marketing emails</button><button id="unsubscribeMarketing" type="button" class="btn-secondary">Unsubscribe</button></div><p class="message">Marketing is optional. Account and password-reset emails are separate.</p></section>
+<section aria-labelledby="privacy-title"><h2 id="privacy-title">Privacy and Data</h2><p>Download your profile and email preferences after confirming your identity. For a broader copy or another privacy request, use the form below. We may need to confirm your identity before fulfilling a request.</p><button id="downloadMyData" type="button">Download profile and preferences</button><form id="privacy-form"><label for="privacy-type">Request type</label><select id="privacy-type"><option value="access">Access</option><option value="correction">Correction</option><option value="portability">Portability</option><option value="erasure">Erasure</option><option value="restriction">Restriction</option><option value="objection">Objection</option><option value="consent_withdrawal">Consent withdrawal</option></select><label for="privacy-details">Request details (optional)</label><textarea id="privacy-details" maxlength="2000" rows="4"></textarea><p>Do not include passwords or identity documents. You can stop marketing emails immediately using Unsubscribe above.</p><button type="submit">Submit privacy request</button></form><p id="privacy-status" role="status"></p><ul id="privacy-requests"></ul><p>Deleting your account removes its sign-in, profile, preferences and username reservation. A tracked erasure case remains open until the operator checks historical records, backups and other services. Contact <a href="mailto:support@themultitools.xyz">MultiTools support</a> if you cannot sign in.</p></section>
+</main>
+<script src="/vendor/firebase-app-compat-13.2.0.js"></script>
+<script src="/vendor/firebase-auth-compat-13.2.0.js"></script>
+<script src="/vendor/firebase-firestore-compat-13.2.0.js"></script>
+<script src="/js/firebase-client.js"></script><script src="/js/username-policy.js"></script><script src="/js/marketing-policy.js"></script><script src="/js/account-data.js"></script><script src="/js/privacy-data.js"></script>
+<script src="/js/account.js"></script>
+<a class="btn btn-primary" href="/">← Back</a>
+</body></html>
