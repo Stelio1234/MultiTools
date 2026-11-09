@@ -1,7 +1,12 @@
-<!DOCTYPE html><html lang="en"><head>
-  <meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.googleapis.com https://multitools.statuspage.io https://naas.isalman.dev; frame-src https://multitools-48cc8.firebaseapp.com https://accounts.google.com; object-src 'none'; base-uri 'none'; form-action 'self'">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.googleapis.com https://multitools.statuspage.io https://naas.isalman.dev; frame-src https://multitools-48cc8.firebaseapp.com https://accounts.google.com; object-src 'none'; base-uri 'none'; form-action 'self'">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Privacy Policy | MultiTools</title>
+  <title>Privacy Policy</title>
 
   <meta name="theme-color" content="#121212">
   <link rel="manifest" href="/manifest.json">
@@ -10,25 +15,870 @@
   <link rel="stylesheet" href="../../css/pages.css">
   <link rel="stylesheet" href="../../css/footer.css">
 
-<meta name="description" content="Privacy Policy from MultiTools. Use this free online page in your browser.">
-<link rel="canonical" href="https://www.themultitools.xyz/Templates/Other/privicypolicy.html">
-<link rel="icon" href="/images/MultiTools.jpg" type="image/jpeg">
-<meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="description" content="Read the MultiTools Privacy Policy to understand how we collect, use, store, protect and manage your personal information and privacy preferences.">
 
-<link rel="stylesheet" href="/css/consent.css"><script src="/js/site-consent.js"></script></head>
+  <link rel="canonical" href="https://www.themultitools.xyz/Templates/Other/privicypolicy.html">
+  <link rel="icon" href="/images/MultiTools.jpg" type="image/jpeg">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <link rel="stylesheet" href="/css/consent.css">
+  <script src="/js/site-consent.js"></script>
+</head>
+
 <body class="tool-page document-page">
 
   <main class="container">
-    <h1>Privacy and Account Controls</h1>
-    <p>This page describes the controls in this website. Contact <a href="mailto:support@themultitools.xyz">support@themultitools.xyz</a> with support questions. For direct contact and privacy requests, email <a href="mailto:contact@themultitools.xyz">contact@themultitools.xyz</a>.</p>
-    <section><h2>Accounts and security</h2><p>Firebase Authentication handles email/password and Google sign-in. MultiTools profiles store your email, chosen username, account UID, registration date, verification status and last sign-in sync. New security events record the UID, action and time. New code does not collect IP addresses or device fingerprints; historical records may contain those fields. Authorized administrators can access profile information within their assigned permissions.</p></section>
-    <section><h2>Email choices</h2><p>Marketing is optional and the signup choice starts unchecked. Registration alone does not subscribe you. Settings let you opt in or unsubscribe. Preferences record the address, choice, date, source and notice version. Account verification and password reset messages are separate. No marketing email service is currently configured.</p></section>
-    <section><h2>Browser storage and optional services</h2><p>Essential browser storage supports your requested sign-in session, timer state and privacy choices. Cookie Settings can enable tool statistics or external services separately; both start off. Tool statistics count signed-in tool opens in Firestore and load popular-tool counts. External services contact the MultiTools Statuspage service and, when you use that tool, the No as a Service provider. A request exposes network information such as your IP address to its recipient. Fonts, icons and application scripts are served with this site. No Google Analytics script is included.</p><p>Your versioned choices are stored in this browser for 180 days. Use the footer Cookie Settings control to change them. Withdrawal stops new optional activity and cancels pending optional service fetches where possible. It cannot undo a request already completed or remove previously recorded statistics.</p></section>
-    <section><h2>Your data and requests</h2><p>In <a href="/settings.html">Privacy and Data settings</a>, you can download your own profile and email preferences after confirming your identity, or request access, correction, portability, erasure, restriction, objection or consent withdrawal. Available rights depend on applicable law. Requests have a status and assigned handler. We must verify identity before fulfilling requests that disclose or erase data.</p><p>Account deletion removes sign-in access, your profile, preferences and username reservation. A tracked case remains for an operator to check historical records, Storage, backups and any connected services. Some steps require manual work, so this control does not promise instant removal of every record. Contact support if you cannot sign in or need a broader data review.</p></section>
-    <section><h2>Service providers and external links</h2><p>The site uses GitHub Pages for hosting and Google Firebase for authentication and database operations. Optional external services are described above. Google sign-in follows Google's own authentication flow. Tools may open websites you choose, such as YouTube or TikTok; those sites have their own policies. Local generators process their inputs in your browser unless the tool describes an external action.</p></section>
-    <p>Updated November 8, 2026.</p>
+
+    <h1>Privacy Policy</h1>
+
+    <p>
+      Welcome to MultiTools. Your privacy matters to us, and we want you to understand
+      what information may be collected when you use our website, how that information
+      is used, and what choices you have regarding your personal data.
+    </p>
+
+    <p>
+      This Privacy Policy explains how MultiTools handles information collected
+      through <a href="https://themultitools.xyz">https://themultitools.xyz</a>,
+      including account information, authentication, browser storage, optional
+      services and email preferences.
+    </p>
+
+    <p>
+      If you have questions about this policy, need assistance or want to make a
+      privacy request, contact us:
+    </p>
+
+    <ul>
+      <li>General support: <a href="mailto:support@themultitools.xyz">support@themultitools.xyz</a></li>
+      <li>Privacy requests and direct contact: <a href="mailto:contact@themultitools.xyz">contact@themultitools.xyz</a></li>
+    </ul>
+
+
+    <section>
+      <h2>1. Information We Collect</h2>
+
+      <p>
+        The information collected depends on how you use MultiTools. You can browse
+        and use many of our tools without creating an account. Certain features,
+        particularly account-related functionality, require authentication.
+      </p>
+
+      <h3>Account Information</h3>
+
+      <p>
+        When you create an account, we may collect and store information including:
+      </p>
+
+      <ul>
+        <li>Email address associated with your account.</li>
+        <li>Your chosen username.</li>
+        <li>Your unique account identifier (UID).</li>
+        <li>Account registration date.</li>
+        <li>Email verification status.</li>
+        <li>Last sign-in synchronization information.</li>
+        <li>Account preferences and settings.</li>
+        <li>Promotional email subscription preferences.</li>
+      </ul>
+
+      <p>
+        Your username and account UID help us identify and manage accounts.
+        Usernames must be unique, and we do not allow multiple accounts to reserve
+        the same username.
+      </p>
+
+      <h3>Google Sign-In Information</h3>
+
+      <p>
+        If you choose to sign in using Google, Google Authentication may provide
+        information associated with your Google account, such as your name,
+        email address and profile picture, depending on the permissions requested
+        and granted.
+      </p>
+
+      <p>
+        MultiTools uses Google Firebase Authentication to handle the authentication
+        process. We do not have access to your Google account password or private
+        Google account settings.
+      </p>
+
+      <h3>Technical and Usage Information</h3>
+
+      <p>
+        When visiting a website, certain technical information may be processed
+        by the website, hosting provider or external services. This may include:
+      </p>
+
+      <ul>
+        <li>Browser type and version.</li>
+        <li>Device platform and operating system.</li>
+        <li>Screen dimensions and display information.</li>
+        <li>Timezone and language preferences.</li>
+        <li>General network information, including IP addresses where processed by service providers.</li>
+        <li>Website interactions and tool usage, where optional statistics are enabled.</li>
+      </ul>
+
+      <p>
+        MultiTools does not currently include a Google Analytics tracking script.
+        Optional tool statistics are described in the Browser Storage and Optional
+        Services section below.
+      </p>
+
+      <h3>Information You Submit</h3>
+
+      <p>
+        Some tools allow you to enter text, upload files or provide other information.
+        Where a tool processes information locally in your browser, that information
+        is not intentionally transmitted to MultiTools servers by that local
+        processing functionality.
+      </p>
+
+      <p>
+        Other tools may communicate with external services to perform their
+        requested functionality. Those services may receive information necessary
+        to process your request. Their own privacy policies and practices apply.
+      </p>
+
+      <p>
+        Please avoid entering passwords, financial information, government
+        identification numbers or other sensitive personal information into
+        tools unless the feature specifically requires it.
+      </p>
+    </section>
+
+
+    <section>
+      <h2>2. How We Use Your Information</h2>
+
+      <p>
+        Information collected through MultiTools may be used for legitimate
+        website operations and purposes, including:
+      </p>
+
+      <ul>
+        <li>Creating and managing user accounts.</li>
+        <li>Authenticating users and maintaining sign-in sessions.</li>
+        <li>Providing account-related functionality.</li>
+        <li>Remembering user preferences and settings.</li>
+        <li>Maintaining username uniqueness.</li>
+        <li>Improving website functionality and compatibility.</li>
+        <li>Identifying bugs, technical problems and security issues.</li>
+        <li>Responding to support requests.</li>
+        <li>Sending essential account-related notifications.</li>
+        <li>Sending promotional announcements to users who have opted in.</li>
+        <li>Handling privacy requests and complying with applicable legal obligations.</li>
+      </ul>
+
+      <p>
+        We do not sell your personal information to third parties.
+      </p>
+
+      <p>
+        We do not use your account information for purposes unrelated to
+        operating, maintaining, securing and improving MultiTools without an
+        appropriate legal basis.
+      </p>
+    </section>
+
+
+    <section>
+      <h2>3. Accounts and Authentication Security</h2>
+
+      <p>
+        MultiTools uses Google Firebase Authentication to provide email/password
+        authentication and Google Sign-In.
+      </p>
+
+      <p>
+        Firebase handles authentication credentials and sign-in processes.
+        MultiTools maintains account profile information necessary to operate
+        the website.
+      </p>
+
+      <p>
+        MultiTools profiles may contain your email address, username, UID,
+        registration date, verification status and last sign-in synchronization
+        information.
+      </p>
+
+      <p>
+        New security events may record your account UID, the action performed
+        and the time of the event to help maintain account security and investigate
+        potential problems.
+      </p>
+
+      <p>
+        New MultiTools security-event code does not collect IP addresses or
+        device fingerprints. Historical records may contain these fields.
+      </p>
+
+      <p>
+        Authorized administrators may access account information within their
+        assigned permissions when necessary to maintain the service, provide
+        support or address security and operational issues.
+      </p>
+
+      <p>
+        We take reasonable measures to protect account information. However,
+        no website, online service or electronic storage system can guarantee
+        absolute security.
+      </p>
+
+      <p>
+        You are responsible for maintaining the security of your account and
+        protecting access to your sign-in credentials.
+      </p>
+    </section>
+
+
+    <section>
+      <h2>4. Email Communications and Promotional Subscriptions</h2>
+
+      <p>
+        MultiTools distinguishes between essential account-related emails
+        and optional promotional communications.
+      </p>
+
+      <h3>Essential Account Emails</h3>
+
+      <p>
+        We may send emails necessary to provide account functionality, including:
+      </p>
+
+      <ul>
+        <li>Email verification messages.</li>
+        <li>Password reset messages.</li>
+        <li>Important account security notifications.</li>
+        <li>Responses to support requests.</li>
+        <li>Other necessary service-related communications.</li>
+      </ul>
+
+      <p>
+        These communications are separate from promotional email subscriptions.
+        Disabling promotional emails does not necessarily prevent essential
+        account-related communications.
+      </p>
+
+      <h3>Optional Promotional Emails</h3>
+
+      <p>
+        MultiTools offers an optional promotional email subscription.
+        Users can choose whether they want to receive:
+      </p>
+
+      <ul>
+        <li>New feature announcements.</li>
+        <li>Website updates.</li>
+        <li>MultiTools news.</li>
+        <li>Service announcements.</li>
+        <li>Other promotional information about MultiTools.</li>
+      </ul>
+
+      <p>
+        Promotional email subscriptions are optional. The signup choice starts
+        unchecked, and creating an account does not automatically subscribe you.
+      </p>
+
+      <p>
+        Users can subscribe or unsubscribe through their account settings:
+        <a href="https://themultitools.xyz/settings">MultiTools Settings</a>.
+      </p>
+
+      <p>
+        Subscription preferences may record the email address, subscription
+        choice, date, source and notice version associated with the preference.
+      </p>
+
+      <p>
+        Users can withdraw their consent to promotional emails at any time.
+        Unsubscribing does not affect their ability to use MultiTools.
+      </p>
+
+      <p>
+        Promotional email delivery is subject to the availability and configuration
+        of an email delivery service. No marketing email service is currently
+        configured.
+      </p>
+
+      <p>
+        We do not treat account registration alone as permission to send
+        promotional emails.
+      </p>
+    </section>
+
+
+    <section>
+      <h2>5. Cookies, Browser Storage and Consent Settings</h2>
+
+      <p>
+        MultiTools uses browser storage and similar technologies to support
+        website functionality and remember certain preferences.
+      </p>
+
+      <h3>Essential Storage</h3>
+
+      <p>
+        Essential browser storage supports functionality such as:
+      </p>
+
+      <ul>
+        <li>Maintaining requested sign-in sessions.</li>
+        <li>Saving timer state.</li>
+        <li>Remembering privacy and consent choices.</li>
+        <li>Supporting basic website functionality.</li>
+      </ul>
+
+      <h3>Optional Services</h3>
+
+      <p>
+        MultiTools provides optional privacy settings that allow users to control
+        certain additional activities.
+      </p>
+
+      <p>
+        The optional settings include:
+      </p>
+
+      <ul>
+        <li>
+          <strong>Tool Statistics:</strong> When enabled, signed-in tool opens
+          may be counted in Firestore and used to display popular-tool counts.
+        </li>
+        <li>
+          <strong>External Services:</strong> When enabled, the website may
+          communicate with supported external services when you use the
+          relevant functionality.
+        </li>
+      </ul>
+
+      <p>
+        Both optional settings start disabled.
+      </p>
+
+      <p>
+        Your versioned privacy choices are stored in your browser for 180 days.
+        You can change your preferences through the Cookie Settings control
+        in the website footer.
+      </p>
+
+      <p>
+        Withdrawing optional consent stops new optional activity and cancels
+        pending optional service requests where technically possible.
+        Withdrawal cannot undo a request that has already been completed
+        or automatically remove statistics that have already been recorded.
+      </p>
+
+      <p>
+        Essential browser storage may continue to operate where necessary for
+        requested website functionality.
+      </p>
+    </section>
+
+
+    <section>
+      <h2>6. Analytics and Website Usage Statistics</h2>
+
+      <p>
+        MultiTools may use limited usage statistics to understand how website
+        features are used and identify popular tools.
+      </p>
+
+      <p>
+        When optional Tool Statistics are enabled, signed-in tool opens may be
+        recorded in Firestore and used to calculate popular-tool counts.
+      </p>
+
+      <p>
+        These statistics help us understand which tools are useful and where
+        improvements may be needed.
+      </p>
+
+      <p>
+        MultiTools does not currently include Google Analytics.
+      </p>
+
+      <p>
+        Optional statistics are separate from essential website functionality
+        and start disabled.
+      </p>
+    </section>
+
+
+    <section>
+      <h2>7. Third-Party Services and Service Providers</h2>
+
+      <p>
+        MultiTools relies on certain third-party services to operate its website
+        and provide functionality.
+      </p>
+
+      <p>These services currently include:</p>
+
+      <h3>Google Firebase</h3>
+
+      <p>
+        Firebase is used for authentication and database operations, including
+        account management and supported website functionality.
+      </p>
+
+      <p>
+        Google processes information in accordance with its own privacy policies
+        and applicable service terms.
+      </p>
+
+      <p>
+        Learn more:
+        <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener noreferrer">
+          Firebase Privacy and Security
+        </a>.
+      </p>
+
+      <h3>GitHub Pages</h3>
+
+      <p>
+        MultiTools uses GitHub Pages for website hosting. Hosting providers may
+        process technical information, including network information, when
+        delivering website content and maintaining service security.
+      </p>
+
+      <p>
+        Learn more:
+        <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener noreferrer">
+          GitHub Privacy Statement
+        </a>.
+      </p>
+
+      <h3>MultiTools Statuspage</h3>
+
+      <p>
+        The website may communicate with the MultiTools Statuspage service
+        to retrieve service status information.
+      </p>
+
+      <h3>No as a Service</h3>
+
+      <p>
+        When you use the No as a Service tool, your request may be sent to
+        the external No as a Service provider.
+      </p>
+
+      <p>
+        Sending an external request exposes technical network information,
+        such as your IP address, to the receiving service.
+      </p>
+
+      <h3>Other External Websites</h3>
+
+      <p>
+        MultiTools may contain links to external websites and platforms,
+        including YouTube, TikTok and other services.
+      </p>
+
+      <p>
+        We do not control these websites or their privacy practices.
+        Visiting an external website means that its own terms and privacy
+        policy may apply.
+      </p>
+
+      <p>
+        We encourage you to review the privacy policies of third-party
+        services before providing them with personal information.
+      </p>
+    </section>
+
+
+    <section>
+      <h2>8. Sharing and Disclosure of Information</h2>
+
+      <p>
+        MultiTools does not sell or rent personal information to third parties.
+      </p>
+
+      <p>
+        Information may be processed or disclosed in limited circumstances,
+        including:
+      </p>
+
+      <ul>
+        <li>
+          To service providers such as Google Firebase and GitHub when
+          necessary to operate the website.
+        </li>
+        <li>
+          To external services when you intentionally use a feature that
+          communicates with those services.
+        </li>
+        <li>
+          To authorized administrators who need access to perform assigned
+          operational, support or security responsibilities.
+        </li>
+        <li>
+          When disclosure is required by applicable law or a valid legal request.
+        </li>
+        <li>
+          When reasonably necessary to investigate security incidents,
+          prevent abuse or protect the rights and safety of users and the service.
+        </li>
+      </ul>
+
+      <p>
+        We aim to limit access to personal information to people and services
+        that need it for legitimate operational purposes.
+      </p>
+    </section>
+
+
+    <section>
+      <h2>9. Data Storage, Retention and Deletion</h2>
+
+      <p>
+        Account and website information may be stored using Google Firebase
+        and other infrastructure providers necessary to operate MultiTools.
+      </p>
+
+      <p>
+        We retain information for as long as reasonably necessary to provide
+        the service, maintain security, meet legal obligations, resolve disputes
+        and enforce applicable agreements.
+      </p>
+
+      <p>
+        Retention periods may vary depending on the type of information and
+        the reason it was collected.
+      </p>
+
+      <h3>Account Deletion</h3>
+
+      <p>
+        Users can request account deletion through the MultiTools Settings page.
+      </p>
+
+      <p>
+        Account deletion removes sign-in access, your profile, email preferences
+        and username reservation.
+      </p>
+
+      <p>
+        A tracked deletion case remains so an authorized operator can check
+        historical records, Storage, backups and any connected services.
+      </p>
+
+      <p>
+        Some deletion steps require manual work. Therefore, requesting account
+        deletion does not guarantee that every record is immediately removed
+        from every system or backup.
+      </p>
+
+      <p>
+        Information may need to be retained for legitimate legal, security or
+        operational reasons where permitted or required by applicable law.
+      </p>
+
+      <p>
+        Contact <a href="mailto:contact@themultitools.xyz">contact@themultitools.xyz</a>
+        if you need assistance with a deletion request or want to ask about
+        information that may remain after account deletion.
+      </p>
+    </section>
+
+
+    <section>
+      <h2>10. Your Privacy Rights and Choices</h2>
+
+      <p>
+        Depending on your location and applicable privacy laws, you may have
+        certain rights regarding your personal information.
+      </p>
+
+      <p>These rights may include:</p>
+
+      <ul>
+        <li>
+          <strong>Right of Access:</strong> Request access to personal
+          information we hold about you.
+        </li>
+        <li>
+          <strong>Right to Correction:</strong> Request correction of
+          inaccurate or incomplete information.
+        </li>
+        <li>
+          <strong>Right to Deletion:</strong> Request deletion of personal
+          information where applicable.
+        </li>
+        <li>
+          <strong>Right to Data Portability:</strong> Request a copy of
+          eligible personal information in a usable format.
+        </li>
+        <li>
+          <strong>Right to Restriction:</strong> Request restrictions on
+          certain processing activities where applicable.
+        </li>
+        <li>
+          <strong>Right to Object:</strong> Object to certain types of
+          processing where applicable.
+        </li>
+        <li>
+          <strong>Right to Withdraw Consent:</strong> Withdraw consent for
+          activities that rely on your consent, including promotional emails
+          and optional services.
+        </li>
+      </ul>
+
+      <p>
+        Available rights depend on the privacy laws applicable to your location
+        and circumstances.
+      </p>
+
+      <p>
+        You can manage certain account and privacy preferences through:
+        <a href="https://themultitools.xyz/settings.html">Privacy and Data Settings</a>.
+      </p>
+
+      <p>
+        You may also contact us directly at
+        <a href="mailto:contact@themultitools.xyz">contact@themultitools.xyz</a>
+        to submit a privacy request.
+      </p>
+
+      <p>
+        We may need to verify your identity before providing personal information,
+        changing account information or processing deletion requests.
+      </p>
+
+      <p>
+        We aim to respond to valid privacy requests within the timeframes
+        required by applicable law.
+      </p>
+
+      <p>
+        You will not be required to create an account or subscribe to promotional
+        emails to exercise privacy rights that apply to you.
+      </p>
+    </section>
+
+
+    <section>
+      <h2>11. GDPR and European Privacy Rights</h2>
+
+      <p>
+        MultiTools aims to respect applicable data protection laws, including
+        the European Union General Data Protection Regulation (GDPR), where
+        those laws apply.
+      </p>
+
+      <p>
+        Depending on the circumstances, personal information may be processed
+        for purposes such as:
+      </p>
+
+      <ul>
+        <li>Providing requested account and website services.</li>
+        <li>Maintaining account security and preventing abuse.</li>
+        <li>Meeting applicable legal obligations.</li>
+        <li>Responding to support and privacy requests.</li>
+        <li>Performing optional activities when valid consent has been provided.</li>
+      </ul>
+
+      <p>
+        Where required, we seek consent before enabling optional activities.
+        You can withdraw consent through the relevant settings or by contacting us.
+      </p>
+
+      <p>
+        If GDPR applies to your information, you may have rights to access,
+        correct, delete, restrict or object to processing and request data
+        portability.
+      </p>
+
+      <p>
+        You may also have the right to lodge a complaint with your relevant
+        data protection supervisory authority.
+      </p>
+
+      <p>
+        Requests can be submitted through the Privacy and Data Settings page
+        or by emailing
+        <a href="mailto:contact@themultitools.xyz">contact@themultitools.xyz</a>.
+      </p>
+
+      <p>
+        Where personal information is transferred to service providers in
+        other countries, applicable data protection requirements and transfer
+        safeguards must be considered.
+      </p>
+    </section>
+
+
+    <section>
+      <h2>12. Children's Privacy</h2>
+
+      <p>
+        MultiTools is not intended to knowingly collect personal information
+        from children in violation of applicable age and consent requirements.
+      </p>
+
+      <p>
+        If you believe a child has provided personal information in circumstances
+        where collection is not permitted, please contact us at
+        <a href="mailto:contact@themultitools.xyz">contact@themultitools.xyz</a>.
+      </p>
+
+      <p>
+        We will review the request and take appropriate action where required
+        by applicable law.
+      </p>
+    </section>
+
+
+    <section>
+      <h2>13. Anonymous Use of MultiTools</h2>
+
+      <p>
+        Many MultiTools features are available without creating an account.
+        You are generally free to browse the website and use tools that do not
+        require authentication.
+      </p>
+
+      <p>
+        Some features may require you to sign in, particularly features involving
+        account management, saved preferences or other account-related functionality.
+      </p>
+
+      <p>
+        Using MultiTools without an account does not necessarily mean that
+        absolutely no technical information is processed. Website hosting
+        providers and external services may process information required
+        to deliver their services.
+      </p>
+    </section>
+
+
+    <section>
+      <h2>14. Open Source Disclosure</h2>
+
+      <p>
+        MultiTools is an open-source project, and its source code is publicly
+        available through GitHub.
+      </p>
+
+      <p>
+        We believe in transparency and encourage users and developers to review
+        the publicly available code, understand how the website operates and
+        contribute improvements.
+      </p>
+
+      <p>
+        Public availability of the source code does not mean that private
+        account information, user profiles or personal data are publicly available.
+      </p>
+
+      <p>
+        You can review the project's source code through its official
+        GitHub repository.
+      </p>
+    </section>
+
+
+    <section>
+      <h2>15. Data Security and Responsible Access</h2>
+
+      <p>
+        We take reasonable technical and organizational measures to protect
+        information handled by MultiTools.
+      </p>
+
+      <p>
+        These measures include authentication controls, assigned administrator
+        permissions and security-related logging where implemented.
+      </p>
+
+      <p>
+        Access to administrative functionality should be limited to authorized
+        individuals who require it to perform their responsibilities.
+      </p>
+
+      <p>
+        Despite these measures, we cannot guarantee that information transmitted
+        or stored electronically will always remain completely secure.
+      </p>
+
+      <p>
+        If you believe your account has been compromised or have discovered
+        a potential security vulnerability, please contact
+        <a href="mailto:support@themultitools.xyz">support@themultitools.xyz</a>.
+      </p>
+    </section>
+
+
+    <section>
+      <h2>16. Changes to This Privacy Policy</h2>
+
+      <p>
+        We may update this Privacy Policy from time to time to reflect changes
+        to MultiTools, new features, service providers, legal requirements
+        or improvements to our privacy practices.
+      </p>
+
+      <p>
+        When changes are made, the updated policy will be published on this page
+        and the updated date will be displayed below.
+      </p>
+
+      <p>
+        We encourage users to review this page periodically to stay informed
+        about how their information is handled.
+      </p>
+
+      <p>
+        Where required by applicable law, we will provide additional notice
+        or obtain consent before introducing changes that require it.
+      </p>
+    </section>
+
+
+    <section>
+      <h2>17. Contact MultiTools</h2>
+
+      <p>
+        If you have questions about this Privacy Policy, want to understand
+        how your information is handled or wish to exercise your privacy rights,
+        you can contact us using the following details:
+      </p>
+
+      <ul>
+        <li>
+          <strong>Support:</strong>
+          <a href="mailto:support@themultitools.xyz">support@themultitools.xyz</a>
+        </li>
+        <li>
+          <strong>Privacy and Data Requests:</strong>
+          <a href="mailto:contact@themultitools.xyz">contact@themultitools.xyz</a>
+        </li>
+        <li>
+          <strong>Website:</strong>
+          <a href="https://themultitools.xyz">https://themultitools.xyz</a>
+        </li>
+        <li>
+          <strong>Discord Community:</strong>
+          <a href="https://discord.gg/mz9emBn5hu" target="_blank" rel="noopener noreferrer">Join the MultiTools Discord</a>
+        </li>
+      </ul>
+
+      <p>
+        Please avoid including passwords or other sensitive information in
+        support emails.
+      </p>
+    </section>
+
+
+    <p><strong>Last Updated:</strong> November 9, 2026.</p>
+
   </main>
 
-<button class="back-button" type="button" data-history-back>← Back</button>
 
-<script src="/js/back-navigation.js"></script></body></html>
+  <button class="back-button" type="button" data-history-back>← Back</button>
+
+  <script src="/js/back-navigation.js"></script>
+
+</body>
+</html>
